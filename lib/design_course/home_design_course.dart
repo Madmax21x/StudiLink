@@ -11,7 +11,7 @@ class DesignCourseHomeScreen extends StatefulWidget {
 }
 
 class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
-  CategoryType categoryType = CategoryType.ui;
+  CategoryType categoryType = CategoryType.maths;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
         Padding(
           padding: const EdgeInsets.only(top: 8.0, left: 18, right: 16),
           child: Text(
-            'Category',
+            'Catégorie',
             textAlign: TextAlign.left,
             style: TextStyle(
               fontWeight: FontWeight.w600,
@@ -68,21 +68,38 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
         const SizedBox(
           height: 16,
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 16, right: 16),
-          child: Row(
+        Container(
+          height: MediaQuery.of(context).size.height * 0.14,
+          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 26.0),
+          child: ListView(
+            shrinkWrap: true,
+            physics: ScrollPhysics(),     
+            scrollDirection: Axis.horizontal,
             children: <Widget>[
-              getButtonUI(CategoryType.ui, categoryType == CategoryType.ui),
+              getButtonUI(CategoryType.maths, categoryType == CategoryType.maths),
               const SizedBox(
                 width: 16,
               ),
               getButtonUI(
-                  CategoryType.coding, categoryType == CategoryType.coding),
+                  CategoryType.physique, categoryType == CategoryType.physique),
               const SizedBox(
                 width: 16,
               ),
               getButtonUI(
-                  CategoryType.basic, categoryType == CategoryType.basic),
+                  CategoryType.chimie, categoryType == CategoryType.chimie),
+              const SizedBox(
+                width: 16,
+              ),
+              getButtonUI(
+                  CategoryType.histoire, categoryType == CategoryType.histoire),
+              const SizedBox(
+                width: 16,
+              ),
+              getButtonUI(
+                  CategoryType.droit, categoryType == CategoryType.droit),
+              const SizedBox(
+                width: 16,
+              ),
             ],
           ),
         ),
@@ -138,13 +155,18 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
 
   Widget getButtonUI(CategoryType categoryTypeData, bool isSelected) {
     String txt = '';
-    if (CategoryType.ui == categoryTypeData) {
-      txt = 'Ui/Ux';
-    } else if (CategoryType.coding == categoryTypeData) {
-      txt = 'Coding';
-    } else if (CategoryType.basic == categoryTypeData) {
-      txt = 'Basic UI';
+    if (CategoryType.maths == categoryTypeData) {
+      txt = 'Maths';
+    } else if (CategoryType.physique == categoryTypeData) {
+      txt = 'Physique';
+    } else if (CategoryType.chimie == categoryTypeData) {
+      txt = 'Chimie';
+    }else if (CategoryType.histoire == categoryTypeData) {
+      txt = 'Histoire';
+    }else if (CategoryType.droit == categoryTypeData) {
+      txt = 'Droit';
     }
+    
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
@@ -223,7 +245,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
                           ),
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
-                            labelText: 'Search for course',
+                            labelText: 'Recherche un Studi-Group',
                             border: InputBorder.none,
                             helperStyle: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -270,7 +292,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'Choose your',
+                  'Choisis ton',
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontWeight: FontWeight.w400,
@@ -280,7 +302,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
                   ),
                 ),
                 Text(
-                  'Design Course',
+                  'Studi-Group',
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -304,7 +326,9 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
 }
 
 enum CategoryType {
-  ui,
-  coding,
-  basic,
+  maths,
+  physique,
+  chimie,
+  histoire,
+  droit
 }

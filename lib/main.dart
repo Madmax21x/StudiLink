@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:best_flutter_ui_templates/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'navigation_home_screen.dart';
+import 'package:best_flutter_ui_templates/design_course/home_design_course.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,11 +26,11 @@ class MyApp extends StatelessWidget {
       title: 'Flutter UI',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.teal,
         textTheme: AppTheme.textTheme,
         platform: TargetPlatform.iOS,
       ),
-      home: NavigationHomeScreen(),
+      home: DesignCourseHomeScreen(),
     );
   }
 }
