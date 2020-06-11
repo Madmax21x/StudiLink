@@ -334,6 +334,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
                   decoration: ShapeDecoration(
                     color: DesignCourseAppTheme.nearlyBlue,
                     shape: RoundedRectangleBorder(
+                    
                       borderRadius: BorderRadius.circular(10.0)),
                     ),
                   child: IconButton(
