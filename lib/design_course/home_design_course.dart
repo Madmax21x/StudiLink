@@ -66,7 +66,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
           ),
         ),
         const SizedBox(
-          height: 16,
+          height: 10,
         ),
         Container(
           height: MediaQuery.of(context).size.height * 0.14,
@@ -103,9 +103,6 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
             ],
           ),
         ),
-        const SizedBox(
-          height: 16,
-        ),
         CategoryListView(
           callBack: () {
             moveTo();
@@ -123,7 +120,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            'Popular Course',
+            'Cours Populaires',
             textAlign: TextAlign.left,
             style: TextStyle(
               fontWeight: FontWeight.w600,
@@ -211,7 +208,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
 
   Widget getSearchBarUI() {
     return Padding(
-      padding: const EdgeInsets.only(top: 8.0, left: 18),
+      padding: const EdgeInsets.only(top: 8.0, left: 18, bottom : 10.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -284,46 +281,78 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
   Widget getAppBarUI() {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0, left: 18, right: 18),
-      child: Row(
+      child:Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Choisis ton',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14,
-                    letterSpacing: 0.2,
-                    color: DesignCourseAppTheme.grey,
-                  ),
-                ),
-                Text(
-                  'Studi-Group',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22,
-                    letterSpacing: 0.27,
-                    color: DesignCourseAppTheme.darkerText,
-                  ),
-                ),
-              ],
-            ),
+        
+        Padding(
+          padding: EdgeInsets.only(bottom : 10.0 ),
+          child: IconButton(
+          icon:Icon(Icons.menu, size : 35.0),
+          onPressed: () {}
           ),
-          Container(
-            width: 60,
-            height: 60,
-            child: Image.asset('assets/design_course/userImage.png'),
-          )
-        ],
-      ),
+
+        ),
+        
+
+        Row(
+          children: <Widget>[
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'Choisis ton',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                      letterSpacing: 0.2,
+                      color: DesignCourseAppTheme.grey,
+                    ),
+                  ),
+                  Text(
+                    'Studi-Group',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                      letterSpacing: 0.27,
+                      color: DesignCourseAppTheme.darkerText,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: 45,
+              height: 45,
+              child: Center(
+                child:Ink(
+                  decoration: ShapeDecoration(
+                    color: DesignCourseAppTheme.nearlyBlue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0)),
+                    ),
+                  child: IconButton(
+                    icon: Icon(Icons.add, size: 28.0),
+                    color: Colors.white,
+                    tooltip: 'Propose un Studi-Group',
+                    onPressed: () {},
+                  ),
+                ))
+            )
+          ],
+        ),
+      ],)
     );
   }
 }
+
+// Liste des catégories à mettre à jour
+// aussi mettre à jour dans getcategoryUI() et getbuttonUI()
 
 enum CategoryType {
   maths,

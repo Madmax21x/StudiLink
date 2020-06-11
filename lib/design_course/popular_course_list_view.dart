@@ -158,7 +158,7 @@ class CategoryView extends StatelessWidget {
                                                   CrossAxisAlignment.center,
                                               children: <Widget>[
                                                 Text(
-                                                  '${category.lessonCount} lesson',
+                                                  '${category.memberCount} membre(s)',
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w200,
@@ -172,13 +172,13 @@ class CategoryView extends StatelessWidget {
                                                   child: Row(
                                                     children: <Widget>[
                                                       Text(
-                                                        '${category.rating}',
+                                                        '${category.likes}',
                                                         textAlign:
                                                             TextAlign.left,
                                                         style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.w200,
-                                                          fontSize: 18,
+                                                          fontSize: 15,
                                                           letterSpacing: 0.27,
                                                           color:
                                                               DesignCourseAppTheme
@@ -186,7 +186,7 @@ class CategoryView extends StatelessWidget {
                                                         ),
                                                       ),
                                                       Icon(
-                                                        Icons.star,
+                                                        Icons.favorite,
                                                         color:
                                                             DesignCourseAppTheme
                                                                 .nearlyBlue,
