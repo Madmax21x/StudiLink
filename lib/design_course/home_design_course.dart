@@ -4,6 +4,7 @@ import 'package:best_flutter_ui_templates/design_course/popular_course_list_view
 import 'package:best_flutter_ui_templates/main.dart';
 import 'package:flutter/material.dart';
 import 'design_course_app_theme.dart';
+//some text
 
 class DesignCourseHomeScreen extends StatefulWidget {
   @override
@@ -58,7 +59,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
   }
 
   Widget getCategoryUI() {
-    
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
