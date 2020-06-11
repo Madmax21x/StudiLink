@@ -7,14 +7,24 @@ import 'design_course_app_theme.dart';
 
 class DesignCourseHomeScreen extends StatefulWidget {
   @override
+ 
   _DesignCourseHomeScreenState createState() => _DesignCourseHomeScreenState();
 }
 
 class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
   CategoryType categoryType = CategoryType.maths;
 
+
   @override
   Widget build(BuildContext context) {
+    String titre = '';
+    String jour = '';
+    String creneau = '';
+    int coeur = 0;
+    int  membres = 0;
+    String description = '';
+
+
     return Container(
       color: DesignCourseAppTheme.nearlyWhite,
       child: Scaffold(
@@ -48,6 +58,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
   }
 
   Widget getCategoryUI() {
+    
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,6 +124,8 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
   }
 
   Widget getPopularCourseUI() {
+    
+
     return Padding(
       padding: const EdgeInsets.only(top: 8.0, left: 18, right: 16),
       child: Column(
@@ -331,18 +344,35 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
               height: 45,
               child: Center(
                 child:Ink(
-                  decoration: ShapeDecoration(
-                    color: DesignCourseAppTheme.nearlyBlue,
-                    shape: RoundedRectangleBorder(
+                  // decoration: ShapeDecoration(
+                  //   color: DesignCourseAppTheme.nearlyBlue,
+                  //   shape: RoundedRectangleBorder(
                     
-                      borderRadius: BorderRadius.circular(10.0)),
+                  //     borderRadius: BorderRadius.circular(10.0)),
+                  //   ),
+                  // child: IconButton(
+                  //   icon: Icon(Icons.add, size: 28.0),
+                  //   color: Colors.white,
+                  //   tooltip: 'Propose un Studi-Group',
+                  //   onPressed: () {},
+                  // ),
+
+                  decoration: BoxDecoration(
+                    color: DesignCourseAppTheme.nearlyWhite,
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(16.0),
                     ),
+                    border: Border.all(
+                        color: DesignCourseAppTheme.nearlyBlue
+                        ),
+                  ),
                   child: IconButton(
                     icon: Icon(Icons.add, size: 28.0),
-                    color: Colors.white,
+                    color: DesignCourseAppTheme.nearlyBlue,
                     tooltip: 'Propose un Studi-Group',
                     onPressed: () {},
                   ),
+                  
                 ))
             )
           ],
