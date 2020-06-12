@@ -3,6 +3,9 @@ import 'package:best_flutter_ui_templates/design_course/models/category.dart';
 import 'package:best_flutter_ui_templates/main.dart';
 import 'package:flutter/material.dart';
 import 'package:best_flutter_ui_templates/design_course/course_info_screen.dart';
+import 'package:best_flutter_ui_templates/design_course/cours.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class CategoryListView extends StatefulWidget {
   const CategoryListView({Key key, this.callBack}) : super(key: key);
@@ -16,11 +19,14 @@ class _CategoryListViewState extends State<CategoryListView>
     with TickerProviderStateMixin {
   AnimationController animationController;
 
+var cours = new List<Cours>();
+
   @override
   void initState() {
     animationController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
     super.initState();
+    getCours();
   }
 
   Future<bool> getData() async {
@@ -28,6 +34,16 @@ class _CategoryListViewState extends State<CategoryListView>
     return true;
   }
 
+
+
+  Future getCours() async {
+    http.Response response = await http.get('http://localhost:3000');
+    debugPrint(response.body);
+    setState(() {
+        Iterable list = json.decode(response.body);
+        cours = list.map((model) => Cours.fromJson(model)).toList();
+      });
+  }
     
 
   @override
@@ -46,12 +62,12 @@ class _CategoryListViewState extends State<CategoryListView>
               return ListView.builder(
                 padding: const EdgeInsets.only(
                     top: 0, bottom: 0, right: 16, left: 16),
-                itemCount: Category.categoryList.length,
+                itemCount: cours.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
-                  final int count = Category.categoryList.length > 10
+                  final int count = cours.length > 10
                       ? 10
-                      : Category.categoryList.length;
+                      : cours.length;
                   final Animation<double> animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
                           CurvedAnimation(
@@ -61,7 +77,8 @@ class _CategoryListViewState extends State<CategoryListView>
                   animationController.forward();
 
                   return CategoryView(
-                    category: Category.categoryList[index],
+                    index: index,
+                    cours: cours,
                     animation: animation,
                     animationController: animationController,
                     callback: () {
@@ -82,7 +99,8 @@ class _CategoryListViewState extends State<CategoryListView>
 class CategoryView extends StatelessWidget {
   const CategoryView(
       {Key key,
-      this.category,
+      this.index,
+      this.cours,
       this.animationController,
       this.animation,
       this.callback,
@@ -91,7 +109,8 @@ class CategoryView extends StatelessWidget {
 
 
   final VoidCallback callback;
-  final Category category;
+  final int index;
+  final List cours;
   final AnimationController animationController;
   final Animation<dynamic> animation;
 
@@ -160,7 +179,7 @@ class CategoryView extends StatelessWidget {
                                             padding:
                                                 const EdgeInsets.only(top: 16),
                                             child: Text(
-                                              category.title,
+                                              cours[index].title,
                                               textAlign: TextAlign.left,
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w600,
@@ -185,7 +204,7 @@ class CategoryView extends StatelessWidget {
                                                   CrossAxisAlignment.center,
                                               children: <Widget>[
                                                 Text(
-                                                  '${category.memberCount} membre(s)',
+                                                  '${cours[index].memberCount} membre(s)',
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w200,
@@ -199,7 +218,7 @@ class CategoryView extends StatelessWidget {
                                                   child: Row(
                                                     children: <Widget>[
                                                       Text(
-                                                        '${category.likes}',
+                                                        '${cours[index].likes}',
                                                         textAlign:
                                                             TextAlign.left,
                                                         style: TextStyle(
@@ -236,7 +255,7 @@ class CategoryView extends StatelessWidget {
                                                   CrossAxisAlignment.start,
                                               children: <Widget>[
                                                 Text(
-                                                  '${category.day}',
+                                                  '${cours[index].day}',
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w600,
@@ -281,35 +300,35 @@ class CategoryView extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Container(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 24, bottom: 24, left: 16),
-                        child: Row(
-                          children: <Widget>[
-                            ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(16.0)),
-                              child: AspectRatio(
-                                  aspectRatio: 1.0,
-                                  child: Image.asset(category.imagePath)),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
+                    // Container(
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.only(
+                    //         top: 24, bottom: 24, left: 16),
+                    //     child: Row(
+                    //       children: <Widget>[
+                    //         ClipRRect(
+                    //           borderRadius:
+                    //               const BorderRadius.all(Radius.circular(16.0)),
+                    //           child: AspectRatio(
+                    //               aspectRatio: 1.0,
+                    //               child: Image.asset(cours[index].imagePath)),
+                    //         )
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
               onTap: () {
-                titre = category.title;
-                jour = category.day;
-                creneau = category.time;
-                description = category.description;
-                lieu = category.place;
-                coeur = category.likes;
-                membres = category.memberCount;
-                imagePath = category.imagePath;
+                titre = cours[index].title;
+                jour = cours[index].day;
+                creneau = cours[index].time;
+                description = cours[index].description;
+                lieu = cours[index].place;
+                coeur = cours[index].likes;
+                membres = cours[index].memberCount;
+                imagePath = cours[index].imagePath;
 
                 moveTo(titre, jour, coeur, membres, imagePath, creneau, description, lieu);
               },

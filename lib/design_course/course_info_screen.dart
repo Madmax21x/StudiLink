@@ -83,14 +83,14 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
         backgroundColor: Colors.transparent,
         body: Stack(
           children: <Widget>[
-            Column(
-              children: <Widget>[
-                AspectRatio(
-                  aspectRatio: 1.2,
-                  child: Image.asset(_imagePath),
-                ),
-              ],
-            ),
+            // Column(
+            //   children: <Widget>[
+            //     AspectRatio(
+            //       aspectRatio: 1.2,
+            //       child: Image.asset(_imagePath),
+            //     ),
+            //   ],
+            // ),
             Positioned(
               top: (MediaQuery.of(context).size.width / 1.2) - 24.0,
               bottom: 0,
