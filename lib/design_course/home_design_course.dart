@@ -1,10 +1,9 @@
 import 'package:best_flutter_ui_templates/design_course/category_list_view.dart';
-import 'package:best_flutter_ui_templates/design_course/course_info_screen.dart';
+//import 'package:best_flutter_ui_templates/design_course/course_info_screen.dart';
 import 'package:best_flutter_ui_templates/design_course/popular_course_list_view.dart';
 import 'package:best_flutter_ui_templates/main.dart';
 import 'package:flutter/material.dart';
 import 'design_course_app_theme.dart';
-//some text
 
 class DesignCourseHomeScreen extends StatefulWidget {
   @override
@@ -18,14 +17,6 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String titre = '';
-    String jour = '';
-    String creneau = '';
-    int coeur = 0;
-    int  membres = 0;
-    String description = '';
-
-
     return Container(
       color: DesignCourseAppTheme.nearlyWhite,
       child: Scaffold(
@@ -115,11 +106,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
             ],
           ),
         ),
-        CategoryListView(
-          callBack: () {
-            moveTo();
-          },
-        ),
+        CategoryListView(),
       ],
     );
   }
@@ -146,7 +133,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
           Flexible(
             child: PopularCourseListView(
               callBack: () {
-                moveTo();
+                //moveTo();
               },
             ),
           )
@@ -155,14 +142,14 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
     );
   }
 
-  void moveTo() {
-    Navigator.push<dynamic>(
-      context,
-      MaterialPageRoute<dynamic>(
-        builder: (BuildContext context) => CourseInfoScreen(),
-      ),
-    );
-  }
+  // void moveTo() {
+  //   Navigator.push<dynamic>(
+  //     context,
+  //     MaterialPageRoute<dynamic>(
+  //       builder: (BuildContext context) => CourseInfoScreen(),
+  //     ),
+  //   );
+  // }
 
   Widget getButtonUI(CategoryType categoryTypeData, bool isSelected) {
     String txt = '';

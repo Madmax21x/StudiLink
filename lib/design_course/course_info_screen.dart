@@ -1,13 +1,35 @@
 import 'package:flutter/material.dart';
 import 'design_course_app_theme.dart';
+//import 'category_list_view.dart';
+
+
 
 class CourseInfoScreen extends StatefulWidget {
+  String titre; 
+  String jour;
+  int coeur; 
+  int members;
+  String imagePath;
+  String creneau;
+  String description;
+  String lieu;
+  CourseInfoScreen(this.titre, this.jour, this.coeur, this.members, this.imagePath, this.creneau, this.description, this.lieu);
   @override
   _CourseInfoScreenState createState() => _CourseInfoScreenState();
 }
 
+
 class _CourseInfoScreenState extends State<CourseInfoScreen>
     with TickerProviderStateMixin {
+      String _titre;
+      String _jour;
+      int _coeur; 
+      int _members;
+      String _imagePath;
+      String _creneau;
+      String _description;
+      String _lieu;
+
   final double infoHeight = 364.0;
   AnimationController animationController;
   Animation<double> animation;
@@ -16,6 +38,15 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
   double opacity3 = 0.0;
   @override
   void initState() {
+    _titre = widget.titre;
+    _jour = widget.jour;
+    _coeur = widget.coeur;
+    _members = widget.members;
+    _imagePath = widget.imagePath;
+    _creneau = widget.creneau;
+    _description = widget.description;
+    _lieu = widget.lieu;
+
     animationController = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
     animation = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
@@ -42,7 +73,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context ) {
     final double tempHeight = MediaQuery.of(context).size.height -
         (MediaQuery.of(context).size.width / 1.2) +
         24.0;
@@ -56,7 +87,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
               children: <Widget>[
                 AspectRatio(
                   aspectRatio: 1.2,
-                  child: Image.asset('assets/design_course/webInterFace.png'),
+                  child: Image.asset(_imagePath),
                 ),
               ],
             ),
@@ -95,7 +126,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                             padding: const EdgeInsets.only(
                                 top: 32.0, left: 18, right: 16),
                             child: Text(
-                              'Web Design\nCourse',
+                              _titre,
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
@@ -113,7 +144,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Text(
-                                  '\$28.99',
+                                  _jour,
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w200,
@@ -126,7 +157,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                   child: Row(
                                     children: <Widget>[
                                       Text(
-                                        '4.3',
+                                        '$_coeur',
                                         textAlign: TextAlign.left,
                                         style: TextStyle(
                                           fontWeight: FontWeight.w200,
@@ -136,7 +167,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                         ),
                                       ),
                                       Icon(
-                                        Icons.star,
+                                        Icons.favorite,
                                         color: DesignCourseAppTheme.nearlyBlue,
                                         size: 24,
                                       ),
@@ -151,13 +182,17 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                             opacity: opacity1,
                             child: Padding(
                               padding: const EdgeInsets.all(8),
-                              child: Row(
+                              child:Expanded(child:SingleChildScrollView(
+                                // shrinkWrap: true,
+                                physics: ScrollPhysics(),     
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
                                 children: <Widget>[
-                                  getTimeBoxUI('24', 'Classe'),
-                                  getTimeBoxUI('2hours', 'Time'),
-                                  getTimeBoxUI('24', 'Seat'),
+                                  getTimeBoxUI(_lieu, 'Lieu'),
+                                  getTimeBoxUI(_creneau, 'Heure'),
+                                  getTimeBoxUI('$_members', 'Membres'),
                                 ],
-                              ),
+                              ))),
                             ),
                           ),
                           Expanded(
@@ -168,7 +203,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                 padding: const EdgeInsets.only(
                                     left: 16, right: 16, top: 8, bottom: 8),
                                 child: Text(
-                                  'Lorem ipsum is simply dummy text of printing & typesetting industry, Lorem ipsum is simply dummy text of printing & typesetting industry.',
+                                  _description,
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w200,
@@ -188,34 +223,8 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                             child: Padding(
                               padding: const EdgeInsets.only(
                                   left: 16, bottom: 16, right: 16),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Container(
-                                    width: 48,
-                                    height: 48,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: DesignCourseAppTheme.nearlyWhite,
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(16.0),
-                                        ),
-                                        border: Border.all(
-                                            color: DesignCourseAppTheme.grey
-                                                .withOpacity(0.2)),
-                                      ),
-                                      child: Icon(
-                                        Icons.add,
-                                        color: DesignCourseAppTheme.nearlyBlue,
-                                        size: 28,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 16,
-                                  ),
-                                  Expanded(
+                              
+                                  child:Expanded(
                                     child: Container(
                                       height: 48,
                                       decoration: BoxDecoration(
@@ -234,7 +243,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                       ),
                                       child: Center(
                                         child: Text(
-                                          'Join Course',
+                                          'Rejoindre le Groupe',
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             fontWeight: FontWeight.w600,
@@ -247,8 +256,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                       ),
                                     ),
                                   )
-                                ],
-                              ),
+                              
                             ),
                           ),
                           SizedBox(

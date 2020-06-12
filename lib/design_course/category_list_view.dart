@@ -2,6 +2,7 @@ import 'package:best_flutter_ui_templates/design_course/design_course_app_theme.
 import 'package:best_flutter_ui_templates/design_course/models/category.dart';
 import 'package:best_flutter_ui_templates/main.dart';
 import 'package:flutter/material.dart';
+import 'package:best_flutter_ui_templates/design_course/course_info_screen.dart';
 
 class CategoryListView extends StatefulWidget {
   const CategoryListView({Key key, this.callBack}) : super(key: key);
@@ -26,6 +27,8 @@ class _CategoryListViewState extends State<CategoryListView>
     await Future<dynamic>.delayed(const Duration(milliseconds: 50));
     return true;
   }
+
+    
 
   @override
   Widget build(BuildContext context) {
@@ -75,22 +78,47 @@ class _CategoryListViewState extends State<CategoryListView>
   }
 }
 
+
 class CategoryView extends StatelessWidget {
   const CategoryView(
       {Key key,
       this.category,
       this.animationController,
       this.animation,
-      this.callback})
+      this.callback,
+      })
       : super(key: key);
+
 
   final VoidCallback callback;
   final Category category;
   final AnimationController animationController;
   final Animation<dynamic> animation;
 
+  
+  
   @override
   Widget build(BuildContext context) {
+
+    String titre = '';
+    String jour = '';
+    String creneau = '';
+    String description ='';
+    String lieu = '';
+    int coeur = 0;
+    int  membres = 0;
+    //String description = '';
+    String imagePath = '';
+
+    void moveTo(titre, jour, coeur, membres, imagePath, creneau, description, lieu) {
+    Navigator.push<dynamic>(
+      context,
+      MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) => CourseInfoScreen(titre, jour, coeur, membres, imagePath, creneau, description, lieu),
+      ),
+    );
+  }
+
     return AnimatedBuilder(
       animation: animationController,
       builder: (BuildContext context, Widget child) {
@@ -99,11 +127,9 @@ class CategoryView extends StatelessWidget {
           child: Transform(
             transform: Matrix4.translationValues(
                 100 * (1.0 - animation.value), 0.0, 0.0),
+           // Each course 
             child: InkWell(
               splashColor: Colors.transparent,
-              onTap: () {
-                callback();
-              },
               child: SizedBox(
                 width: 280,
                 child: Stack(
@@ -126,6 +152,7 @@ class CategoryView extends StatelessWidget {
                                   const SizedBox(
                                     width: 48 + 24.0,
                                   ),
+                                  // 1st course 
                                   Expanded(
                                     child: Container(
                                       child: Column(
@@ -210,7 +237,7 @@ class CategoryView extends StatelessWidget {
                                                   CrossAxisAlignment.start,
                                               children: <Widget>[
                                                 Text(
-                                                  '${category.time}',
+                                                  '${category.day}',
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w600,
@@ -275,10 +302,27 @@ class CategoryView extends StatelessWidget {
                   ],
                 ),
               ),
+              onTap: () {
+                titre = category.title;
+                jour = category.day;
+                creneau = category.time;
+                description = category.description;
+                lieu = category.place;
+                coeur = category.likes;
+                membres = category.memberCount;
+                imagePath = category.imagePath;
+
+                moveTo(titre, jour, coeur, membres, imagePath, creneau, description, lieu);
+              },
             ),
+            
           ),
         );
       },
     );
+
+    
   }
+
+  
 }
