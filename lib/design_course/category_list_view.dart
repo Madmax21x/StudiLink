@@ -107,7 +107,6 @@ class CategoryView extends StatelessWidget {
     String lieu = '';
     int coeur = 0;
     int  membres = 0;
-    //String description = '';
     String imagePath = '';
 
     void moveTo(titre, jour, coeur, membres, imagePath, creneau, description, lieu) {
