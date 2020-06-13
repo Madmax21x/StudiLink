@@ -137,16 +137,17 @@ class CategoryView extends StatelessWidget {
     );
   }
 
-    return AnimatedBuilder(
-      animation: animationController,
-      builder: (BuildContext context, Widget child) {
-        return FadeTransition(
-          opacity: animation,
-          child: Transform(
-            transform: Matrix4.translationValues(
-                100 * (1.0 - animation.value), 0.0, 0.0),
-           // Each course 
-            child: InkWell(
+    // return AnimatedBuilder(
+    //   animation: animationController,
+    //   builder: (BuildContext context, Widget child) {
+    //     return FadeTransition(
+    //       opacity: animation,
+    //       child: Transform(
+    //         transform: Matrix4.translationValues(
+    //             100 * (1.0 - animation.value), 0.0, 0.0),
+    //        // Each course 
+    //         child: 
+    return InkWell(
               splashColor: Colors.transparent,
               child: SizedBox(
                 width: 280,
@@ -300,23 +301,23 @@ class CategoryView extends StatelessWidget {
                         ],
                       ),
                     ),
-                    // Container(
-                    //   child: Padding(
-                    //     padding: const EdgeInsets.only(
-                    //         top: 24, bottom: 24, left: 16),
-                    //     child: Row(
-                    //       children: <Widget>[
-                    //         ClipRRect(
-                    //           borderRadius:
-                    //               const BorderRadius.all(Radius.circular(16.0)),
-                    //           child: AspectRatio(
-                    //               aspectRatio: 1.0,
-                    //               child: Image.asset(cours[index].imagePath)),
-                    //         )
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 24, bottom: 24, left: 16),
+                        child: Row(
+                          children: <Widget>[
+                            ClipRRect(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(16.0)),
+                              child: AspectRatio(
+                                  aspectRatio: 1.0,
+                                  child: Image.asset(cours[index].imagePath)),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -332,13 +333,14 @@ class CategoryView extends StatelessWidget {
 
                 moveTo(titre, jour, coeur, membres, imagePath, creneau, description, lieu);
               },
-            ),
+            );
             
-          ),
-        );
-      },
-    );
+        //   ),
+        // );
+    //   },
+    // );
 
+  
     
   }
 
