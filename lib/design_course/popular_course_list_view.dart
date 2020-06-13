@@ -2,7 +2,9 @@ import 'package:best_flutter_ui_templates/design_course/design_course_app_theme.
 import 'package:best_flutter_ui_templates/design_course/models/category.dart';
 import 'package:best_flutter_ui_templates/main.dart';
 import 'package:best_flutter_ui_templates/design_course/course_info_screen.dart';
-
+import 'package:best_flutter_ui_templates/design_course/cours.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:flutter/material.dart';
 
 class PopularCourseListView extends StatefulWidget {
@@ -16,16 +18,29 @@ class PopularCourseListView extends StatefulWidget {
 class _PopularCourseListViewState extends State<PopularCourseListView>
     with TickerProviderStateMixin {
   AnimationController animationController;
+
+  var cours = new List<Cours>();
+
   @override
   void initState() {
     animationController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
     super.initState();
+    getCours();
   }
 
   Future<bool> getData() async {
     await Future<dynamic>.delayed(const Duration(milliseconds: 200));
     return true;
+  }
+
+   Future getCours() async {
+    http.Response response = await http.get('http://localhost:3000');
+    debugPrint(response.body);
+    setState(() {
+        Iterable list = json.decode(response.body);
+        cours = list.map((model) => Cours.fromJson(model)).toList();
+      });
   }
 
   @override
@@ -43,9 +58,9 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.vertical,
               children: List<Widget>.generate(
-                Category.popularCourseList.length,
+                cours.length,
                 (int index) {
-                  final int count = Category.popularCourseList.length;
+                  final int count = cours.length;
                   final Animation<double> animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
                     CurvedAnimation(
@@ -59,7 +74,8 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
                     callback: () {
                       widget.callBack();
                     },
-                    category: Category.popularCourseList[index],
+                    index: index,
+                    cours: cours,
                     animation: animation,
                     animationController: animationController,
                   );
@@ -82,14 +98,16 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
 class CategoryView extends StatelessWidget {
   const CategoryView(
       {Key key,
-      this.category,
+      this.index,
+      this.cours,
       this.animationController,
       this.animation,
       this.callback})
       : super(key: key);
 
   final VoidCallback callback;
-  final Category category;
+  final int index;
+  final List cours;
   final AnimationController animationController;
   final Animation<dynamic> animation;
 
@@ -113,7 +131,8 @@ class CategoryView extends StatelessWidget {
       ),
     );
     }
-    return AnimatedBuilder(
+    return 
+    AnimatedBuilder(
       animation: animationController,
       builder: (BuildContext context, Widget child) {
         return FadeTransition(
@@ -122,7 +141,8 @@ class CategoryView extends StatelessWidget {
             transform: Matrix4.translationValues(
                 0.0, 50 * (1.0 - animation.value), 0.0),
             // Each course
-            child: InkWell(
+            child: 
+            InkWell(
               splashColor: Colors.transparent,
               
               child: SizedBox(
@@ -152,7 +172,7 @@ class CategoryView extends StatelessWidget {
                                             padding: const EdgeInsets.only(
                                                 top: 16, left: 16, right: 16),
                                             child: Text(
-                                              category.title,
+                                              cours[index].title,
                                               textAlign: TextAlign.left,
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w600,
@@ -177,7 +197,7 @@ class CategoryView extends StatelessWidget {
                                                   CrossAxisAlignment.center,
                                               children: <Widget>[
                                                 Text(
-                                                  '${category.memberCount} membre(s)',
+                                                  '${cours[index].memberCount} membre(s)',
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w200,
@@ -191,7 +211,7 @@ class CategoryView extends StatelessWidget {
                                                   child: Row(
                                                     children: <Widget>[
                                                       Text(
-                                                        '${category.likes}',
+                                                        '${cours[index].likes}',
                                                         textAlign:
                                                             TextAlign.left,
                                                         style: TextStyle(
@@ -255,7 +275,7 @@ class CategoryView extends StatelessWidget {
                                 const BorderRadius.all(Radius.circular(16.0)),
                             child: AspectRatio(
                                 aspectRatio: 1.28,
-                                child: Image.asset(category.imagePath)),
+                                child: Image.asset('${cours[index].imagePath}')),
                           ),
                         ),
                       ),
@@ -264,18 +284,18 @@ class CategoryView extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                titre = category.title;
-                jour = category.day;
-                creneau = category.time;
-                description = category.description;
-                lieu = category.place;
-                coeur = category.likes;
-                membres = category.memberCount;
-                imagePath = category.imagePath;
+                titre = cours[index].title;
+                jour = cours[index].day;
+                creneau = cours[index].time;
+                description = cours[index].description;
+                lieu = cours[index].place;
+                coeur = cours[index].likes;
+                membres = cours[index].memberCount;
+                imagePath = cours[index].imagePath;
 
                 moveTo(titre, jour, coeur, membres, imagePath, creneau, description, lieu);
               },
-            ),
+            )
           ),
         );
       },

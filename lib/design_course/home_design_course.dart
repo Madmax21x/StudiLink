@@ -138,14 +138,6 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
     );
   }
 
-  // void moveTo() {
-  //   Navigator.push<dynamic>(
-  //     context,
-  //     MaterialPageRoute<dynamic>(
-  //       builder: (BuildContext context) => CourseInfoScreen(),
-  //     ),
-  //   );
-  // }
 
   Widget getButtonUI(CategoryType categoryTypeData, bool isSelected) {
     String txt = '';
@@ -328,19 +320,6 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
               height: 45,
               child: Center(
                 child:Ink(
-                  // decoration: ShapeDecoration(
-                  //   color: DesignCourseAppTheme.nearlyBlue,
-                  //   shape: RoundedRectangleBorder(
-                    
-                  //     borderRadius: BorderRadius.circular(10.0)),
-                  //   ),
-                  // child: IconButton(
-                  //   icon: Icon(Icons.add, size: 28.0),
-                  //   color: Colors.white,
-                  //   tooltip: 'Propose un Studi-Group',
-                  //   onPressed: () {},
-                  // ),
-
                   decoration: BoxDecoration(
                     color: DesignCourseAppTheme.nearlyWhite,
                     borderRadius: const BorderRadius.all(

@@ -137,17 +137,18 @@ class CategoryView extends StatelessWidget {
     );
   }
 
-    // return AnimatedBuilder(
-    //   animation: animationController,
-    //   builder: (BuildContext context, Widget child) {
-    //     return FadeTransition(
-    //       opacity: animation,
-    //       child: Transform(
-    //         transform: Matrix4.translationValues(
-    //             100 * (1.0 - animation.value), 0.0, 0.0),
-    //        // Each course 
-    //         child: 
-    return InkWell(
+    return 
+    AnimatedBuilder(
+      animation: animationController,
+      builder: (BuildContext context, Widget child) {
+        return FadeTransition(
+          opacity: animation,
+          child: Transform(
+            transform: Matrix4.translationValues(
+                100 * (1.0 - animation.value), 0.0, 0.0),
+           // Each course 
+            child: 
+            InkWell(
               splashColor: Colors.transparent,
               child: SizedBox(
                 width: 280,
@@ -333,12 +334,12 @@ class CategoryView extends StatelessWidget {
 
                 moveTo(titre, jour, coeur, membres, imagePath, creneau, description, lieu);
               },
-            );
+            )
             
-        //   ),
-        // );
-    //   },
-    // );
+          ),
+        );
+      },
+    );
 
   
     
