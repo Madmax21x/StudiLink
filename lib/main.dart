@@ -2,7 +2,9 @@ import 'dart:io';
 import 'package:best_flutter_ui_templates/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:best_flutter_ui_templates/design_course/home_design_course.dart';
+import 'package:best_flutter_ui_templates/design_course/proposer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,14 +25,26 @@ class MyApp extends StatelessWidget {
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
     return MaterialApp(
-      title: 'Flutter UI',
+      title: 'StudiLink',
+      localizationsDelegates: [
+          // ... app-specific localization delegate[s] here
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: [
+            const Locale('fr'), // English/ Chinese *See Advanced Locales below*
+            // ... other locales the app supports
+          ],
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.teal,
         textTheme: AppTheme.textTheme,
         platform: TargetPlatform.iOS,
       ),
-      home: DesignCourseHomeScreen(),
+      home: 
+      //DesignCourseHomeScreen(),
+      Proposer(),
     );
   }
 }
