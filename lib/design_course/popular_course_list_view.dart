@@ -1,5 +1,4 @@
 import 'package:best_flutter_ui_templates/design_course/design_course_app_theme.dart';
-import 'package:best_flutter_ui_templates/design_course/models/category.dart';
 import 'package:best_flutter_ui_templates/main.dart';
 import 'package:best_flutter_ui_templates/design_course/course_info_screen.dart';
 import 'package:best_flutter_ui_templates/design_course/cours.dart';
@@ -146,7 +145,7 @@ class CategoryView extends StatelessWidget {
               splashColor: Colors.transparent,
               
               child: SizedBox(
-                height: 280,
+                height: 400,
                 child: Stack(
                   alignment: AlignmentDirectional.bottomCenter,
                   children: <Widget>[
@@ -176,7 +175,7 @@ class CategoryView extends StatelessWidget {
                                               textAlign: TextAlign.left,
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w600,
-                                                fontSize: 16,
+                                                fontSize: 14,
                                                 letterSpacing: 0.27,
                                                 color: DesignCourseAppTheme
                                                     .darkerText,
@@ -188,7 +187,7 @@ class CategoryView extends StatelessWidget {
                                                 top: 8,
                                                 left: 16,
                                                 right: 16,
-                                                bottom: 8),
+                                                bottom: 24),
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -242,7 +241,7 @@ class CategoryView extends StatelessWidget {
                                     ),
                                   ),
                                   const SizedBox(
-                                    width: 48,
+                                    width: 25,
                                   ),
                                 ],
                               ),
