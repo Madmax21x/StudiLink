@@ -5,6 +5,7 @@ import 'package:best_flutter_ui_templates/design_course/cours.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'dart:io';
 
 class PopularCourseListView extends StatefulWidget {
   const PopularCourseListView({Key key, this.callBack}) : super(key: key);
@@ -33,13 +34,21 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
     return true;
   }
 
-   Future getCours() async {
-    http.Response response = await http.get('http://localhost:3000');
+  // access localhost from the emulator/simulator
+  String _hostname() {
+    if (Platform.isAndroid)
+      return 'http://10.0.2.2:3000';
+    else
+      return 'http://localhost:3000';
+  }
+
+  Future getCours() async {
+    http.Response response = await http.get(_hostname());
     debugPrint(response.body);
     setState(() {
-        Iterable list = json.decode(response.body);
-        cours = list.map((model) => Cours.fromJson(model)).toList();
-      });
+      Iterable list = json.decode(response.body);
+      cours = list.map((model) => Cours.fromJson(model)).toList();
+    });
   }
 
   @override
@@ -112,190 +121,192 @@ class CategoryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     String titre = '';
     String jour = '';
     String creneau = '';
-    String description ='';
+    String description = '';
     String lieu = '';
     int coeur = 0;
-    int  membres = 0;
+    int membres = 0;
     String imagePath = '';
 
-    void moveTo(titre, jour, coeur, membres, imagePath, creneau, description, lieu) {
-    Navigator.push<dynamic>(
-      context,
-      MaterialPageRoute<dynamic>(
-        builder: (BuildContext context) => CourseInfoScreen(titre, jour, coeur, membres, imagePath, creneau, description, lieu),
-      ),
-    );
+    void moveTo(
+        titre, jour, coeur, membres, imagePath, creneau, description, lieu) {
+      Navigator.push<dynamic>(
+        context,
+        MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) => CourseInfoScreen(titre, jour,
+              coeur, membres, imagePath, creneau, description, lieu),
+        ),
+      );
     }
-    return 
-    AnimatedBuilder(
+
+    return AnimatedBuilder(
       animation: animationController,
       builder: (BuildContext context, Widget child) {
         return FadeTransition(
           opacity: animation,
           child: Transform(
-            transform: Matrix4.translationValues(
-                0.0, 50 * (1.0 - animation.value), 0.0),
-            // Each course
-            child: 
-            InkWell(
-              splashColor: Colors.transparent,
-              
-              child: SizedBox(
-                height: 400,
-                child: Stack(
-                  alignment: AlignmentDirectional.bottomCenter,
-                  children: <Widget>[
-                    Container(
-                      child: Column(
-                        children: <Widget>[
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: HexColor('#F8FAFB'),
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(16.0)),
-                                // border: new Border.all(
-                                //     color: DesignCourseAppTheme.notWhite),
-                              ),
-                              child: Column(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Container(
-                                      child: Column(
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 16, left: 16, right: 16),
-                                            child: Text(
-                                              cours[index].title,
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 14,
-                                                letterSpacing: 0.27,
-                                                color: DesignCourseAppTheme
-                                                    .darkerText,
+              transform: Matrix4.translationValues(
+                  0.0, 50 * (1.0 - animation.value), 0.0),
+              // Each course
+              child: InkWell(
+                splashColor: Colors.transparent,
+                child: SizedBox(
+                  height: 400,
+                  child: Stack(
+                    alignment: AlignmentDirectional.bottomCenter,
+                    children: <Widget>[
+                      Container(
+                        child: Column(
+                          children: <Widget>[
+                            Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: HexColor('#F8FAFB'),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(16.0)),
+                                  // border: new Border.all(
+                                  //     color: DesignCourseAppTheme.notWhite),
+                                ),
+                                child: Column(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Container(
+                                        child: Column(
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 16, left: 16, right: 16),
+                                              child: Text(
+                                                cours[index].title,
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 14,
+                                                  letterSpacing: 0.27,
+                                                  color: DesignCourseAppTheme
+                                                      .darkerText,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 8,
-                                                left: 16,
-                                                right: 16,
-                                                bottom: 24),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: <Widget>[
-                                                Text(
-                                                  '${cours[index].memberCount} membre(s)',
-                                                  textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w200,
-                                                    fontSize: 12,
-                                                    letterSpacing: 0.27,
-                                                    color: DesignCourseAppTheme
-                                                        .grey,
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 8,
+                                                  left: 16,
+                                                  right: 16,
+                                                  bottom: 24),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: <Widget>[
+                                                  Text(
+                                                    '${cours[index].memberCount} membre(s)',
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w200,
+                                                      fontSize: 12,
+                                                      letterSpacing: 0.27,
+                                                      color:
+                                                          DesignCourseAppTheme
+                                                              .grey,
+                                                    ),
                                                   ),
-                                                ),
-                                                Container(
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      Text(
-                                                        '${cours[index].likes}',
-                                                        textAlign:
-                                                            TextAlign.left,
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w200,
-                                                          fontSize: 15,
-                                                          letterSpacing: 0.27,
+                                                  Container(
+                                                    child: Row(
+                                                      children: <Widget>[
+                                                        Text(
+                                                          '${cours[index].likes}',
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w200,
+                                                            fontSize: 15,
+                                                            letterSpacing: 0.27,
+                                                            color:
+                                                                DesignCourseAppTheme
+                                                                    .grey,
+                                                          ),
+                                                        ),
+                                                        Icon(
+                                                          Icons.favorite,
                                                           color:
                                                               DesignCourseAppTheme
-                                                                  .grey,
+                                                                  .nearlyBlue,
+                                                          size: 20,
                                                         ),
-                                                      ),
-                                                      Icon(
-                                                        Icons.favorite,
-                                                        color:
-                                                            DesignCourseAppTheme
-                                                                .nearlyBlue,
-                                                        size: 20,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                )
-                                              ],
+                                                      ],
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    width: 25,
-                                  ),
-                                ],
+                                    const SizedBox(
+                                      width: 25,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 48,
-                          ),
-                        ],
+                            const SizedBox(
+                              height: 48,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Container(
-                      child: Padding(
-                        padding:
-                            const EdgeInsets.only(top: 24, right: 16, left: 16),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(16.0)),
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                  color: DesignCourseAppTheme.grey
-                                      .withOpacity(0.2),
-                                  offset: const Offset(0.0, 0.0),
-                                  blurRadius: 6.0),
-                            ],
-                          ),
-                          child: ClipRRect(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(16.0)),
-                            child: AspectRatio(
-                                aspectRatio: 1.28,
-                                child: Image.asset('${cours[index].imagePath}')),
+                      Container(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 24, right: 16, left: 16),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(16.0)),
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                    color: DesignCourseAppTheme.grey
+                                        .withOpacity(0.2),
+                                    offset: const Offset(0.0, 0.0),
+                                    blurRadius: 6.0),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(16.0)),
+                              child: AspectRatio(
+                                  aspectRatio: 1.28,
+                                  child:
+                                      Image.asset('${cours[index].imagePath}')),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              onTap: () {
-                titre = cours[index].title;
-                jour = cours[index].day;
-                creneau = cours[index].time;
-                description = cours[index].description;
-                lieu = cours[index].place;
-                coeur = cours[index].likes;
-                membres = cours[index].memberCount;
-                imagePath = cours[index].imagePath;
+                onTap: () {
+                  titre = cours[index].title;
+                  jour = cours[index].day;
+                  creneau = cours[index].time;
+                  description = cours[index].description;
+                  lieu = cours[index].place;
+                  coeur = cours[index].likes;
+                  membres = cours[index].memberCount;
+                  imagePath = cours[index].imagePath;
 
-                moveTo(titre, jour, coeur, membres, imagePath, creneau, description, lieu);
-              },
-            )
-          ),
+                  moveTo(titre, jour, coeur, membres, imagePath, creneau,
+                      description, lieu);
+                },
+              )),
         );
       },
     );
