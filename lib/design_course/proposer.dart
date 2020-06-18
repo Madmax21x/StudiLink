@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:best_flutter_ui_templates/design_course/cours.dart';
 import 'dart:convert';
 import 'dart:async';
+import 'dart:io';
 
 
 
@@ -33,9 +34,19 @@ class _ProposerState extends State<Proposer>{
 
   String dropdownValue = 'Maths';
 
+  // access localhost from the emulator/simulator
+  String _hostname() {
+    if (Platform.isAndroid)
+      return 'http://10.0.2.2:3000';
+    else
+      return 'http://localhost:3000';
+  }
+
+
+
   Future<Cours> createCourse(String category, String title, dynamic memberCount, String time, dynamic likes, String imagePath, String description, String place, String day) async {
   final http.Response response = await http.post(
-    'localhost:3000',
+    _hostname(),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
