@@ -35,7 +35,7 @@ class _ProposerState extends State<Proposer>{
 
   Future<Cours> createCourse(String category, String title, dynamic memberCount, String time, dynamic likes, String imagePath, String description, String place, String day) async {
   final http.Response response = await http.post(
-    'https://jsonplaceholder.typicode.com/albums',
+    'localhost:3000',
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
