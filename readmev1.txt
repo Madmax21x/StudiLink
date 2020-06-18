@@ -1,6 +1,4 @@
-//Code pour index.js
-
-var express = require('express');
+    var express = require('express');
     var bodyParser = require('body-parser');
     var app = express();
 
@@ -18,7 +16,8 @@ var express = require('express');
 
     // using an array to simulate a database for demonstration purposes
     var mockDatabase = [
-        {
+        {   
+            id: 0,
             category: "maths",
             title: 'Mathématiques Fondamentales',
             memberCount: 2,
@@ -30,7 +29,9 @@ var express = require('express');
             imagePath: 'assets/design_course/interFace1.png',
         },
 
-        {
+        {   
+            id: 1,
+            category: "maths",
             imagePath: 'assets/design_course/interFace2.png',
             title: 'Séries Chronologiques',
             memberCount: 4,
@@ -39,7 +40,8 @@ var express = require('express');
             description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
             place: "Starbucks",
             time : "14:00",
-        },]
+        },
+        ]
        
 
     // Handle GET (all) request
@@ -71,4 +73,15 @@ var express = require('express');
 
     app.listen(port, hostname, function () {
         console.log(`Listening at http://${hostname}:${port}/...`);
+    });
+
+    // Handle POST request
+    app.post('/', function(req, res) {
+        // get data from request
+        var newObject = req.body; // TODO validate data
+        mockDatabase.push(newObject);
+        // send created item back with id included
+        var id = mockDatabase.length - 1;
+        res.statusCode = statusOK;
+        res.send(`Item added with id ${id}`);
     });

@@ -1,6 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'design_course_app_theme.dart';
+import 'package:http/http.dart' as http;
+import 'package:best_flutter_ui_templates/design_course/cours.dart';
+import 'dart:convert';
+import 'dart:async';
+
 
 
 class Proposer extends StatefulWidget {
@@ -15,17 +20,48 @@ class _ProposerState extends State<Proposer>{
 
   var _formKey = GlobalKey<FormState>();
 
-  TextEditingController thematiqueController = TextEditingController();
-  TextEditingController dateController = TextEditingController();
+  TextEditingController titleController = TextEditingController();
   TextEditingController lieuController = TextEditingController();
-  TextEditingController creneauController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-
+  
   DateTime date;
-  DateTime date1;
+  String _day;
+  String _time;
+  int _memberCount = 0;
+  int _likes = 0 ;
+  String _imagePath = 'assets/design_course/interFace1.png';
 
   String dropdownValue = 'Maths';
 
+  Future<Cours> createCourse(String category, String title, dynamic memberCount, String time, dynamic likes, String imagePath, String description, String place, String day) async {
+  final http.Response response = await http.post(
+    'https://jsonplaceholder.typicode.com/albums',
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, dynamic>{
+      'category': category,
+      'title': title,
+      'memberCount': memberCount,
+      'time': time,
+      'likes': likes,
+      'imagePath': imagePath,
+      'description': description,
+      'place': place,
+      'day': day,
+    }),
+  );
+  if (response.statusCode == 201) {
+    // If the server did return a 201 CREATED response,
+    // then parse the JSON.
+    Map coursMap = jsonDecode(response.body);
+    return Cours.fromJson(coursMap);
+  } else {
+    // If the server did not return a 201 CREATED response,
+    // then throw an exception.
+    throw Exception('Failed to load album');
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -101,6 +137,7 @@ class _ProposerState extends State<Proposer>{
                       onChanged: (String newValue) {
                         setState(() {
                           dropdownValue = newValue;
+                          
                         });
                       },
                       items: <String>['Maths', 'Physique', 'Chimie', 'Histoire', 'Droit']
@@ -121,7 +158,7 @@ class _ProposerState extends State<Proposer>{
                     child: SizedBox(
                       height: 70.0,
                       child: TextFormField(
-                        controller: thematiqueController,
+                        controller: titleController,
                         validator: (String value){
                         if (value.isEmpty){
                           return "Ce champ est obligatoire.";
@@ -134,6 +171,7 @@ class _ProposerState extends State<Proposer>{
                           debugPrint("some title has been added");
                         },
                         maxLines: 1,
+                        maxLength: 30,
                         decoration: InputDecoration(
                           helperText: " ",
                           labelText: 'Titre du cours',
@@ -195,6 +233,7 @@ class _ProposerState extends State<Proposer>{
                           debugPrint("some thematique has been added");
                         },
                         maxLines: 1,
+                        maxLength: 30,
                         decoration: InputDecoration(
                           helperText: " ",
                           labelText: 'Lieu',
@@ -258,6 +297,7 @@ class _ProposerState extends State<Proposer>{
                           debugPrint("some thematique has been added");
                         },
                         maxLines: 6,
+                        maxLength: 300,
                         decoration: InputDecoration(
                           helperText: " ",
                           labelText: 'Description',
@@ -302,7 +342,7 @@ class _ProposerState extends State<Proposer>{
 
                   ),
 
-                //4th element of the column
+                //DATE
 
                   Padding(
                   padding: EdgeInsets.only(bottom:5.0),
@@ -321,7 +361,10 @@ class _ProposerState extends State<Proposer>{
                            
                               setState(() => date = newDateTime);
                               debugPrint("Date choisie : $date ");
-                            
+                              _day = date.day.toString() + '/' + date.month.toString();
+                              debugPrint("Date choisie : $_day ");
+                              _time = date.hour.toString() + ':' + date.minute.toString();
+                              debugPrint("Date choisie : $_time ");
                           },
                           
                           use24hFormat: true,
@@ -371,16 +414,16 @@ class _ProposerState extends State<Proposer>{
                           ),
                         ),
                       ),
-                      onTap:() {
+                      onTap:()  {
                         setState(() {
                           if (_formKey.currentState.validate()){
-                            debugPrint("Proposer button clicked");
-                        }
+                           
+                            createCourse(dropdownValue, titleController.text, _memberCount, _time, _likes,  _imagePath, descriptionController.text, lieuController.text, _day);
+                            }
+                        
                         },);},
                       )
                     ),
-
-                    
                   )
           
           ],

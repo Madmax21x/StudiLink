@@ -11,17 +11,21 @@ class Cours {
       String place;
       String day;
 
-      Cours(this.id, this.category, this.title, this.memberCount, this.day, this.likes, this.description, this.imagePath, this.place, this.time );
+      Cours({this.id, this.category, this.title, this.memberCount, this.day, this.likes, this.description, this.imagePath, this.place, this.time });
 
       // named constructor
-      Cours.fromJson(Map<String, dynamic> json)
-          : category = json['category'],
-            title = json['title'],
-            memberCount = json['memberCount'],
-            time = json['time'],
-            likes = json['likes'],
-            imagePath = json['imagePath'],
-            description = json['description'],
-            place = json['place'],
-            day = json['day'];
+      factory Cours.fromJson(Map<String, dynamic> json){
+        return
+        Cours(
+            category : json['category'],
+            title : json['title'],
+            memberCount :json['memberCount'],
+            time : json['time'],
+            likes : json['likes'],
+            imagePath :json['imagePath'],
+            description :json['description'],
+            place : json['place'],
+            day : json['day']
+            );
+      }
     }
