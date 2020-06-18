@@ -33,8 +33,6 @@ var cours = new List<Cours>();
     return true;
   }
 
-
-
   Future getCours() async {
     http.Response response = await http.get('http://10.0.2.2:3000');
     debugPrint(response.body);
