@@ -62,7 +62,9 @@ class _ProposerState extends State<Proposer>{
       'day': day,
     }),
   );
-  if (response.statusCode == 201) {
+  print(response.statusCode);
+  // if (response.statusCode == 201 || response.statusCode == 200) {
+  if (response.statusCode == 200) {  
     // If the server did return a 201 CREATED response,
     // then parse the JSON.
     Map coursMap = jsonDecode(response.body);
