@@ -43,8 +43,8 @@ class MyApp extends StatelessWidget {
         platform: TargetPlatform.iOS,
       ),
       home: 
-      //DesignCourseHomeScreen(),
-      Proposer(),
+      DesignCourseHomeScreen(),
+      //Proposer(),
     );
   }
 }

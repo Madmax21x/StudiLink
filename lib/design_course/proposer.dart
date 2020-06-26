@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'design_course_app_theme.dart';
 import 'package:http/http.dart' as http;
+import 'package:best_flutter_ui_templates/design_course/models/http.dart';
 import 'package:best_flutter_ui_templates/design_course/cours.dart';
 import 'dart:convert';
 import 'dart:async';
@@ -29,68 +30,30 @@ class _ProposerState extends State<Proposer> {
   String _imagePath = 'assets/design_course/interFace1.png';
 
   String dropdownValue = 'Maths';
+  String response = "";
 
-  // access localhost from the emulator/simulator
-  String _hostname() {
-    if (Platform.isAndroid)
-      return 'http://10.0.2.2:3000';
-    else
-      return 'http://localhost:3000';
-  }
 
-  Future<Cours> createCourse(
-      String category,
-      String title,
-      dynamic memberCount,
-      String time,
-      dynamic likes,
-      String imagePath,
-      String description,
-      String place,
-      String day) async {
-    final http.Response response = await http.post(
-      _hostname(),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, dynamic>{
-        'category': category,
-        'title': title,
-        'memberCount': memberCount,
-        'time': time,
-        'likes': likes,
-        'imagePath': imagePath,
-        'description': description,
-        'place': place,
-        'day': day,
-      }),
-      
-    ); 
-    print(response.statusCode);
-    if (response.statusCode == 201 || response.statusCode == 200) {
-      // if (response.statusCode == 200) {
-      // If the server did return a 201 CREATED response,
-      // then parse the JSON.
-      String coursMap = response.body;
-      print(coursMap);
-      return null;
-    } else {
-      // If the server did not return a 201 CREATED response,
-      // then throw an exception.Ò
-      throw Exception('Failed to load album');
+
+  createCourse() async {
+    var result = await http_post("cours", {
+        'category': dropdownValue,
+        'title': titleController.text,
+        'memberCount': _memberCount,
+        'time': _time,
+        'likes': _likes,
+        'imagePath': _imagePath,
+        'description': descriptionController.text,
+        'place': lieuController.text,
+        'day': _day,
+    });
+    if(result.ok)
+    {
+      setState(() {
+        response = result.data['status'];
+      });
     }
   }
-  
-  var cours = new List<Cours>();
-  Future getCours() async {
-    http.Response response = await http.get(_hostname());
-    debugPrint(response.body);
-    // setState(() {
-    //   Iterable list = json.decode(response.body);
-    //   cours = list.map((model) => Cours.fromJson(model)).toList();
-    //   print(cours);
-    // });
-  }
+
   
   @override
   Widget build(BuildContext context) {
@@ -436,17 +399,7 @@ class _ProposerState extends State<Proposer> {
                                 setState(
                                   () {
                                     if (_formKey.currentState.validate()) {
-                                      createCourse(
-                                          dropdownValue,
-                                          titleController.text,
-                                          _memberCount,
-                                          _time,
-                                          _likes,
-                                          _imagePath,
-                                          descriptionController.text,
-                                          lieuController.text,
-                                          _day);
-                                          getCours();
+                                      createCourse();
                               
                                     }
                                   },

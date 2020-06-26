@@ -37,9 +37,9 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
   // access localhost from the emulator/simulator
   String _hostname() {
     if (Platform.isAndroid)
-      return 'http://10.0.2.2:3000';
+      return 'http://172.20.10.12/cours';
     else
-      return 'http://localhost:3000';
+      return 'http://172.20.10.12/cours';
   }
 
   Future getCours() async {
