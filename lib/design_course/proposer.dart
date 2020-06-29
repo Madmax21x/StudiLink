@@ -1,12 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'design_course_app_theme.dart';
-import 'package:http/http.dart' as http;
 import 'package:best_flutter_ui_templates/design_course/models/http.dart';
-import 'package:best_flutter_ui_templates/design_course/cours.dart';
-import 'dart:convert';
-import 'dart:async';
-import 'dart:io';
+
 
 class Proposer extends StatefulWidget {
   @override
@@ -79,15 +75,35 @@ class _ProposerState extends State<Proposer> {
                           moveToLastScreen();
                         },
                       ),
-                      Text("Proposer",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontFamily: 'WorkSans',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 25,
-                            letterSpacing: 0.27,
-                            color: DesignCourseAppTheme.darkerText,
-                          )),
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              'Propose',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 22,
+                                letterSpacing: 0.27,
+                                color: DesignCourseAppTheme.darkerText,
+                              ), ),
+
+                            Text(
+                              'Un Studi-Group',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 15,
+                                letterSpacing: 0.2,
+                                color: DesignCourseAppTheme.grey,
+                              ),
+                            ),
+                                   
+                            ],
+                          ),
+                        ),
                     ])),
 
                 // 2nd element of the Listview

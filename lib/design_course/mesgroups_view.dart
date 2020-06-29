@@ -7,15 +7,15 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
 
-class CategoryListView extends StatefulWidget {
-  const CategoryListView({Key key, this.callBack}) : super(key: key);
+class MesGroupsView extends StatefulWidget {
+  const MesGroupsView({Key key, this.callBack}) : super(key: key);
 
   final Function callBack;
   @override
-  _CategoryListViewState createState() => _CategoryListViewState();
+  _MesGroupsViewState createState() => _MesGroupsViewState();
 }
 
-class _CategoryListViewState extends State<CategoryListView>
+class _MesGroupsViewState extends State<MesGroupsView>
     with TickerProviderStateMixin {
   AnimationController animationController;
 
@@ -56,8 +56,8 @@ class _CategoryListViewState extends State<CategoryListView>
     return Padding(
       padding: const EdgeInsets.only(top: 16, bottom: 16),
       child: Container(
-        height: 134,
-        width: double.infinity,
+        width : 300,
+        height: double.infinity,
         child: FutureBuilder<bool>(
           future: getData(),
           builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
@@ -65,10 +65,11 @@ class _CategoryListViewState extends State<CategoryListView>
               return const SizedBox();
             } else {
               return ListView.builder(
+                shrinkWrap: true,
                 padding: const EdgeInsets.only(
                     top: 0, bottom: 0, right: 16, left: 16),
                 itemCount: cours.length,
-                scrollDirection: Axis.horizontal,
+                scrollDirection: Axis.vertical,
                 itemBuilder: (BuildContext context, int index) {
                   final int count = cours.length > 10 ? 10 : cours.length;
                   final Animation<double> animation =

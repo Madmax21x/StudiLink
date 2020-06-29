@@ -5,7 +5,6 @@ import 'package:best_flutter_ui_templates/design_course/cours.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'dart:io';
 
 class PopularCourseListView extends StatefulWidget {
   const PopularCourseListView({Key key, this.callBack}) : super(key: key);
@@ -36,10 +35,7 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
 
   // access localhost from the emulator/simulator
   String _hostname() {
-    if (Platform.isAndroid)
-      return 'http://172.20.10.12/cours';
-    else
-      return 'http://172.20.10.12/cours';
+    return 'http://192.168.1.50/cours';
   }
 
   Future getCours() async {
