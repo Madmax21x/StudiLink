@@ -37,7 +37,7 @@ class _MesGroupsViewState extends State<MesGroupsView>
 
   // access localhost from the emulator/simulator
   String _hostname() {
-    return 'http://192.168.1.50/cours';
+    return 'http://studilink.online/cours';
   }
 
   Future getCours() async {
@@ -62,7 +62,7 @@ class _MesGroupsViewState extends State<MesGroupsView>
             return const SizedBox();
           } else {
             return GridView(
-              padding: const EdgeInsets.only(left: 25, right: 40, top: 15),
+              padding: const EdgeInsets.only(left: 10, right: 30, top: 15),
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.vertical,
               children: List<Widget>.generate(
@@ -234,7 +234,7 @@ class CategoryView extends StatelessWidget {
                                           children: <Widget>[
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  top: 16, bottom:5.0),
+                                                  top: 16),
                                               child: Text(
                                                 cours[index].title,
                                                 textAlign: TextAlign.left,
