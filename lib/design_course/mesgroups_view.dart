@@ -1,11 +1,10 @@
 import 'package:best_flutter_ui_templates/design_course/design_course_app_theme.dart';
 import 'package:best_flutter_ui_templates/main.dart';
-import 'package:flutter/material.dart';
 import 'package:best_flutter_ui_templates/design_course/course_info_screen.dart';
 import 'package:best_flutter_ui_templates/design_course/cours.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:io';
+import 'package:flutter/material.dart';
 
 class MesGroupsView extends StatefulWidget {
   const MesGroupsView({Key key, this.callBack}) : super(key: key);
@@ -30,16 +29,13 @@ class _MesGroupsViewState extends State<MesGroupsView>
   }
 
   Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 50));
+    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
     return true;
   }
 
   // access localhost from the emulator/simulator
   String _hostname() {
-    if (Platform.isAndroid)
-      return 'http://192.168.1.50/cours';
-    else
-      return 'http://192.168.1.50/cours';
+    return 'http://studilink.online/cours';
   }
 
   Future getCours() async {
@@ -54,60 +50,63 @@ class _MesGroupsViewState extends State<MesGroupsView>
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 16, bottom: 16),
-      child: Container(
-        width : 300,
-        height: double.infinity,
-        child: FutureBuilder<bool>(
-          future: getData(),
-          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-            if (!snapshot.hasData) {
-              return const SizedBox();
-            } else {
-              return ListView.builder(
-                shrinkWrap: true,
-                padding: const EdgeInsets.only(
-                    top: 0, bottom: 0, right: 16, left: 16),
-                itemCount: cours.length,
-                scrollDirection: Axis.vertical,
-                itemBuilder: (BuildContext context, int index) {
-                  final int count = cours.length > 10 ? 10 : cours.length;
+      padding: const EdgeInsets.only(top: 8),
+      child: FutureBuilder<bool>(
+        future: getData(),
+        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+          if (!snapshot.hasData) {
+            return const SizedBox();
+          } else {
+            return GridView(
+              padding: const EdgeInsets.only(left: 35, right: 35, top: 15),
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              children: List<Widget>.generate(
+                cours.length,
+                (int index) {
+                  final int count = cours.length;
                   final Animation<double> animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
-                          CurvedAnimation(
-                              parent: animationController,
-                              curve: Interval((1 / count) * index, 1.0,
-                                  curve: Curves.fastOutSlowIn)));
+                    CurvedAnimation(
+                      parent: animationController,
+                      curve: Interval((1 / count) * index, 1.0,
+                          curve: Curves.fastOutSlowIn),
+                    ),
+                  );
                   animationController.forward();
-
                   return CategoryView(
+                    callback: () {
+                      widget.callBack();
+                    },
                     index: index,
                     cours: cours,
                     animation: animation,
                     animationController: animationController,
-                    callback: () {
-                      widget.callBack();
-                    },
                   );
                 },
-              );
-            }
-          },
-        ),
+              ),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 1,
+                mainAxisSpacing: 32.0,
+                childAspectRatio: 2.2,
+              ),
+            );
+          }
+        },
       ),
     );
   }
 }
 
 class CategoryView extends StatelessWidget {
-  const CategoryView({
-    Key key,
-    this.index,
-    this.cours,
-    this.animationController,
-    this.animation,
-    this.callback,
-  }) : super(key: key);
+  const CategoryView(
+      {Key key,
+      this.index,
+      this.cours,
+      this.animationController,
+      this.animation,
+      this.callback})
+      : super(key: key);
 
   final VoidCallback callback;
   final int index;
@@ -309,14 +308,14 @@ class CategoryView extends StatelessWidget {
                       Container(
                         child: Padding(
                           padding: const EdgeInsets.only(
-                              top: 24, bottom: 24, left: 16),
+                              top: 16, bottom: 16, left: 16),
                           child: Row(
                             children: <Widget>[
                               ClipRRect(
                                 borderRadius: const BorderRadius.all(
                                     Radius.circular(16.0)),
                                 child: AspectRatio(
-                                    aspectRatio: 1.0,
+                                    aspectRatio: 0.8,
                                     child: Image.asset(cours[index].imagePath)),
                               )
                             ],

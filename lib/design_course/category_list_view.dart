@@ -5,7 +5,6 @@ import 'package:best_flutter_ui_templates/design_course/course_info_screen.dart'
 import 'package:best_flutter_ui_templates/design_course/cours.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:io';
 
 class CategoryListView extends StatefulWidget {
   const CategoryListView({Key key, this.callBack}) : super(key: key);
@@ -36,10 +35,7 @@ class _CategoryListViewState extends State<CategoryListView>
 
   // access localhost from the emulator/simulator
   String _hostname() {
-    if (Platform.isAndroid)
-      return 'http://192.168.1.50/cours';
-    else
-      return 'http://192.168.1.50/cours';
+    return 'http://studilink.online/cours';
   }
 
   Future getCours() async {
