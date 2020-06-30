@@ -33,13 +33,13 @@ class _ProposerState extends State<Proposer> {
   createCourse() async {
     var result = await http_post("cours", {
         'category': dropdownValue,
-        'title': titleController.text,
+        'title': titleController.text.inCaps,
         'memberCount': _memberCount,
         'time': _time,
         'likes': _likes,
         'imagePath': _imagePath,
-        'description': descriptionController.text,
-        'place': lieuController.text,
+        'description': descriptionController.text.inCaps,
+        'place': lieuController.text.inCaps,
         'day': _day,
     });
     if(result.ok)
@@ -435,4 +435,11 @@ class _ProposerState extends State<Proposer> {
   void moveToLastScreen() {
     Navigator.pop(context);
   }
+
+  
+}
+
+extension CapExtension on String {
+  String get inCaps => '${this[0].toUpperCase()}${this.substring(1).toLowerCase()}';
+  String get allInCaps => this.toUpperCase();
 }

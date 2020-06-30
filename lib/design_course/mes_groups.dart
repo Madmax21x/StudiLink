@@ -28,7 +28,7 @@ class _MesGroupsState extends State<MesGroups> {
   }
 
   String _hostname() {
-    return 'http://studilink.online/cours';
+    return 'http://192.168.1.50/cours';
   }
 
   Future getCours() async {
