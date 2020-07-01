@@ -35,7 +35,7 @@ class _CategoryListViewState extends State<CategoryListView>
 
   // access localhost from the emulator/simulator
   String _hostname() {
-    return 'http://studilink.online/cours';
+    return 'http://192.168.0.27/cours';
   }
 
   Future getCours() async {

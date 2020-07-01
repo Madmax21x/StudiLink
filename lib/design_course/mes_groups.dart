@@ -6,8 +6,6 @@ import 'package:best_flutter_ui_templates/design_course/cours.dart';
 import 'package:best_flutter_ui_templates/design_course/mesgroups_view.dart';
 import 'package:http/http.dart' as http;
 
-
-
 class MesGroups extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -16,19 +14,16 @@ class MesGroups extends StatefulWidget {
 }
 
 class _MesGroupsState extends State<MesGroups> {
-  
-
   var cours = new List<Cours>();
 
   @override
-
   void initState() {
     super.initState();
     getCours();
   }
 
   String _hostname() {
-    return 'http://studilink.online/cours';
+    return 'http://192.168.0.27/cours';
   }
 
   Future getCours() async {
@@ -39,7 +34,6 @@ class _MesGroupsState extends State<MesGroups> {
       cours = list.map((model) => Cours.fromJson(model)).toList();
     });
   }
-
 
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -77,8 +71,8 @@ class _MesGroupsState extends State<MesGroups> {
                                 fontSize: 22,
                                 letterSpacing: 0.27,
                                 color: DesignCourseAppTheme.darkerText,
-                              ), ),
-
+                              ),
+                            ),
                             Text(
                               'A Venir',
                               textAlign: TextAlign.left,
@@ -89,20 +83,17 @@ class _MesGroupsState extends State<MesGroups> {
                                 color: DesignCourseAppTheme.grey,
                               ),
                             ),
-                                   
-                            ],
-                          ),
+                          ],
                         ),
+                      ),
                     ])),
 
-              const SizedBox(
-                height: 25,
-              ),
+                const SizedBox(
+                  height: 25,
+                ),
 
-              Flexible(
-                child:MesGroupsView())
-                
-          ]),
+                Flexible(child: MesGroupsView())
+              ]),
         ),
       ),
     );

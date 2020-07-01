@@ -7,7 +7,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:best_flutter_ui_templates/design_course/models/http.dart';
 
-
 class MesGroupsView extends StatefulWidget {
   const MesGroupsView({Key key, this.callBack}) : super(key: key);
 
@@ -37,7 +36,7 @@ class _MesGroupsViewState extends State<MesGroupsView>
 
   // access localhost from the emulator/simulator
   String _hostname() {
-    return 'http://studilink.online/cours';
+    return 'http://192.168.0.27/cours';
   }
 
   Future getCours() async {
@@ -48,8 +47,6 @@ class _MesGroupsViewState extends State<MesGroupsView>
       cours = list.map((model) => Cours.fromJson(model)).toList();
     });
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -140,70 +137,68 @@ class CategoryView extends StatelessWidget {
       );
     }
 
-  
-
     void _showDialog(int valeur) {
-    // flutter defined function
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return AlertDialog(
-          titleTextStyle: TextStyle(
-                            fontSize: 14.0, 
-                            color: Colors.grey[800], 
-                            fontFamily : 'JosefinSans',
-                            fontWeight : FontWeight.w400,
-                            ),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
-          elevation: 2.0,
-          title: new Text("Etes-vous sûr(e) de vouloir supprimer le groupe ? "),
-          actions: <Widget>[
-            // usually buttons at the bottom of the dialog
-            new FlatButton(
-              child:Text("Non", 
-                style:TextStyle(
-                fontSize: 14.0, 
-                color: Colors.teal[300], 
-                fontFamily : 'JosefinSans',
-                fontWeight : FontWeight.w600,
-                )),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+      // flutter defined function
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          // return object of type Dialog
+          return AlertDialog(
+            titleTextStyle: TextStyle(
+              fontSize: 14.0,
+              color: Colors.grey[800],
+              fontFamily: 'JosefinSans',
+              fontWeight: FontWeight.w400,
             ),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25.0)),
+            elevation: 2.0,
+            title:
+                new Text("Etes-vous sûr(e) de vouloir supprimer le groupe ? "),
+            actions: <Widget>[
+              // usually buttons at the bottom of the dialog
+              new FlatButton(
+                child: Text("Non",
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: Colors.teal[300],
+                      fontFamily: 'JosefinSans',
+                      fontWeight: FontWeight.w600,
+                    )),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
 
-          new FlatButton(
-            child:Text("Oui", 
-                style:TextStyle(
-                fontSize: 14.0, 
-                color: Colors.teal[300], 
-                fontFamily : 'JosefinSans',
-                fontWeight : FontWeight.w600,
-                )),
-              onPressed: () {
-                deleteCours(valeur.toString());
-                //Navigator.of(context).pop();
-              },)
-
-          ],
-        );
-      },
-    );
-  }
-
-    
+              new FlatButton(
+                child: Text("Oui",
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: Colors.teal[300],
+                      fontFamily: 'JosefinSans',
+                      fontWeight: FontWeight.w600,
+                    )),
+                onPressed: () {
+                  deleteCours(valeur.toString());
+                  //Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        },
+      );
+    }
 
     return AnimatedBuilder(
       animation: animationController,
       builder: (BuildContext context, Widget child) {
         return FadeTransition(
-          opacity: animation,
-          child: Transform(
+            opacity: animation,
+            child: Transform(
               transform: Matrix4.translationValues(
                   100 * (1.0 - animation.value), 0.0, 0.0),
               // Each course
-              child:InkWell(
+              child: InkWell(
                 splashColor: Colors.transparent,
                 child: SizedBox(
                   width: 280,
@@ -327,16 +322,19 @@ class CategoryView extends StatelessWidget {
                                                     ),
                                                   ),
                                                   Container(
-                                                    child:IconButton(
+                                                    child: IconButton(
                                                       onPressed: () {
-                                                        _showDialog(index);
-                                                        },
+                                                        _showDialog(
+                                                            cours[index].id);
+                                                      },
                                                       icon: Icon(
                                                         Icons.delete,
-                                                        color: DesignCourseAppTheme.grey,
+                                                        color:
+                                                            DesignCourseAppTheme
+                                                                .grey,
                                                         size: 20.0,
                                                       ),
-                                                      ),
+                                                    ),
                                                   )
                                                 ],
                                               ),
@@ -386,14 +384,8 @@ class CategoryView extends StatelessWidget {
                       description, lieu);
                 },
               ),
-               )
-        );
+            ));
       },
     );
-
-
-    
   }
-
- 
 }
