@@ -11,13 +11,13 @@ class RequestResult {
 }
 
 Future<RequestResult> http_get(String route, [dynamic data]) async {
-  var url = "http://192.168.0.27/cours";
+  var url = "http://studilink.online/cours";
   var result = await http.get(url);
   return RequestResult(true, jsonDecode(result.body));
 }
 
 Future<RequestResult> http_post(String route, [dynamic data]) async {
-  var url = "http://192.168.0.27/$route";
+  var url = "http://studilink.online/$route";
   var dataStr = jsonEncode(data);
   var result = await http
       .post(url, body: dataStr, headers: {"Content-Type": "application/json"});
@@ -27,7 +27,7 @@ Future<RequestResult> http_post(String route, [dynamic data]) async {
 /// a modifier
 Future deleteCours(String id) async {
   final http.Response response = await http.delete(
-    'http://192.168.0.27/cours/$id',
+    'http://studilink.online/cours/$id',
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
