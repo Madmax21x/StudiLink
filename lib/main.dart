@@ -44,8 +44,8 @@ class MyApp extends StatelessWidget {
         platform: TargetPlatform.iOS,
       ),
       home: 
-      MesGroups(),
-      //DesignCourseHomeScreen(),
+      //MesGroups(),
+      DesignCourseHomeScreen(),
     );
   }
 }

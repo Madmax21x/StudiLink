@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'design_course_app_theme.dart';
 import 'package:best_flutter_ui_templates/design_course/models/http.dart';
-
+import 'package:best_flutter_ui_templates/design_course/home_design_course.dart';
 
 class Proposer extends StatefulWidget {
   @override
@@ -24,11 +24,8 @@ class _ProposerState extends State<Proposer> {
   int _memberCount = 0;
   int _likes = 0;
   String _imagePath = 'assets/design_course/interFace1.png';
-
   String dropdownValue = 'Maths';
   String response = "";
-
-
 
   createCourse() async {
     var result = await http_post("cours", {
@@ -50,8 +47,18 @@ class _ProposerState extends State<Proposer> {
     }
   }
 
-  
   @override
+  void initState() {
+    titleController.clear();
+    lieuController.clear();
+    descriptionController.clear();
+    date = DateTime.now();
+    dropdownValue = 'Maths';
+    super.initState();
+  }
+
+  
+
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
@@ -411,15 +418,14 @@ class _ProposerState extends State<Proposer> {
                                   ),
                                 ),
                               ),
-                              onTap: () {
-                                setState(
-                                  () {
+                              onTap: (){
+                                
                                     if (_formKey.currentState.validate()) {
+                                      setState(() {
                                       createCourse();
-                              
+                                      _showDialog();
+                                      });
                                     }
-                                  },
-                                );
                               },
                             )),
                           )
@@ -435,6 +441,63 @@ class _ProposerState extends State<Proposer> {
   void moveToLastScreen() {
     Navigator.pop(context);
   }
+
+  void _showDialog() {
+      // flutter defined function
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          // return object of type Dialog
+          return AlertDialog(
+            titleTextStyle: TextStyle(
+              fontSize: 14.0,
+              color: Colors.grey[800],
+              fontFamily: 'JosefinSans',
+              fontWeight: FontWeight.w400,
+            ),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25.0)),
+            elevation: 2.0,
+            title:
+                new Text("Vous venez de proposer un groupe."),
+            actions: <Widget>[
+              // usually buttons at the bottom of the dialog
+              new FlatButton(
+                child: Text("Proposer un autre groupe",
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: Colors.teal[300],
+                      fontFamily: 'JosefinSans',
+                      fontWeight: FontWeight.w600,
+                    )),
+                onPressed: () {
+                  setState(() {
+                    Navigator.of(context).pop(); 
+                    initState();
+                  });
+                  
+                },
+              ),
+
+              new FlatButton(
+                child: Text("OK",
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: DesignCourseAppTheme.grey,
+                      fontFamily: 'JosefinSans',
+                      fontWeight: FontWeight.w600,
+                    )),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder : (context){
+                    return DesignCourseHomeScreen();
+                  }));
+                },
+              )
+            ],
+          );
+        },
+      );
+    }
 
   
 }

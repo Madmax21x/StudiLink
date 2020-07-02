@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:best_flutter_ui_templates/design_course/models/http.dart';
+import 'package:best_flutter_ui_templates/design_course/mes_groups.dart';
 
 class MesGroupsView extends StatefulWidget {
   const MesGroupsView({Key key, this.callBack}) : super(key: key);
@@ -178,8 +179,14 @@ class CategoryView extends StatelessWidget {
                       fontFamily: 'JosefinSans',
                       fontWeight: FontWeight.w600,
                     )),
-                onPressed: () {
-                  deleteCours(valeur.toString());
+                onPressed: () async {
+                 var result =  await deleteCours(valeur.toString());
+                 if (result) {
+                   Navigator.push(context, MaterialPageRoute(builder : (context){
+                          return MesGroups();
+                        }));
+                 }
+
                   //Navigator.of(context).pop();
                 },
               )

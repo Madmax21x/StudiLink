@@ -1,7 +1,7 @@
 import 'package:best_flutter_ui_templates/design_course/category_list_view.dart';
-//import 'package:best_flutter_ui_templates/design_course/course_info_screen.dart';
 import 'package:best_flutter_ui_templates/design_course/popular_course_list_view.dart';
 import 'package:best_flutter_ui_templates/main.dart';
+import 'package:best_flutter_ui_templates/design_course/side_menu.dart';
 import 'package:flutter/material.dart';
 import 'design_course_app_theme.dart';
 import 'proposer.dart';
@@ -21,6 +21,8 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
     return Container(
       color: DesignCourseAppTheme.nearlyWhite,
       child: Scaffold(
+        appBar: AppBar(title: Text(""), backgroundColor: Colors.white, elevation:0.0, iconTheme: new IconThemeData(color: DesignCourseAppTheme.darkerText)),
+        drawer: NavDrawer(),
         backgroundColor: Colors.transparent,
         body: Column(
           children: <Widget>[
@@ -270,20 +272,25 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
 
   Widget getAppBarUI() {
     return Padding(
-      padding: const EdgeInsets.only(top: 8.0, left: 18, right: 18),
+      padding: const EdgeInsets.only( left: 18, right: 18),
       child:Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
         
-        Padding(
-          padding: EdgeInsets.only(bottom : 10.0 ),
-          child: IconButton(
-          icon:Icon(Icons.menu, size : 35.0),
-          onPressed: () {}
-          ),
+        // Padding(
+        //   padding: EdgeInsets.only(bottom : 10.0 ),
+        //   child: IconButton(
+        //   icon:Icon(Icons.menu, size : 35.0),
+        //   onPressed: () {
+        //     setState(() {
+        //       NavDrawer();
+        //     });
+            
+        //   }
+        //   ),
 
-        ),
+        // ),
         
 
         Row(

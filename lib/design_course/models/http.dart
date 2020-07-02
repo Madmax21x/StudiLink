@@ -25,7 +25,7 @@ Future<RequestResult> http_post(String route, [dynamic data]) async {
 }
 
 /// a modifier
-Future deleteCours(String id) async {
+Future<bool> deleteCours(String id) async {
   final http.Response response = await http.delete(
     'http://studilink.online/cours/$id',
     headers: <String, String>{
@@ -36,8 +36,9 @@ Future deleteCours(String id) async {
   if (response.statusCode == 200) {
     debugPrint(id);
     debugPrint((response.body));
-    return;
+    return true;
   } else {
     throw Exception('Failed to delete course.');
-  }
+  };
+  
 }
