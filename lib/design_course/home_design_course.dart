@@ -22,7 +22,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
       color: DesignCourseAppTheme.nearlyWhite,
       child: Scaffold(
         appBar: AppBar(title: Text(""), backgroundColor: Colors.white, elevation:0.0, iconTheme: new IconThemeData(color: DesignCourseAppTheme.darkerText)),
-        drawer: NavDrawer(),
+        drawer: Container(width: 270, child:NavDrawer()),
         backgroundColor: Colors.transparent,
         body: Column(
           children: <Widget>[

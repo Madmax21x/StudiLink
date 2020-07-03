@@ -117,6 +117,9 @@ class CategoryView extends StatelessWidget {
   final Animation<dynamic> animation;
 
   @override
+
+  
+
   Widget build(BuildContext context) {
     String titre = '';
     String jour = '';
@@ -137,6 +140,7 @@ class CategoryView extends StatelessWidget {
         ),
       );
     }
+
 
     void _showDialog(int valeur) {
       // flutter defined function
@@ -182,9 +186,11 @@ class CategoryView extends StatelessWidget {
                 onPressed: () async {
                  var result =  await deleteCours(valeur.toString());
                  if (result) {
-                   Navigator.push(context, MaterialPageRoute(builder : (context){
+                   Navigator.pop(context, () {
+                    });
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder : (context){
                           return MesGroups();
-                        }));
+                  }));
                  }
 
                   //Navigator.of(context).pop();
