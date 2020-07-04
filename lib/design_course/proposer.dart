@@ -19,25 +19,16 @@ class _ProposerState extends State<Proposer> {
   TextEditingController descriptionController = TextEditingController();
 
   DateTime date;
-  String _day;
-  String _time;
-  int _memberCount = 0;
-  int _likes = 0;
-  String _imagePath = 'assets/design_course/interFace1.png';
-  String dropdownValue = 'Maths';
+  String dropdownValue = '0';
   String response = "";
 
   createCourse() async {
-    var result = await http_post("cours", {
-        'category': dropdownValue,
+    var result = await http_post("studibase.group", {
+        'category': int.parse(dropdownValue),
         'title': titleController.text.inCaps,
-        'memberCount': _memberCount,
-        'time': _time,
-        'likes': _likes,
-        'imagePath': _imagePath,
         'description': descriptionController.text.inCaps,
         'place': lieuController.text.inCaps,
-        'day': _day,
+        'date': date,
     });
     if(result.ok)
     {
@@ -53,7 +44,7 @@ class _ProposerState extends State<Proposer> {
     lieuController.clear();
     descriptionController.clear();
     date = DateTime.now();
-    dropdownValue = 'Maths';
+    dropdownValue = "0";
     super.initState();
   }
 
@@ -368,15 +359,15 @@ class _ProposerState extends State<Proposer> {
                                     initialDateTime: DateTime.now(),
                                     onDateTimeChanged: (DateTime newDateTime) {
                                       setState(() => date = newDateTime);
-                                      debugPrint("Date choisie : $date ");
-                                      _day = date.day.toString() +
-                                          '/' +
-                                          date.month.toString();
-                                      debugPrint("Date choisie : $_day ");
-                                      _time = date.hour.toString() +
-                                          ':' +
-                                          date.minute.toString();
-                                      debugPrint("Date choisie : $_time ");
+                                      // debugPrint("Date choisie : $date ");
+                                      // _day = date.day.toString() +
+                                      //     '/' +
+                                      //     date.month.toString();
+                                      // debugPrint("Date choisie : $_day ");
+                                      // _time = date.hour.toString() +
+                                      //     ':' +
+                                      //     date.minute.toString();
+                                      // debugPrint("Date choisie : $_time ");
                                     },
                                     use24hFormat: true,
                                     minuteInterval: 1,

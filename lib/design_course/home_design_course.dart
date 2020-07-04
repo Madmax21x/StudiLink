@@ -2,6 +2,7 @@ import 'package:best_flutter_ui_templates/design_course/category_list_view.dart'
 import 'package:best_flutter_ui_templates/design_course/popular_course_list_view.dart';
 import 'package:best_flutter_ui_templates/main.dart';
 import 'package:best_flutter_ui_templates/design_course/side_menu.dart';
+import 'package:best_flutter_ui_templates/design_course/recherche.dart';
 import 'package:flutter/material.dart';
 import 'design_course_app_theme.dart';
 import 'proposer.dart';
@@ -228,9 +229,9 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
                         child: TextFormField(
                           style: TextStyle(
                             fontFamily: 'WorkSans',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: DesignCourseAppTheme.nearlyBlue,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 12,
+                            color: DesignCourseAppTheme.grey,
                           ),
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
@@ -255,7 +256,17 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
                     SizedBox(
                       width: 60,
                       height: 60,
-                      child: Icon(Icons.search, color: HexColor('#B9BABC')),
+                      child: IconButton(
+                        icon:Icon(Icons.search),
+                        color: HexColor('#B9BABC'),
+                        onPressed: () {
+                          setState(() {
+                            Navigator.push(context, MaterialPageRoute(builder : (context){
+                              return Recherche();
+                            }));
+                            //renvoyer vers la page rechercher avec le input
+                          });
+                        },),
                     )
                   ],
                 ),
@@ -277,22 +288,6 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-        
-        // Padding(
-        //   padding: EdgeInsets.only(bottom : 10.0 ),
-        //   child: IconButton(
-        //   icon:Icon(Icons.menu, size : 35.0),
-        //   onPressed: () {
-        //     setState(() {
-        //       NavDrawer();
-        //     });
-            
-        //   }
-        //   ),
-
-        // ),
-        
-
         Row(
           children: <Widget>[
             Expanded(

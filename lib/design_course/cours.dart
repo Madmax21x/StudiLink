@@ -1,39 +1,27 @@
-class Cours {
+class Group {
   int id;
-  String category;
+  int category_id;
   String title;
-  int memberCount;
-  String time;
-  int likes;
-  String imagePath;
   String description;
   String place;
-  String day;
+  String date;
 
-  Cours(
+  Group(
       {this.id,
-      this.category,
+      this.category_id,
       this.title,
-      this.memberCount,
-      this.day,
-      this.likes,
       this.description,
-      this.imagePath,
-      this.place,
-      this.time});
+      this.place, 
+      this.date});
 
   // named constructor
-  factory Cours.fromJson(Map<String, dynamic> json) {
-    return Cours(
+  factory Group.fromJson(Map<String, dynamic> json) {
+    return Group(
         id: json['id'],
-        category: json['category'],
+        category_id: json['category_id'],
         title: json['title'],
-        memberCount: json['memberCount'],
-        time: json['time'],
-        likes: json['likes'],
-        imagePath: json['imagePath'],
         description: json['description'],
         place: json['place'],
-        day: json['day']);
+        date: json['date']);
   }
 }

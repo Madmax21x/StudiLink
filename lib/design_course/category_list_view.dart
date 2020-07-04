@@ -6,6 +6,8 @@ import 'package:best_flutter_ui_templates/design_course/cours.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
+
 class CategoryListView extends StatefulWidget {
   const CategoryListView({Key key, this.callBack}) : super(key: key);
 
@@ -18,7 +20,7 @@ class _CategoryListViewState extends State<CategoryListView>
     with TickerProviderStateMixin {
   AnimationController animationController;
 
-  var cours = new List<Cours>();
+  var group = new List<Group>();
 
   @override
   void initState() {
@@ -35,7 +37,7 @@ class _CategoryListViewState extends State<CategoryListView>
 
   // access localhost from the emulator/simulator
   String _hostname() {
-    return 'http://studilink.online/cours';
+    return 'http://studilink.online/studibase.group';
   }
 
   Future getCours() async {
@@ -43,9 +45,12 @@ class _CategoryListViewState extends State<CategoryListView>
     debugPrint(response.body);
     setState(() {
       Iterable list = json.decode(response.body);
-      cours = list.map((model) => Cours.fromJson(model)).toList();
+      group = list.map((model) => Group.fromJson(model)).toList();
+      debugPrint(group[0].date);
     });
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -63,10 +68,10 @@ class _CategoryListViewState extends State<CategoryListView>
               return ListView.builder(
                 padding: const EdgeInsets.only(
                     top: 0, bottom: 0, right: 16, left: 16),
-                itemCount: cours.length,
+                itemCount: group.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
-                  final int count = cours.length > 10 ? 10 : cours.length;
+                  final int count = group.length > 10 ? 10 : group.length;
                   final Animation<double> animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
                           CurvedAnimation(
@@ -77,7 +82,7 @@ class _CategoryListViewState extends State<CategoryListView>
 
                   return CategoryView(
                     index: index,
-                    cours: cours,
+                    group: group,
                     animation: animation,
                     animationController: animationController,
                     callback: () {
@@ -98,7 +103,7 @@ class CategoryView extends StatelessWidget {
   const CategoryView({
     Key key,
     this.index,
-    this.cours,
+    this.group,
     this.animationController,
     this.animation,
     this.callback,
@@ -106,28 +111,24 @@ class CategoryView extends StatelessWidget {
 
   final VoidCallback callback;
   final int index;
-  final List cours;
+  final List group;
   final AnimationController animationController;
   final Animation<dynamic> animation;
 
   @override
   Widget build(BuildContext context) {
     String titre = '';
-    String jour = '';
-    String creneau = '';
+    String jour;
     String description = '';
     String lieu = '';
-    int coeur = 0;
-    int membres = 0;
-    String imagePath = '';
 
     void moveTo(
-        titre, jour, coeur, membres, imagePath, creneau, description, lieu) {
+        titre, jour, description, lieu) {
       Navigator.push<dynamic>(
         context,
         MaterialPageRoute<dynamic>(
           builder: (BuildContext context) => CourseInfoScreen(titre, jour,
-              coeur, membres, imagePath, creneau, description, lieu),
+               description, lieu),
         ),
       );
     }
@@ -174,7 +175,7 @@ class CategoryView extends StatelessWidget {
                                               padding: const EdgeInsets.only(
                                                   top: 16),
                                               child: Text(
-                                                cours[index].title,
+                                                group[index].title,
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w600,
@@ -199,7 +200,7 @@ class CategoryView extends StatelessWidget {
                                                     CrossAxisAlignment.center,
                                                 children: <Widget>[
                                                   Text(
-                                                    '${cours[index].memberCount} membre(s)',
+                                                    '0 membre(s)',
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                       fontWeight:
@@ -215,7 +216,7 @@ class CategoryView extends StatelessWidget {
                                                     child: Row(
                                                       children: <Widget>[
                                                         Text(
-                                                          '${cours[index].likes}',
+                                                          '0',
                                                           textAlign:
                                                               TextAlign.left,
                                                           style: TextStyle(
@@ -252,7 +253,7 @@ class CategoryView extends StatelessWidget {
                                                     CrossAxisAlignment.start,
                                                 children: <Widget>[
                                                   Text(
-                                                    '${cours[index].day}',
+                                                    '${group[index].date}',
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                       fontWeight:
@@ -312,7 +313,7 @@ class CategoryView extends StatelessWidget {
                                     Radius.circular(16.0)),
                                 child: AspectRatio(
                                     aspectRatio: 1.0,
-                                    child: Image.asset(cours[index].imagePath)),
+                                    child: Image.asset("assets/design_course/interFace1.png")),
                               )
                             ],
                           ),
@@ -322,17 +323,12 @@ class CategoryView extends StatelessWidget {
                   ),
                 ),
                 onTap: () {
-                  titre = cours[index].title;
-                  jour = cours[index].day;
-                  creneau = cours[index].time;
-                  description = cours[index].description;
-                  lieu = cours[index].place;
-                  coeur = cours[index].likes;
-                  membres = cours[index].memberCount;
-                  imagePath = cours[index].imagePath;
+                  titre = group[index].title;
+                  jour = group[index].date;
+                  description = group[index].description;
+                  lieu = group[index].place;
 
-                  moveTo(titre, jour, coeur, membres, imagePath, creneau,
-                      description, lieu);
+                  moveTo(titre, jour,description, lieu);
                 },
               )),
         );

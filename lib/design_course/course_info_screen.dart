@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
 import 'design_course_app_theme.dart';
-//import 'category_list_view.dart';
-
-
 
 class CourseInfoScreen extends StatefulWidget {
+  
   String titre; 
-  String jour;
-  int coeur; 
-  int members;
-  String imagePath;
-  String creneau;
+  DateTime date;
   String description;
-  String lieu;
-  CourseInfoScreen(this.titre, this.jour, this.coeur, this.members, this.imagePath, this.creneau, this.description, this.lieu);
+  String place;
+  CourseInfoScreen(this.titre, this.description, this.place, this.date);
   @override
   _CourseInfoScreenState createState() => _CourseInfoScreenState();
 }
@@ -22,13 +16,9 @@ class CourseInfoScreen extends StatefulWidget {
 class _CourseInfoScreenState extends State<CourseInfoScreen>
     with TickerProviderStateMixin {
       String _titre;
-      String _jour;
-      int _coeur; 
-      int _members;
-      String _imagePath;
-      String _creneau;
+      DateTime _date;
       String _description;
-      String _lieu;
+      String _place;
 
   final double infoHeight = 364.0;
   AnimationController animationController;
@@ -39,13 +29,9 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
   @override
   void initState() {
     _titre = widget.titre;
-    _jour = widget.jour;
-    _coeur = widget.coeur;
-    _members = widget.members;
-    _imagePath = widget.imagePath;
-    _creneau = widget.creneau;
+    _date = widget.date;
     _description = widget.description;
-    _lieu = widget.lieu;
+    _place = widget.place;
 
     animationController = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
@@ -87,7 +73,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
               children: <Widget>[
                 AspectRatio(
                   aspectRatio: 1.2,
-                  child: Image.asset(_imagePath),
+                  child: Image.asset("assets/design_course/interFace1.png"),
                 ),
               ],
             ),
@@ -143,8 +129,9 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                Text(
-                                  _jour,
+                                Text(_date.day.toString() +
+                                          '/' +
+                                          _date.month.toString(),
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w200,
@@ -157,7 +144,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                   child: Row(
                                     children: <Widget>[
                                       Text(
-                                        '$_coeur',
+                                        '0',
                                         textAlign: TextAlign.left,
                                         style: TextStyle(
                                           fontWeight: FontWeight.w200,
@@ -188,9 +175,10 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
                                 children: <Widget>[
-                                  getTimeBoxUI(_lieu, 'Lieu'),
-                                  getTimeBoxUI(_creneau, 'Heure'),
-                                  getTimeBoxUI('$_members', 'Membres'),
+                                  getTimeBoxUI(_place, 'Lieu'),
+                                  getTimeBoxUI(_date.hour.toString() + 'H' + _date.minute.toString(), 'Heure'),
+                                  //à modifier plus tard
+                                  getTimeBoxUI('0', 'Membres'),
                                 ],
                               ))),
                             ),
@@ -322,7 +310,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
     );
   }
 
-  Widget getTimeBoxUI(String text1, String txt2) {
+  Widget getTimeBoxUI(dynamic text1, String txt2) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(

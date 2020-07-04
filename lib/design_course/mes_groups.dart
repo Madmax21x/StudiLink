@@ -14,7 +14,7 @@ class MesGroups extends StatefulWidget {
 }
 
 class _MesGroupsState extends State<MesGroups> {
-  var cours = new List<Cours>();
+  var group = new List<Group>();
 
   @override
   void initState() {
@@ -23,7 +23,7 @@ class _MesGroupsState extends State<MesGroups> {
   }
 
   String _hostname() {
-    return 'http://studilink.online/cours';
+    return 'http://studilink.online/studibase.group';
   }
 
   Future getCours() async {
@@ -31,7 +31,7 @@ class _MesGroupsState extends State<MesGroups> {
     debugPrint(response.body);
     setState(() {
       Iterable list = json.decode(response.body);
-      cours = list.map((model) => Cours.fromJson(model)).toList();
+      group = list.map((model) => Group.fromJson(model)).toList();
     });
   }
 
