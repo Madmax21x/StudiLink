@@ -6,8 +6,6 @@ import 'package:best_flutter_ui_templates/design_course/cours.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:intl/intl.dart';
-
 class CategoryListView extends StatefulWidget {
   const CategoryListView({Key key, this.callBack}) : super(key: key);
 
@@ -46,7 +44,7 @@ class _CategoryListViewState extends State<CategoryListView>
     setState(() {
       Iterable list = json.decode(response.body);
       group = list.map((model) => Group.fromJson(model)).toList();
-      debugPrint(group[0].date);
+      
     });
   }
 
@@ -127,8 +125,7 @@ class CategoryView extends StatelessWidget {
       Navigator.push<dynamic>(
         context,
         MaterialPageRoute<dynamic>(
-          builder: (BuildContext context) => CourseInfoScreen(titre, jour,
-               description, lieu),
+          builder: (BuildContext context) => CourseInfoScreen(titre, description, lieu, jour),
         ),
       );
     }
@@ -253,12 +250,12 @@ class CategoryView extends StatelessWidget {
                                                     CrossAxisAlignment.start,
                                                 children: <Widget>[
                                                   Text(
-                                                    '${group[index].date}',
+                                                    '${group[index].date.substring(0, group[index].date.indexOf("T"))}',
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.w600,
-                                                      fontSize: 18,
+                                                      fontSize: 15,
                                                       letterSpacing: 0.27,
                                                       color:
                                                           DesignCourseAppTheme

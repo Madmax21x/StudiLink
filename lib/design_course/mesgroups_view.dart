@@ -119,7 +119,7 @@ class CategoryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String titre = '';
-    DateTime jour;
+    String jour;
     String description = '';
     String lieu = '';
 
@@ -128,8 +128,7 @@ class CategoryView extends StatelessWidget {
       Navigator.push<dynamic>(
         context,
         MaterialPageRoute<dynamic>(
-          builder: (BuildContext context) => CourseInfoScreen(titre, jour,
-               description, lieu),
+          builder: (BuildContext context) => CourseInfoScreen(titre, description, lieu, jour),
         ),
       );
     }
@@ -315,7 +314,7 @@ class CategoryView extends StatelessWidget {
                                                     CrossAxisAlignment.center,
                                                 children: <Widget>[
                                                   Text(
-                                                    '${group[index].date}',
+                                                    '${group[index].date.substring(5, group[index].date.indexOf("T"))}',
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                       fontWeight:
@@ -367,7 +366,7 @@ class CategoryView extends StatelessWidget {
                                     Radius.circular(16.0)),
                                 child: AspectRatio(
                                     aspectRatio: 1.0,
-                                    child: Image.asset(group[index].imagePath)),
+                                    child: Image.asset("assets/design_course/interFace1.png")),
                               )
                             ],
                           ),
@@ -378,7 +377,7 @@ class CategoryView extends StatelessWidget {
                 ),
                 onTap: () {
                   titre = group[index].title;
-                  jour = group[index].day;
+                  jour = group[index].date;
                   description = group[index].description;
                   lieu = group[index].place;
 

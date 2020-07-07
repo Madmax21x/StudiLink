@@ -118,7 +118,7 @@ class CategoryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String titre = '';
-    DateTime jour ;
+    String jour ;
     String description = '';
     String lieu = '';
 
@@ -127,8 +127,7 @@ class CategoryView extends StatelessWidget {
       Navigator.push<dynamic>(
         context,
         MaterialPageRoute<dynamic>(
-          builder: (BuildContext context) => CourseInfoScreen(titre, jour,
-               description, lieu),
+          builder: (BuildContext context) => CourseInfoScreen(titre, description, lieu, jour),
         ),
       );
     }

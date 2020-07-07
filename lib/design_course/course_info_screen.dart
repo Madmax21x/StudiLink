@@ -4,7 +4,7 @@ import 'design_course_app_theme.dart';
 class CourseInfoScreen extends StatefulWidget {
   
   String titre; 
-  DateTime date;
+  String date;
   String description;
   String place;
   CourseInfoScreen(this.titre, this.description, this.place, this.date);
@@ -16,7 +16,7 @@ class CourseInfoScreen extends StatefulWidget {
 class _CourseInfoScreenState extends State<CourseInfoScreen>
     with TickerProviderStateMixin {
       String _titre;
-      DateTime _date;
+      String _date;
       String _description;
       String _place;
 
@@ -129,9 +129,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                Text(_date.day.toString() +
-                                          '/' +
-                                          _date.month.toString(),
+                                Text(_date.substring(11,15),
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w200,
@@ -176,7 +174,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                 child: Row(
                                 children: <Widget>[
                                   getTimeBoxUI(_place, 'Lieu'),
-                                  getTimeBoxUI(_date.hour.toString() + 'H' + _date.minute.toString(), 'Heure'),
+                                  getTimeBoxUI(_date.substring(0, _date.indexOf("T")), 'Heure'),
                                   //à modifier plus tard
                                   getTimeBoxUI('0', 'Membres'),
                                 ],

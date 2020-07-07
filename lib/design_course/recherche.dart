@@ -14,7 +14,7 @@ class Recherche extends StatefulWidget {
 }
 
 class _RechercheState extends State<Recherche> {
-  var cours = new List<Group>();
+  var group = new List<Group>();
 
   @override
   void initState() {
@@ -23,7 +23,7 @@ class _RechercheState extends State<Recherche> {
   }
 
   String _hostname() {
-    return 'http://studilink.online/cours';
+    return 'http://studilink.online/studibase.group';
   }
 
   Future getCours() async {
@@ -31,7 +31,7 @@ class _RechercheState extends State<Recherche> {
     debugPrint(response.body);
     setState(() {
       Iterable list = json.decode(response.body);
-      cours = list.map((model) => Group.fromJson(model)).toList();
+      group = list.map((model) => Group.fromJson(model)).toList();
     });
   }
 

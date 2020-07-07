@@ -19,16 +19,27 @@ class _ProposerState extends State<Proposer> {
   TextEditingController descriptionController = TextEditingController();
 
   DateTime date;
-  String dropdownValue = '0';
+  String dropdownValue;
   String response = "";
 
   createCourse() async {
     var result = await http_post("studibase.group", {
-        'category': int.parse(dropdownValue),
         'title': titleController.text.inCaps,
         'description': descriptionController.text.inCaps,
         'place': lieuController.text.inCaps,
-        'date': date,
+        'date': date.toString(),
+    });
+    if(result.ok)
+    {
+      setState(() {
+        response = result.data['status'];
+      });
+    }
+  }
+
+  createCategory() async {
+    var result = await http_post("studibase.category", {
+        'nom': dropdownValue,
     });
     if(result.ok)
     {
@@ -44,7 +55,7 @@ class _ProposerState extends State<Proposer> {
     lieuController.clear();
     descriptionController.clear();
     date = DateTime.now();
-    dropdownValue = "0";
+    dropdownValue = "Maths";
     super.initState();
   }
 
@@ -413,6 +424,7 @@ class _ProposerState extends State<Proposer> {
                                 
                                     if (_formKey.currentState.validate()) {
                                       setState(() {
+                                      createCategory();
                                       createCourse();
                                       _showDialog();
                                       });
