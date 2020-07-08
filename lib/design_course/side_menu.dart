@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:best_flutter_ui_templates/app_theme.dart';
 import 'package:best_flutter_ui_templates/design_course/mes_groups.dart';
-
+import 'package:best_flutter_ui_templates/design_course/profil.dart';
+import 'package:best_flutter_ui_templates/design_course/parametres.dart';
 
 class NavDrawer extends StatelessWidget {
   @override
@@ -70,7 +71,9 @@ class NavDrawer extends StatelessWidget {
                 letterSpacing: 0.3,
                 color:AppTheme.dark_grey,
               )),
-            onTap: () => {},
+            onTap: () => {Navigator.push(context, MaterialPageRoute(builder : (context){
+                          return Profil();
+                        }))},
           ),
           ListTile(
             leading: Icon(Icons.group, color:AppTheme.dark_grey),
@@ -96,7 +99,9 @@ class NavDrawer extends StatelessWidget {
                 letterSpacing: 0.3,
                 color:AppTheme.dark_grey,
               )),
-            onTap: () => {Navigator.of(context).pop()},
+            onTap: () => {Navigator.push(context, MaterialPageRoute(builder : (context){
+                          return Parametre();
+                        }))},
           ),
           ListTile(
             leading: Icon(Icons.border_color, color:AppTheme.dark_grey),

@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'package:best_flutter_ui_templates/design_course/cours.dart';
 import 'package:flutter/rendering.dart';
-
 import "package:http/http.dart" as http;
 
 class RequestResult {
@@ -21,7 +19,7 @@ Future<RequestResult> http_post(String route, [dynamic data]) async {
   var dataStr = jsonEncode(data);
   var result = await http
       .post(url, body: dataStr, headers: {"Content-Type": "application/json"});
-  return RequestResult(true, jsonDecode(result.body));
+  return RequestResult (true, jsonDecode(result.body));
 }
 
 /// a modifier
@@ -39,6 +37,5 @@ Future<bool> deleteCours(String id) async {
     return true;
   } else {
     throw Exception('Failed to delete course.');
-  };
-  
+  }
 }

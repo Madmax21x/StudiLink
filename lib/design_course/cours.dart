@@ -20,8 +20,9 @@ class Group {
         id: json['id'],
         category_id: json['category_id'],
         title: json['title'],
+        date: json['date'],
         description: json['description'],
         place: json['place'],
-        date: json['date']);
+        );
   }
 }

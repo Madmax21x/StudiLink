@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'design_course_app_theme.dart';
 import 'package:best_flutter_ui_templates/design_course/models/http.dart';
 import 'package:best_flutter_ui_templates/design_course/home_design_course.dart';
+import 'package:best_flutter_ui_templates/design_course/category.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Proposer extends StatefulWidget {
   @override
@@ -19,27 +22,32 @@ class _ProposerState extends State<Proposer> {
   TextEditingController descriptionController = TextEditingController();
 
   DateTime date;
-  String dropdownValue;
+  String dropdownValue = "1";
   String response = "";
+  var category_data = new List<Category>();
+
+  String _hostname() {
+    return 'http://studilink.online/studibase.category';
+  }
+
+  Future getCategoryData() async {
+    http.Response response = await http.get(_hostname());
+    debugPrint(response.body);
+    setState(() {
+      Iterable list = json.decode(response.body);
+      category_data = list.map((model) => Category.fromJson(model)).toList();
+      print(category_data);
+    });
+  }
 
   createCourse() async {
     var result = await http_post("studibase.group", {
+        'category_id': int.parse(dropdownValue),
         'title': titleController.text.inCaps,
+        'date': date.toString(),
         'description': descriptionController.text.inCaps,
         'place': lieuController.text.inCaps,
-        'date': date.toString(),
-    });
-    if(result.ok)
-    {
-      setState(() {
-        response = result.data['status'];
-      });
-    }
-  }
-
-  createCategory() async {
-    var result = await http_post("studibase.category", {
-        'nom': dropdownValue,
+        
     });
     if(result.ok)
     {
@@ -51,16 +59,16 @@ class _ProposerState extends State<Proposer> {
 
   @override
   void initState() {
+    this.getCategoryData();
     titleController.clear();
     lieuController.clear();
     descriptionController.clear();
     date = DateTime.now();
-    dropdownValue = "Maths";
     super.initState();
+    
   }
 
   
-
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
@@ -151,17 +159,10 @@ class _ProposerState extends State<Proposer> {
                                         dropdownValue = newValue;
                                       });
                                     },
-                                    items: <String>[
-                                      'Maths',
-                                      'Physique',
-                                      'Chimie',
-                                      'Histoire',
-                                      'Droit'
-                                    ].map<DropdownMenuItem<String>>(
-                                        (String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
+                                    items: category_data.map((item) {
+                                      return new DropdownMenuItem(
+                                        child: new Text(item.nom),
+                                        value: item.id.toString(),
                                       );
                                     }).toList(),
                                   ))),
@@ -424,7 +425,6 @@ class _ProposerState extends State<Proposer> {
                                 
                                     if (_formKey.currentState.validate()) {
                                       setState(() {
-                                      createCategory();
                                       createCourse();
                                       _showDialog();
                                       });
