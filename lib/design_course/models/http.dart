@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/rendering.dart';
 import "package:http/http.dart" as http;
 
+
 class RequestResult {
   bool ok;
   dynamic data;
@@ -16,11 +17,10 @@ Future<RequestResult> http_get(String route, [dynamic data]) async {
 
 Future<RequestResult> http_post(String route, [dynamic data]) async {
   var url = "http://studilink.online/$route";
-  debugPrint(data);
   var dataStr = jsonEncode(data);
   var result = await http.post(url, body: dataStr, headers: {"Content-Type": "application/json"});
   debugPrint("on est ici  1 ===========");
-  debugPrint(result.body.toString());
+  print(result.body);
   return RequestResult (true, jsonDecode(result.body));
 }
 

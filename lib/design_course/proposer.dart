@@ -7,6 +7,7 @@ import 'package:best_flutter_ui_templates/design_course/category.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+
 class Proposer extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -42,12 +43,12 @@ class _ProposerState extends State<Proposer> {
 
   createCourse() async {
     debugPrint("ici ok");
-    var result = await http_post("studibase.group", {
+    var result = await http_post('studibase.group', {
         'category_id': 1,
-        'title': "titleController.text.inCaps",
-        'date': "2020-10-10 14:30:00",
-        'description': "descriptionController.text.inCaps",
-        'place': "lieuController.text.inCaps",
+        'title': titleController.text.inCaps,
+        'date': '2020-10-10 14:30:00',
+        'description': descriptionController.text.inCaps,
+        'place': lieuController.text.inCaps,
         
     });
     debugPrint('ici pas ok');
