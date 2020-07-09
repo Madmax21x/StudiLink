@@ -16,7 +16,7 @@ Future<RequestResult> http_get(String route, [dynamic data]) async {
 
 Future<RequestResult> http_post(String route, [dynamic data]) async {
   var url = "http://studilink.online/$route";
-  debugPrint(data);
+  debugPrint(data.toString());
   var dataStr = jsonEncode(data);
   var result = await http.post(url, body: dataStr, headers: {"Content-Type": "application/json"});
   debugPrint("on est ici  1 ===========");

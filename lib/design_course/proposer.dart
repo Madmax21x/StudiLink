@@ -41,21 +41,17 @@ class _ProposerState extends State<Proposer> {
   }
 
   createCourse() async {
-    debugPrint("ici ok");
     var result = await http_post("studibase.group", {
-        'category_id': 1,
-        'title': "titleController.text.inCaps",
-        'date': "2020-10-10 14:30:00",
-        'description': "descriptionController.text.inCaps",
-        'place': "lieuController.text.inCaps",
+        'category_id': int.parse(dropdownValue),
+        'title': titleController.text.inCaps,
+        'date': date.toString(),
+        'description': descriptionController.text.inCaps,
+        'place': lieuController.text.inCaps,
         
     });
-    debugPrint('ici pas ok');
     if(result.ok)
     {
       setState(() {
-        debugPrint("on est ici 2 ===========");
-        debugPrint(response);
         response = result.data['status'];
       });
     }
