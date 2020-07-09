@@ -42,18 +42,11 @@ class _ProposerState extends State<Proposer> {
   }
 
   createCourse() async {
-<<<<<<< HEAD
+    debugPrint("ici ok");
     var result = await http_post("studibase.group", {
         'category_id': int.parse(dropdownValue),
         'title': titleController.text.inCaps,
         'date': date.toString(),
-=======
-    debugPrint("ici ok");
-    var result = await http_post('studibase.group', {
-        'category_id': 1,
-        'title': titleController.text.inCaps,
-        'date': '2020-10-10 14:30:00',
->>>>>>> 70abac3290c9accce2e6fb67dfa3a0e855f6bb7c
         'description': descriptionController.text.inCaps,
         'place': lieuController.text.inCaps,
         
