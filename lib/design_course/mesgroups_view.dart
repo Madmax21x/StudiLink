@@ -2,6 +2,7 @@ import 'package:best_flutter_ui_templates/design_course/design_course_app_theme.
 import 'package:best_flutter_ui_templates/main.dart';
 import 'package:best_flutter_ui_templates/design_course/course_info_screen.dart';
 import 'package:best_flutter_ui_templates/design_course/cours.dart';
+import 'package:best_flutter_ui_templates/design_course/category.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -21,12 +22,14 @@ class _MesGroupsViewState extends State<MesGroupsView>
   AnimationController animationController;
 
   var group = new List<Group>();
+  var category = new List<Category>();
 
   @override
   void initState() {
     animationController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
     super.initState();
+    getCategory();
     getCours();
   }
 
@@ -46,6 +49,20 @@ class _MesGroupsViewState extends State<MesGroupsView>
     setState(() {
       Iterable list = json.decode(response.body);
       group = list.map((model) => Group.fromJson(model)).toList();
+    });
+  }
+
+   String _hostnameCategory() {
+    return 'http://studilink.online/studibase.category';
+  }
+
+  Future getCategory() async {
+    http.Response response = await http.get(_hostnameCategory());
+    debugPrint(response.body);
+    setState(() {
+      Iterable list = json.decode(response.body);
+      category = list.map((model) => Category.fromJson(model)).toList();
+      
     });
   }
 
@@ -82,6 +99,7 @@ class _MesGroupsViewState extends State<MesGroupsView>
                     },
                     index: index,
                     group: group,
+                    category:category,
                     animation: animation,
                     animationController: animationController,
                   );
@@ -105,6 +123,7 @@ class CategoryView extends StatelessWidget {
       {Key key,
       this.index,
       this.group,
+      this.category,
       this.animationController,
       this.animation,
       this.callback})
@@ -113,6 +132,7 @@ class CategoryView extends StatelessWidget {
   final VoidCallback callback;
   final int index;
   final List group;
+  final List category;
   final AnimationController animationController;
   final Animation<dynamic> animation;
 
@@ -122,13 +142,14 @@ class CategoryView extends StatelessWidget {
     String jour;
     String description = '';
     String lieu = '';
+    String imagePath = '';
 
     void moveTo(
-        titre, jour, description, lieu) {
+        titre, jour, description, lieu, imagePath) {
       Navigator.push<dynamic>(
         context,
         MaterialPageRoute<dynamic>(
-          builder: (BuildContext context) => CourseInfoScreen(titre, description, lieu, jour),
+          builder: (BuildContext context) => CourseInfoScreen(titre, description, lieu, jour, imagePath),
         ),
       );
     }
@@ -366,8 +387,8 @@ class CategoryView extends StatelessWidget {
                                     Radius.circular(16.0)),
                                 child: AspectRatio(
                                     aspectRatio: 1.0,
-                                    child: Image.asset("assets/design_course/interFace1.png")),
-                              )
+                                    child: Image.asset(categoryImage(group[index].category_id, category)),
+                              ))
                             ],
                           ),
                         ),
@@ -380,12 +401,23 @@ class CategoryView extends StatelessWidget {
                   jour = group[index].date;
                   description = group[index].description;
                   lieu = group[index].place;
-
-                  moveTo(titre, jour, description, lieu);
+                  imagePath = categoryImage(group[index].category_id, category);
+                  moveTo(titre, jour, description, lieu, imagePath);
                 },
               ),
             ));
       },
     );
   }
+
+  String categoryImage(int valeur, List category){
+  for (var i = 0; i < category.length; i++) {
+    if (category[i].id == valeur){
+      return category[i].image;
+    }
+    else{
+      continue;
+    }
+    }
+}
 }

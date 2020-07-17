@@ -43,13 +43,12 @@ class _ProposerState extends State<Proposer> {
 
   createCourse() async {
     debugPrint("ici ok");
-    var result = await http_post('studibase.group', {
-        'category_id': 1,
+    var result = await http_post('studibase.group',{
+        'category_id': dropdownValue,
         'title': titleController.text.inCaps,
-        'date': '2020-10-10 14:30:00',
         'description': descriptionController.text.inCaps,
         'place': lieuController.text.inCaps,
-        
+        'date': date.toString(),
     });
     debugPrint('ici pas ok');
     if(result.ok)
@@ -64,7 +63,7 @@ class _ProposerState extends State<Proposer> {
 
   @override
   void initState() {
-    this.getCategoryData();
+    getCategoryData();
     titleController.clear();
     lieuController.clear();
     descriptionController.clear();

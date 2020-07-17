@@ -18,9 +18,11 @@ Future<RequestResult> http_get(String route, [dynamic data]) async {
 Future<RequestResult> http_post(String route, [dynamic data]) async {
   var url = "http://studilink.online/$route";
   var dataStr = jsonEncode(data);
-  var result = await http.post(url, body: dataStr, headers: {"Content-Type": "application/json"});
-  debugPrint("on est ici  1 ===========");
-  print(result.body);
+  var result = await http.post(url, body: dataStr,
+      headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+      });
+
   return RequestResult (true, jsonDecode(result.body));
 }
 
@@ -32,7 +34,6 @@ Future<bool> deleteCours(String id) async {
       'Content-Type': 'application/json; charset=UTF-8',
     },
   );
-
   if (response.statusCode == 200) {
     debugPrint(id);
     debugPrint((response.body));

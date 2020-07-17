@@ -87,7 +87,7 @@ class _ParametreState extends State<Parametre>{
                     child: Text("Modifier son profil",
                       style: TextStyle(
                       fontWeight: FontWeight.w400,
-                      fontSize: 16,
+                      fontSize: 15,
                       letterSpacing: 0.2,
                       color: DesignCourseAppTheme.darkerText ,
                     ),
@@ -135,7 +135,7 @@ class _ParametreState extends State<Parametre>{
                     child: Text("Politique de confidentialité",
                       style: TextStyle(
                       fontWeight: FontWeight.w400,
-                      fontSize: 16,
+                      fontSize: 15,
                       letterSpacing: 0.2,
                       color: DesignCourseAppTheme.darkerText ,
                     ),
@@ -163,7 +163,7 @@ class _ParametreState extends State<Parametre>{
                     child: Text("Conditions d'utilisation",
                       style: TextStyle(
                       fontWeight: FontWeight.w400,
-                      fontSize: 16,
+                      fontSize: 15,
                       letterSpacing: 0.2,
                       color: DesignCourseAppTheme.darkerText ,
                     ),
@@ -190,7 +190,7 @@ class _ParametreState extends State<Parametre>{
                     child: Text("Se déconnecter",
                       style: TextStyle(
                       fontWeight: FontWeight.w400,
-                      fontSize: 16,
+                      fontSize: 15,
                       letterSpacing: 0.2,
                       color: DesignCourseAppTheme.nearlyBlue ,
                     ),

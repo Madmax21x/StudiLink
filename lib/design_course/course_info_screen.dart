@@ -7,7 +7,8 @@ class CourseInfoScreen extends StatefulWidget {
   String date;
   String description;
   String place;
-  CourseInfoScreen(this.titre, this.description, this.place, this.date);
+  String imagePath;
+  CourseInfoScreen(this.titre, this.description, this.place, this.date, this.imagePath);
   @override
   _CourseInfoScreenState createState() => _CourseInfoScreenState();
 }
@@ -19,6 +20,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
       String _date;
       String _description;
       String _place;
+      String _imagePath;
 
   final double infoHeight = 364.0;
   AnimationController animationController;
@@ -32,6 +34,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
     _date = widget.date;
     _description = widget.description;
     _place = widget.place;
+    _imagePath = widget.imagePath;
 
     animationController = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
@@ -73,7 +76,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
               children: <Widget>[
                 AspectRatio(
                   aspectRatio: 1.2,
-                  child: Image.asset("assets/design_course/interFace1.png"),
+                  child: Image.asset(_imagePath),
                 ),
               ],
             ),
