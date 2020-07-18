@@ -8,9 +8,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class CategoryListView extends StatefulWidget {
-  const CategoryListView({Key key, this.callBack}) : super(key: key);
+  List newdata;
 
-  final Function callBack;
+  CategoryListView(this.newdata);
+
   @override
   _CategoryListViewState createState() => _CategoryListViewState();
 }
@@ -18,8 +19,7 @@ class CategoryListView extends StatefulWidget {
 class _CategoryListViewState extends State<CategoryListView>
     with TickerProviderStateMixin {
   AnimationController animationController;
-
-  var group = new List<Group>();
+  List _newdata;
   var category = new List<Category>();
 
   @override
@@ -28,7 +28,7 @@ class _CategoryListViewState extends State<CategoryListView>
         duration: const Duration(milliseconds: 2000), vsync: this);
     super.initState();
     getCategory();
-    getCours();
+    _newdata = widget.newdata;
 
   }
 
@@ -38,20 +38,8 @@ class _CategoryListViewState extends State<CategoryListView>
   }
 
   // access localhost from the emulator/simulator
-  String _hostname() {
-    return 'http://studilink.online/studibase.group';
-  }
-
-  Future getCours() async {
-    http.Response response = await http.get(_hostname());
-    debugPrint(response.body);
-    setState(() {
-      Iterable list = json.decode(response.body);
-      group = list.map((model) => Group.fromJson(model)).toList();
-      
-    });
-  }
-
+  
+  
   String _hostnameCategory() {
     return 'http://studilink.online/studibase.category';
   }
@@ -82,10 +70,10 @@ class _CategoryListViewState extends State<CategoryListView>
               return ListView.builder(
                 padding: const EdgeInsets.only(
                     top: 0, bottom: 0, right: 16, left: 16),
-                itemCount: group.length,
+                itemCount: _newdata.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
-                  final int count = group.length > 10 ? 10 : group.length;
+                  final int count = _newdata.length > 10 ? 10 : _newdata.length;
                   final Animation<double> animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
                           CurvedAnimation(
@@ -96,13 +84,11 @@ class _CategoryListViewState extends State<CategoryListView>
 
                   return CategoryView(
                     index: index,
-                    group: group,
+                    newdata: _newdata,
                     category:category,
                     animation: animation,
                     animationController: animationController,
-                    callback: () {
-                      widget.callBack();
-                    },
+                    
                   );
                 },
               );
@@ -118,16 +104,14 @@ class CategoryView extends StatelessWidget {
   const CategoryView({
     Key key,
     this.index,
-    this.group,
+    this.newdata,
     this.category,
     this.animationController,
     this.animation,
-    this.callback,
   }) : super(key: key);
 
-  final VoidCallback callback;
   final int index;
-  final List group;
+  final List newdata;
   final List category;
   final AnimationController animationController;
   final Animation<dynamic> animation;
@@ -192,7 +176,7 @@ class CategoryView extends StatelessWidget {
                                               padding: const EdgeInsets.only(
                                                   top: 16),
                                               child: Text(
-                                                group[index].title,
+                                                newdata[index].title,
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w600,
@@ -270,7 +254,7 @@ class CategoryView extends StatelessWidget {
                                                     CrossAxisAlignment.start,
                                                 children: <Widget>[
                                                   Text(
-                                                    '${group[index].date.substring(0, group[index].date.indexOf("T"))}',
+                                                    '${newdata[index].date.substring(0, newdata[index].date.indexOf("T"))}',
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                       fontWeight:
@@ -330,7 +314,7 @@ class CategoryView extends StatelessWidget {
                                     Radius.circular(16.0)),
                                 child: AspectRatio(
                                     aspectRatio: 1.0,
-                                    child: Image.asset(categoryImage(group[index].category_id, category)),
+                                    child: Image.asset(categoryImage(newdata[index].category_id, category)),
                               )
                               )],
                           ),
@@ -340,11 +324,11 @@ class CategoryView extends StatelessWidget {
                   ),
                 ),
                 onTap: () {
-                  titre = group[index].title;
-                  jour = group[index].date;
-                  description = group[index].description;
-                  lieu = group[index].place;
-                  imagePath = categoryImage(group[index].category_id, category);
+                  titre = newdata[index].title;
+                  jour = newdata[index].date;
+                  description = newdata[index].description;
+                  lieu = newdata[index].place;
+                  imagePath = categoryImage(newdata[index].category_id, category);
 
                   moveTo(titre, jour,description, lieu, imagePath);
                 },

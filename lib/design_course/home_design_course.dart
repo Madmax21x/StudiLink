@@ -3,9 +3,13 @@ import 'package:best_flutter_ui_templates/design_course/popular_course_list_view
 import 'package:best_flutter_ui_templates/main.dart';
 import 'package:best_flutter_ui_templates/design_course/side_menu.dart';
 import 'package:best_flutter_ui_templates/design_course/recherche.dart';
+import 'package:best_flutter_ui_templates/design_course/category.dart';
+import 'package:best_flutter_ui_templates/design_course/cours.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'design_course_app_theme.dart';
 import 'proposer.dart';
+import 'dart:convert';
 
 class DesignCourseHomeScreen extends StatefulWidget {
   @override
@@ -14,7 +18,55 @@ class DesignCourseHomeScreen extends StatefulWidget {
 }
 
 class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
-  CategoryType categoryType = CategoryType.maths;
+
+
+  int _selectedIndex = 0;
+
+    _onSelected(int index) {
+      setState(() => _selectedIndex = index);
+    }
+
+  var group = new List<Group>();
+  var newData = new List<Group>();
+  
+
+  void initState() {
+    
+    super.initState();
+    getCours();
+    getCategoryData();
+    newData = newCategoryData(1, group);
+  }
+
+  String _hostname() {
+    return 'http://studilink.online/studibase.group';
+  }
+
+  Future getCours() async {
+    http.Response response = await http.get(_hostname());
+    debugPrint(response.body);
+    setState(() {
+      Iterable list = json.decode(response.body);
+      group = list.map((model) => Group.fromJson(model)).toList();
+      newData = newCategoryData(1, group);
+    });
+  }
+
+  
+  List newCategoryData(int index, List group){
+  
+    newData.clear();
+    for (var i = 0; i < group.length; i++) {
+      if (group[i].category_id == index){
+        print(group[i].category_id );
+        newData.add(group[i]);
+      }
+      else{
+        continue;
+      }
+      }
+    return newData;
+}
 
 
   @override
@@ -53,7 +105,26 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
     );
   }
 
+   
+  var categoryData = new List<Category>();
+
+  String _hostnameCategory() {
+    return 'http://studilink.online/studibase.category';
+  }
+
+  Future getCategoryData() async {
+    http.Response response = await http.get(_hostnameCategory());
+    debugPrint(response.body);
+    setState(() {
+      Iterable list = json.decode(response.body);
+      categoryData = list.map((model) => Category.fromJson(model)).toList();
+      print(categoryData);
+    });
+  }
+
   Widget getCategoryUI() {
+
+     
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -78,39 +149,65 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
         Container(
           height: MediaQuery.of(context).size.height * 0.14,
           padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 26.0),
-          child: ListView(
+          child: ListView.builder(
             shrinkWrap: true,
             physics: ScrollPhysics(),     
             scrollDirection: Axis.horizontal,
-            children: <Widget>[
-              getButtonUI(CategoryType.maths, categoryType == CategoryType.maths),
-              const SizedBox(
-                width: 16,
+            itemCount: categoryData.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Expanded(
+              child: Container(
+                margin: const EdgeInsets.only(
+                          right: 16),
+                decoration: BoxDecoration(
+                    color: _selectedIndex != null && _selectedIndex == index
+                      ? DesignCourseAppTheme.nearlyBlue
+                      : DesignCourseAppTheme.nearlyWhite,
+                    borderRadius: const BorderRadius.all(Radius.circular(24.0)),
+                    border: Border.all(color: DesignCourseAppTheme.nearlyBlue)),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    splashColor: Colors.white24,
+                    borderRadius: const BorderRadius.all(Radius.circular(24.0)),
+                    onTap: () {
+                      
+                      _onSelected(index);
+                      print(categoryData[index].id);
+                      print(group);
+                      newData = newCategoryData(categoryData[index].id, group);
+                      print(newData);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 12, bottom: 12, left: 18, right: 18),
+                      child: Center(
+                        child: Text(
+                          categoryData[index].nom,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 12,
+                            letterSpacing: 0.27,
+                            color: _selectedIndex != null && _selectedIndex == index
+                              ? DesignCourseAppTheme.nearlyWhite
+                              : DesignCourseAppTheme.nearlyBlue,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ),
-              getButtonUI(
-                  CategoryType.physique, categoryType == CategoryType.physique),
-              const SizedBox(
-                width: 16,
-              ),
-              getButtonUI(
-                  CategoryType.chimie, categoryType == CategoryType.chimie),
-              const SizedBox(
-                width: 16,
-              ),
-              getButtonUI(
-                  CategoryType.histoire, categoryType == CategoryType.histoire),
-              const SizedBox(
-                width: 16,
-              ),
-              getButtonUI(
-                  CategoryType.droit, categoryType == CategoryType.droit),
-              const SizedBox(
-                width: 16,
-              ),
-            ],
+              
+    );
+            }
           ),
         ),
-        CategoryListView(),
+      
+        CategoryListView(newData)
+        
+        
       ],
     );
   }
@@ -142,62 +239,6 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
     );
   }
 
-
-  Widget getButtonUI(CategoryType categoryTypeData, bool isSelected) {
-    String txt = '';
-    if (CategoryType.maths == categoryTypeData) {
-      txt = 'Maths';
-    } else if (CategoryType.physique == categoryTypeData) {
-      txt = 'Physique';
-    } else if (CategoryType.chimie == categoryTypeData) {
-      txt = 'Chimie';
-    }else if (CategoryType.histoire == categoryTypeData) {
-      txt = 'Histoire';
-    }else if (CategoryType.droit == categoryTypeData) {
-      txt = 'Droit';
-    }
-    
-    return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-            color: isSelected
-                ? DesignCourseAppTheme.nearlyBlue
-                : DesignCourseAppTheme.nearlyWhite,
-            borderRadius: const BorderRadius.all(Radius.circular(24.0)),
-            border: Border.all(color: DesignCourseAppTheme.nearlyBlue)),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            splashColor: Colors.white24,
-            borderRadius: const BorderRadius.all(Radius.circular(24.0)),
-            onTap: () {
-              setState(() {
-                categoryType = categoryTypeData;
-              });
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  top: 12, bottom: 12, left: 18, right: 18),
-              child: Center(
-                child: Text(
-                  txt,
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 12,
-                    letterSpacing: 0.27,
-                    color: isSelected
-                        ? DesignCourseAppTheme.nearlyWhite
-                        : DesignCourseAppTheme.nearlyBlue,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 
   Widget getSearchBarUI() {
     return Padding(
@@ -354,13 +395,3 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
   }
 }
 
-// Liste des catégories à mettre à jour
-// aussi mettre à jour dans getcategoryUI() et getbuttonUI()
-
-enum CategoryType {
-  maths,
-  physique,
-  chimie,
-  histoire,
-  droit
-}
