@@ -1,7 +1,6 @@
 import 'package:best_flutter_ui_templates/design_course/design_course_app_theme.dart';
 import 'package:best_flutter_ui_templates/main.dart';
 import 'package:best_flutter_ui_templates/design_course/course_info_screen.dart';
-import 'package:best_flutter_ui_templates/design_course/cours.dart';
 import 'package:best_flutter_ui_templates/design_course/category.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -10,9 +9,9 @@ import 'package:best_flutter_ui_templates/design_course/models/http.dart';
 import 'package:best_flutter_ui_templates/design_course/mes_groups.dart';
 
 class MesGroupsView extends StatefulWidget {
-  const MesGroupsView({Key key, this.callBack}) : super(key: key);
+  List newdata;
+  MesGroupsView(this.newdata);
 
-  final Function callBack;
   @override
   _MesGroupsViewState createState() => _MesGroupsViewState();
 }
@@ -20,8 +19,8 @@ class MesGroupsView extends StatefulWidget {
 class _MesGroupsViewState extends State<MesGroupsView>
     with TickerProviderStateMixin {
   AnimationController animationController;
+  List _newdata;
 
-  var group = new List<Group>();
   var category = new List<Category>();
 
   @override
@@ -30,26 +29,12 @@ class _MesGroupsViewState extends State<MesGroupsView>
         duration: const Duration(milliseconds: 2000), vsync: this);
     super.initState();
     getCategory();
-    getCours();
+    _newdata = widget.newdata;
   }
 
   Future<bool> getData() async {
     await Future<dynamic>.delayed(const Duration(milliseconds: 200));
     return true;
-  }
-
-  // access localhost from the emulator/simulator
-  String _hostname() {
-    return 'http://studilink.online/studibase.group';
-  }
-
-  Future getCours() async {
-    http.Response response = await http.get(_hostname());
-    debugPrint(response.body);
-    setState(() {
-      Iterable list = json.decode(response.body);
-      group = list.map((model) => Group.fromJson(model)).toList();
-    });
   }
 
    String _hostnameCategory() {
@@ -81,9 +66,9 @@ class _MesGroupsViewState extends State<MesGroupsView>
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.vertical,
               children: List<Widget>.generate(
-                group.length,
+                _newdata.length,
                 (int index) {
-                  final int count = group.length;
+                  final int count = _newdata.length;
                   final Animation<double> animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
                     CurvedAnimation(
@@ -94,11 +79,8 @@ class _MesGroupsViewState extends State<MesGroupsView>
                   );
                   animationController.forward();
                   return CategoryView(
-                    callback: () {
-                      widget.callBack();
-                    },
+                    newdata: _newdata,
                     index: index,
-                    group: group,
                     category:category,
                     animation: animation,
                     animationController: animationController,
@@ -122,7 +104,7 @@ class CategoryView extends StatelessWidget {
   const CategoryView(
       {Key key,
       this.index,
-      this.group,
+      this.newdata,
       this.category,
       this.animationController,
       this.animation,
@@ -131,7 +113,7 @@ class CategoryView extends StatelessWidget {
 
   final VoidCallback callback;
   final int index;
-  final List group;
+  final List newdata;
   final List category;
   final AnimationController animationController;
   final Animation<dynamic> animation;
@@ -257,7 +239,7 @@ class CategoryView extends StatelessWidget {
                                               padding: const EdgeInsets.only(
                                                   top: 16),
                                               child: Text(
-                                                group[index].title,
+                                              newdata[index].title,
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w600,
@@ -335,7 +317,7 @@ class CategoryView extends StatelessWidget {
                                                     CrossAxisAlignment.center,
                                                 children: <Widget>[
                                                   Text(
-                                                    '${group[index].date.substring(5, group[index].date.indexOf("T"))}',
+                                                    '${newdata[index].date.substring(5, newdata[index].date.indexOf("T"))}',
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                       fontWeight:
@@ -351,7 +333,7 @@ class CategoryView extends StatelessWidget {
                                                     child: IconButton(
                                                       onPressed: () {
                                                         _showDialog(
-                                                            group[index].id);
+                                                            newdata[index].id);
                                                       },
                                                       icon: Icon(
                                                         Icons.delete,
@@ -387,7 +369,7 @@ class CategoryView extends StatelessWidget {
                                     Radius.circular(16.0)),
                                 child: AspectRatio(
                                     aspectRatio: 1.0,
-                                    child: Image.asset(categoryImage(group[index].category_id, category)),
+                                    child: Image.asset(categoryImage(newdata[index].category_id, category)),
                               ))
                             ],
                           ),
@@ -397,11 +379,11 @@ class CategoryView extends StatelessWidget {
                   ),
                 ),
                 onTap: () {
-                  titre = group[index].title;
-                  jour = group[index].date;
-                  description = group[index].description;
-                  lieu = group[index].place;
-                  imagePath = categoryImage(group[index].category_id, category);
+                  titre =newdata[index].title;
+                  jour = newdata[index].date;
+                  description = newdata[index].description;
+                  lieu = newdata[index].place;
+                  imagePath = categoryImage(newdata[index].category_id, category);
                   moveTo(titre, jour, description, lieu, imagePath);
                 },
               ),

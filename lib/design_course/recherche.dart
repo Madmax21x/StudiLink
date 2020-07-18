@@ -7,7 +7,9 @@ import 'package:best_flutter_ui_templates/design_course/mesgroups_view.dart';
 import 'package:http/http.dart' as http;
 
 class Recherche extends StatefulWidget {
+
   @override
+
   State<StatefulWidget> createState() {
     return _RechercheState();
   }
@@ -15,11 +17,14 @@ class Recherche extends StatefulWidget {
 
 class _RechercheState extends State<Recherche> {
   var group = new List<Group>();
+  var newData = new List<Group>();
+  TextEditingController titleController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     getCours();
+    newData = newGroupData("1", group);
   }
 
   String _hostname() {
@@ -32,6 +37,7 @@ class _RechercheState extends State<Recherche> {
     setState(() {
       Iterable list = json.decode(response.body);
       group = list.map((model) => Group.fromJson(model)).toList();
+      newData = newGroupData("1", group);
     });
   }
 
@@ -120,6 +126,7 @@ class _RechercheState extends State<Recherche> {
                                   child: Container(
                                     padding: const EdgeInsets.only(left: 16, right: 16),
                                     child: TextFormField(
+                                      controller : titleController,
                                       style: TextStyle(
                                         fontFamily: 'WorkSans',
                                         fontWeight: FontWeight.w400,
@@ -154,11 +161,10 @@ class _RechercheState extends State<Recherche> {
                                     color: Color(0xFFB9BABC),
                                     onPressed: () {
                                       setState(() {
-                                        Navigator.push(context, MaterialPageRoute(builder : (context){
-                                          return Recherche();
-                                        }));
-                                        //renvoyer vers la page rechercher avec le input
+                                        newData = newGroupData(titleController.text, group);
+                                      print(newData);
                                       });
+                                      
                                     },),
                                 )
                               ],
@@ -173,12 +179,25 @@ class _RechercheState extends State<Recherche> {
                   ),
     ),
 
-                Flexible(child: MesGroupsView())
+                Flexible(child: MesGroupsView(newData))
               ]),
         ),
       ),
     );
   }
+
+  List newGroupData(String titre, List group){
+    newData.clear();
+    for (var i = 0; i < group.length; i++) {
+      if (group[i].title.toLowerCase().contains(titre.toLowerCase()) || titre.toLowerCase().contains(group[i].title.toLowerCase())){
+        newData.add(group[i]);
+      }
+      else{
+        continue;
+      }
+      }
+    return newData;
+}
 
   void moveToLastScreen() {
     Navigator.pop(context);

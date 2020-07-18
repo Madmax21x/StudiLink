@@ -19,7 +19,6 @@ class DesignCourseHomeScreen extends StatefulWidget {
 
 class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
 
-
   int _selectedIndex = 0;
 
     _onSelected(int index) {
@@ -54,7 +53,6 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
 
   
   List newCategoryData(int index, List group){
-  
     newData.clear();
     for (var i = 0; i < group.length; i++) {
       if (group[i].category_id == index){
@@ -241,7 +239,9 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
 
 
   Widget getSearchBarUI() {
-    return Padding(
+    return 
+    InkWell(child: 
+    Padding(
       padding: const EdgeInsets.only(top: 8.0, left: 18, bottom : 10.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -267,31 +267,19 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
                     Expanded(
                       child: Container(
                         padding: const EdgeInsets.only(left: 16, right: 16),
-                        child: TextFormField(
-                          style: TextStyle(
-                            fontFamily: 'WorkSans',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12,
-                            color: DesignCourseAppTheme.grey,
-                          ),
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                            labelText: 'Recherche un Studi-Group',
-                            border: InputBorder.none,
-                            helperStyle: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: HexColor('#B9BABC'),
-                            ),
-                            labelStyle: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                              letterSpacing: 0.2,
-                              color: HexColor('#B9BABC'),
-                            ),
-                          ),
-                          onEditingComplete: () {},
-                        ),
+                        
+                          child: SizedBox(
+                            child: Text('Recherche un Studi-Group', 
+                              style: TextStyle(
+                                fontFamily: 'WorkSans',
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15,
+                                letterSpacing: 0.2,
+                                color: Color(0xFFB9BABC)
+                                )
+                          )
+                          )
+                        ,
                       ),
                     ),
                     SizedBox(
@@ -319,7 +307,12 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
           )
         ],
       ),
-    );
+    ),
+    onTap: (){
+      Navigator.push(context, MaterialPageRoute(builder : (context){
+        return Recherche();
+      }));
+    },);
   }
 
   Widget getAppBarUI() {

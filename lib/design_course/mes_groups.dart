@@ -92,7 +92,7 @@ class _MesGroupsState extends State<MesGroups> {
                   height: 25,
                 ),
 
-                Flexible(child: MesGroupsView())
+                Flexible(child: MesGroupsView(group))
               ]),
         ),
       ),
