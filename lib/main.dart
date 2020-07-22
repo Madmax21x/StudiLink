@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:best_flutter_ui_templates/design_course/home_design_course.dart';
-
+import 'package:best_flutter_ui_templates/design_course/inscription.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
       ),
       home: 
       //MesGroups(),
-      DesignCourseHomeScreen(),
+      Inscription(),
     );
   }
 }
