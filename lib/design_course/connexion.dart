@@ -2,60 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'design_course_app_theme.dart';
 import 'package:best_flutter_ui_templates/design_course/etudiant.dart';
-import 'package:best_flutter_ui_templates/design_course/models/http.dart';
-import 'package:best_flutter_ui_templates/design_course/connexion.dart';
+import 'package:best_flutter_ui_templates/design_course/inscription.dart';
+import 'package:best_flutter_ui_templates/design_course/home_design_course.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class Inscription extends StatefulWidget {
+class Connexion extends StatefulWidget {
  @override
  State<StatefulWidget> createState() {
-    return _InscriptionState();
+    return _ConnexionState();
   }
 }
 
-class _InscriptionState extends State<Inscription>{
+class _ConnexionState extends State<Connexion>{
 
-  var etudiant = new List<Etudiant>();
   var _formKey = GlobalKey<FormState>();
   String response = "";
 
-  TextEditingController nomController = TextEditingController();
-  TextEditingController prenomController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController motdepasseController = TextEditingController();
 
-  createUser() async {
-    debugPrint("ici ok");
-    var result = await http_post('studibase.etudiant',{
-        'email': emailController.text,
-        'motdepasse': motdepasseController.text,
-        'nom': nomController.text.inCaps,
-        'prenom': prenomController.text.inCaps,
-        'bio': ' ',
-        'userimage_id': 0,
-        'avis_id': 0,
-    });
-    debugPrint('ici pas ok');
-    if(result.ok)
-    {
-      setState(() {
-        debugPrint("on est ici 2 ===========");
-        debugPrint(response);
-        response = result.data['status'];
-      });
-    }
-  }
+   var etudiant = new List<Etudiant>();
 
   @override
   void initState() {
     getEtudiant();
     emailController.clear();
-    nomController.clear();
-    prenomController.clear();
     motdepasseController.clear();
     super.initState();
-    
   }
 
   String _hostname() {
@@ -109,7 +83,7 @@ class _InscriptionState extends State<Inscription>{
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              'Inscription',
+                              'Connexion',
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
@@ -122,8 +96,7 @@ class _InscriptionState extends State<Inscription>{
                           ),
                         ),
                     ])),
-              
-
+          
             // 2nd element of the Listview
             Form(
               key: _formKey,
@@ -135,145 +108,6 @@ class _InscriptionState extends State<Inscription>{
                   //1st element of the column
                   
                   Padding(
-                    padding: EdgeInsets.only(top:15.0),
-                    child: SizedBox(
-                      height: 70.0,
-                      child: TextFormField(
-                        controller: nomController,
-                    
-                        onChanged: (value){
-                          debugPrint("some thematique has been added");
-                        },
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Ce champ est obligatoire';
-                          }
-                          return null;
-                        },
-                        maxLines: 1,
-                        maxLength: 30,
-                        decoration: InputDecoration(
-                          helperText: " ",
-                          labelText: "   Nom",
-                          labelStyle: TextStyle(
-                            fontFamily: 'WorkSans',
-                            fontSize: 15.0,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.grey[600],
-                          ),
-                          
-                          filled: true,
-                          fillColor: Colors.grey[100],
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.grey[100]),
-                            borderRadius:
-                                BorderRadius.circular(16.0),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.grey[100]),
-                            borderRadius:
-                                BorderRadius.circular(16.0),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.red,
-                            ),
-                            borderRadius:
-                                BorderRadius.circular(16.0),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.circular(16.0),
-                          ),
-                          hintText: "Entrez votre Nom",
-                          hintStyle: TextStyle(
-                            fontSize: 15.0,
-                            color: Colors.grey[600],
-                            fontFamily: 'WorkSans',
-                            fontWeight: FontWeight.w400,
-                          ),
-
-                        )
-
-                      )
-                      )
-
-                  ),
-
-                  //2nd element of the column
-                  
-                  Padding(
-                    padding: EdgeInsets.only(top:0),
-                    child: SizedBox(
-                      height: 70.0,
-                      child: TextFormField(
-                        controller: prenomController,
-                    
-                        onChanged: (value){
-                          debugPrint("some thematique has been added");
-                        },
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Ce champ est obligatoire';
-                          }
-                          return null;
-                        },
-                        maxLines: 1,
-                        maxLength: 20,
-                        decoration: InputDecoration(
-                          helperText: " ",
-                          labelText: "   Prénom",
-                          labelStyle: TextStyle(
-                            fontFamily: 'WorkSans',
-                            fontSize: 15.0,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.grey[600],
-                          ),
-                          
-                          filled: true,
-                          fillColor: Colors.grey[100],
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.grey[100]),
-                            borderRadius:
-                                BorderRadius.circular(16.0),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.grey[100]),
-                            borderRadius:
-                                BorderRadius.circular(16.0),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Colors.red,
-                            ),
-                            borderRadius:
-                                BorderRadius.circular(16.0),
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.circular(16.0),
-                          ),
-                          hintText: "Entrez votre prénom",
-                          hintStyle: TextStyle(
-                            fontSize: 15.0,
-                            color: Colors.grey[600],
-                            fontFamily: 'WorkSans',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        )
-
-                      )
-                      )
-
-                  ),
-
-                  //3rd element of the column
-                  
-                  Padding(
                     padding: EdgeInsets.only(top:0),
                     child: SizedBox(
                       height: 70.0,
@@ -281,7 +115,6 @@ class _InscriptionState extends State<Inscription>{
                         controller: emailController,
                     
                         onChanged: (value){
-                          debugPrint("some thematique has been added");
                         },
                         validator: (value) {
                           if (value.isEmpty) {
@@ -353,7 +186,6 @@ class _InscriptionState extends State<Inscription>{
                         controller: motdepasseController,
                     
                         onChanged: (value){
-                          debugPrint("some thematique has been added");
                         },
 
                         validator: (value) {
@@ -440,7 +272,7 @@ class _InscriptionState extends State<Inscription>{
                                 ),
                                 child: Center(
                                   child: Text(
-                                    "S'inscrire",
+                                    'Se connecter',
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w600,
@@ -452,19 +284,16 @@ class _InscriptionState extends State<Inscription>{
                                 ),
                               ),
                               onTap: (){
-                                
                                 setState(() {
                                   if (_formKey.currentState.validate()){
-                                    if(_isOK(emailController.text) == true){
-                                    
-                                    createUser();
+                                    debugPrint("Se connecter button clicked");
+                                    if (_isOK(emailController.text, motdepasseController.text)==true){
                                     Navigator.push(context, MaterialPageRoute(builder : (context){
-                                      return Connexion();
+                                      return DesignCourseHomeScreen();
                                     }));
-                                    }
-                                    else{
-                                      _showDialog();
-                                    }
+                                  }else{
+                                    _showDialog();
+                                  }
                                 }
                                 });
                                     
@@ -505,11 +334,11 @@ class _InscriptionState extends State<Inscription>{
                 borderRadius: BorderRadius.circular(25.0)),
             elevation: 2.0,
             title:
-                new Text("Un compte existe déjà avec l'addresse mail que vous avez rentrée."),
+                new Text("L'addresse mail ou le mot de passe que vous avez rentrés ne sont pas bons."),
             actions: <Widget>[
               // usually buttons at the bottom of the dialog
               new FlatButton(
-                child: Text("Se connecter",
+                child: Text("S'inscrire",
                     style: TextStyle(
                       fontSize: 14.0,
                       color: Colors.teal[300],
@@ -519,7 +348,7 @@ class _InscriptionState extends State<Inscription>{
                 onPressed: () {
                   setState(() {
                     Navigator.push(context, MaterialPageRoute(builder : (context){
-                    return Connexion();
+                    return Inscription();
                   }));
                   });
                   
@@ -546,18 +375,28 @@ class _InscriptionState extends State<Inscription>{
       );
     }
 
-  bool _isOK(String email){
+  bool _isOK(String email, String motdepasse){
+    print(etudiant);
   for (var i = 0; i < etudiant.length; i++) {
     if (etudiant[i].email == email){
       debugPrint("-----1-----");
-     return false;
+      if (etudiant[i].motdepasse == motdepasse){
+        debugPrint("-----2-----");
+        return true;
+      }
+      else{
+        return false;
+      }
     }
     else{
       continue;
     }
     }
-    return true;
+    return false;
 }
-
 } 
 
+extension CapExtension on String {
+  String get inCaps => '${this[0].toUpperCase()}${this.substring(1).toLowerCase()}';
+  String get allInCaps => this.toUpperCase();
+}

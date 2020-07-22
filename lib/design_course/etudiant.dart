@@ -6,6 +6,7 @@ class Etudiant{
   String bio;
   int userimage_id;
   int avis_id;
+  String motdepasse;
 
   Etudiant(
       {this.id,
@@ -14,7 +15,8 @@ class Etudiant{
       this.prenom,
       this.bio, 
       this.userimage_id,
-      this.avis_id});
+      this.avis_id,
+      this.motdepasse});
 
   // named constructor
   factory Etudiant.fromJson(Map<String, dynamic> json) {
@@ -25,7 +27,8 @@ class Etudiant{
         prenom: json['prenom'],
         bio: json['bio'],
         userimage_id: json['userimage_id'],
-        avis_id: json['avis_id']
+        avis_id: json['avis_id'],
+        motdepasse: json['motdepasse']
         );
   }
 }
