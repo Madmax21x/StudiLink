@@ -7,7 +7,9 @@ import 'package:best_flutter_ui_templates/design_course/mesgroups_view.dart';
 import 'package:http/http.dart' as http;
 
 class Recherche extends StatefulWidget {
+  List user;
 
+  Recherche(this.user);
   @override
 
   State<StatefulWidget> createState() {
@@ -18,12 +20,14 @@ class Recherche extends StatefulWidget {
 class _RechercheState extends State<Recherche> {
   var group = new List<Group>();
   var newData = new List<Group>();
+  List _user;
   TextEditingController titleController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     getCours();
+    _user = widget.user;
     newData = newGroupData("1", group);
   }
 
@@ -179,7 +183,7 @@ class _RechercheState extends State<Recherche> {
                   ),
     ),
 
-                Flexible(child: MesGroupsView(newData))
+                Flexible(child: MesGroupsView(newData, _user))
               ]),
         ),
       ),

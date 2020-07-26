@@ -3,10 +3,15 @@ import 'package:flutter/material.dart';
 import 'design_course_app_theme.dart';
 import 'dart:convert';
 import 'package:best_flutter_ui_templates/design_course/cours.dart';
+import 'package:best_flutter_ui_templates/design_course/ma_bio.dart';
 import 'package:best_flutter_ui_templates/app_theme.dart';
 import 'package:http/http.dart' as http;
 
 class Profil extends StatefulWidget {
+  List user;
+
+  Profil(this.user);
+
   @override
   State<StatefulWidget> createState() {
     return _ProfilState();
@@ -15,10 +20,12 @@ class Profil extends StatefulWidget {
 
 class _ProfilState extends State<Profil> {
   var group = new List<Group>();
+  List _user;
 
   @override
   void initState() {
     super.initState();
+    _user = widget.user;
     getCours();
   }
 
@@ -82,7 +89,7 @@ class _ProfilState extends State<Profil> {
                   padding: const EdgeInsets.only(top: 8, left: 15),
                   child: Center(
                     child:Text(
-                      'Chris Hemsworth',
+                      _user[0].prenom + ' '+  _user[0].nom,
                       style: TextStyle(
                         fontWeight:
                             FontWeight.w600,
@@ -99,14 +106,14 @@ class _ProfilState extends State<Profil> {
               ),
               
               
-
+              InkWell(child:
               Padding(
                 padding: EdgeInsets.only(left: 30, right:30, bottom:30),
                 child: Container(
                   padding: EdgeInsets.all(20),
                   height: 120,
                   child: Text(
-                    "Blablabla", style:
+                    _biotext(), style:
                     TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 14,
@@ -117,6 +124,11 @@ class _ProfilState extends State<Profil> {
                     color: Color(0xFFF2FDF6),
                     borderRadius: const BorderRadius.all(Radius.circular(18.0)),
                      )),),
+                     onTap: (){
+                       Navigator.push(context, MaterialPageRoute(builder : (context){
+                    return MaBio(_user);
+                  }));
+                     },),
               
               Padding(
                 padding: const EdgeInsets.only(top: 5.0, left: 35, bottom:10.0),
@@ -197,6 +209,15 @@ class _ProfilState extends State<Profil> {
         ),
       ),
     );
+  }
+
+  String _biotext(){
+    if(_user[0].bio == null){
+      return "Ajoute une bio. Mets ce que tu trouves important sur toi à dire: ton parcours, tes facilités...";
+    }
+    else{
+      return _user[0].bio;
+    }
   }
 
   void moveToLastScreen() {

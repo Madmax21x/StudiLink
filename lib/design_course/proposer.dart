@@ -9,6 +9,10 @@ import 'dart:convert';
 
 
 class Proposer extends StatefulWidget {
+  List user;
+
+  Proposer(this.user);
+
   @override
   State<StatefulWidget> createState() {
     return _ProposerState();
@@ -16,6 +20,7 @@ class Proposer extends StatefulWidget {
 }
 
 class _ProposerState extends State<Proposer> {
+  List _user;
   var _formKey = GlobalKey<FormState>();
 
   TextEditingController titleController = TextEditingController();
@@ -68,6 +73,7 @@ class _ProposerState extends State<Proposer> {
     lieuController.clear();
     descriptionController.clear();
     date = DateTime.now();
+    _user = widget.user;
     super.initState();
     
   }
@@ -496,7 +502,7 @@ class _ProposerState extends State<Proposer> {
                     )),
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder : (context){
-                    return DesignCourseHomeScreen();
+                    return DesignCourseHomeScreen(_user);
                   }));
                 },
               )

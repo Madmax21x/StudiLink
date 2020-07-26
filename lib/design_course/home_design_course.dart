@@ -12,6 +12,10 @@ import 'proposer.dart';
 import 'dart:convert';
 
 class DesignCourseHomeScreen extends StatefulWidget {
+  List user;
+
+  DesignCourseHomeScreen(this.user);
+
   @override
  
   _DesignCourseHomeScreenState createState() => _DesignCourseHomeScreenState();
@@ -19,6 +23,7 @@ class DesignCourseHomeScreen extends StatefulWidget {
 
 class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
 
+  List _user;
   int _selectedIndex = 0;
 
     _onSelected(int index) {
@@ -35,6 +40,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
     getCours();
     getCategoryData();
     newData = newCategoryData(1, group);
+    _user = widget.user;
   }
 
   String _hostname() {
@@ -73,7 +79,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
       color: DesignCourseAppTheme.nearlyWhite,
       child: Scaffold(
         appBar: AppBar(title: Text(""), backgroundColor: Colors.white, elevation:0.0, iconTheme: new IconThemeData(color: DesignCourseAppTheme.darkerText)),
-        drawer: Container(width: 270, child:NavDrawer()),
+        drawer: Container(width: 270, child:NavDrawer(_user)),
         backgroundColor: Colors.transparent,
         body: Column(
           children: <Widget>[
@@ -291,7 +297,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
                         onPressed: () {
                           setState(() {
                             Navigator.push(context, MaterialPageRoute(builder : (context){
-                              return Recherche();
+                              return Recherche(_user);
                             }));
                             //renvoyer vers la page rechercher avec le input
                           });
@@ -310,7 +316,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
     ),
     onTap: (){
       Navigator.push(context, MaterialPageRoute(builder : (context){
-        return Recherche();
+        return Recherche(_user);
       }));
     },);
   }
@@ -373,7 +379,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
                     onPressed: () {
                       setState(() {
                         Navigator.push(context, MaterialPageRoute(builder : (context){
-                          return Proposer();
+                          return Proposer(_user);
                         }));
                       });
                     },

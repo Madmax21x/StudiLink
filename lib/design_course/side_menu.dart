@@ -4,7 +4,27 @@ import 'package:best_flutter_ui_templates/design_course/mes_groups.dart';
 import 'package:best_flutter_ui_templates/design_course/profil.dart';
 import 'package:best_flutter_ui_templates/design_course/parametres.dart';
 
-class NavDrawer extends StatelessWidget {
+
+class NavDrawer extends StatefulWidget {
+  List user;
+
+  NavDrawer(this.user);
+
+  @override
+ 
+  _NavDrawerState createState() => _NavDrawerState();
+}
+
+class _NavDrawerState extends State<NavDrawer>{
+
+  List _user;
+
+  void initState() {
+    
+    super.initState();
+    _user = widget.user;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -31,7 +51,7 @@ class NavDrawer extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 8, left: 15),
             child: Text(
-              'Chris Hemsworth',
+              _user[0].prenom + ' '+  _user[0].nom,
               style: TextStyle(
                 fontWeight:
                     FontWeight.w600,
@@ -72,7 +92,7 @@ class NavDrawer extends StatelessWidget {
                 color:AppTheme.dark_grey,
               )),
             onTap: () => {Navigator.push(context, MaterialPageRoute(builder : (context){
-                          return Profil();
+                          return Profil(_user);
                         }))},
           ),
           ListTile(
@@ -86,7 +106,7 @@ class NavDrawer extends StatelessWidget {
                 color:AppTheme.dark_grey,
               )),
             onTap: () => {Navigator.push(context, MaterialPageRoute(builder : (context){
-                          return MesGroups();
+                          return MesGroups(_user);
                         }))},
           ),
           ListTile(

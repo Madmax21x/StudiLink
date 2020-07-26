@@ -23,6 +23,7 @@ class _ConnexionState extends State<Connexion>{
   TextEditingController motdepasseController = TextEditingController();
 
    var etudiant = new List<Etudiant>();
+   var user = new List<Etudiant>();
 
   @override
   void initState() {
@@ -289,7 +290,7 @@ class _ConnexionState extends State<Connexion>{
                                     debugPrint("Se connecter button clicked");
                                     if (_isOK(emailController.text, motdepasseController.text)==true){
                                     Navigator.push(context, MaterialPageRoute(builder : (context){
-                                      return DesignCourseHomeScreen();
+                                      return DesignCourseHomeScreen(user);
                                     }));
                                   }else{
                                     _showDialog();
@@ -377,11 +378,13 @@ class _ConnexionState extends State<Connexion>{
 
   bool _isOK(String email, String motdepasse){
     print(etudiant);
+    
   for (var i = 0; i < etudiant.length; i++) {
     if (etudiant[i].email == email){
       debugPrint("-----1-----");
       if (etudiant[i].motdepasse == motdepasse){
         debugPrint("-----2-----");
+        user.add(etudiant[i]);
         return true;
       }
       else{

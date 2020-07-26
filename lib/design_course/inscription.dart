@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'design_course_app_theme.dart';
@@ -32,9 +34,9 @@ class _InscriptionState extends State<Inscription>{
         'motdepasse': motdepasseController.text,
         'nom': nomController.text.inCaps,
         'prenom': prenomController.text.inCaps,
-        'bio': ' ',
-        'userimage_id': 0,
-        'avis_id': 0,
+        'bio': null,
+        'userimage_id': null,
+        'avis_id': null,
     });
     debugPrint('ici pas ok');
     if(result.ok)
@@ -420,7 +422,7 @@ class _InscriptionState extends State<Inscription>{
                 
 
                   Padding(
-                            padding: EdgeInsets.only(top: 25.0, bottom: 15.0),
+                            padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                             child: Expanded(
                                 child: InkWell(
                               child: Container(
@@ -470,7 +472,38 @@ class _InscriptionState extends State<Inscription>{
                                     
                               },
                             )),
+                          ),
+
+                         
+                          Center(
+                            child:
+                          Text("OU", 
+                          style:TextStyle(
+                            fontSize: 15.0,
+                            color: Colors.grey[600],
+                            fontFamily: 'WorkSans',
+                            fontWeight: FontWeight.w400,
                           )
+                          )),
+                          
+                          SizedBox(height:10),
+                          GestureDetector(
+                            child: 
+                          Center(
+                            child:
+                          Text("Se connecter", 
+                          style:TextStyle(
+                            fontSize: 15.0,
+                            color: Colors.grey[600],
+                            fontFamily: 'WorkSans',
+                            fontWeight: FontWeight.w400,
+                          )
+                          )),
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder : (context){
+                                      return Connexion();
+                                    }));
+                          },),
           
           ],
           )

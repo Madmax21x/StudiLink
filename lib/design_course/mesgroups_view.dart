@@ -9,8 +9,11 @@ import 'package:best_flutter_ui_templates/design_course/models/http.dart';
 import 'package:best_flutter_ui_templates/design_course/mes_groups.dart';
 
 class MesGroupsView extends StatefulWidget {
+  List user;
+
+ 
   List newdata;
-  MesGroupsView(this.newdata);
+  MesGroupsView(this.newdata, this.user);
 
   @override
   _MesGroupsViewState createState() => _MesGroupsViewState();
@@ -20,6 +23,7 @@ class _MesGroupsViewState extends State<MesGroupsView>
     with TickerProviderStateMixin {
   AnimationController animationController;
   List _newdata;
+  List _user;
 
   var category = new List<Category>();
 
@@ -29,6 +33,7 @@ class _MesGroupsViewState extends State<MesGroupsView>
         duration: const Duration(milliseconds: 2000), vsync: this);
     super.initState();
     getCategory();
+    _user = widget.user;
     _newdata = widget.newdata;
   }
 
@@ -80,6 +85,7 @@ class _MesGroupsViewState extends State<MesGroupsView>
                   animationController.forward();
                   return CategoryView(
                     newdata: _newdata,
+                    user: _user,
                     index: index,
                     category:category,
                     animation: animation,
@@ -105,6 +111,7 @@ class CategoryView extends StatelessWidget {
       {Key key,
       this.index,
       this.newdata,
+      this.user,
       this.category,
       this.animationController,
       this.animation,
@@ -114,6 +121,7 @@ class CategoryView extends StatelessWidget {
   final VoidCallback callback;
   final int index;
   final List newdata;
+  final List user;
   final List category;
   final AnimationController animationController;
   final Animation<dynamic> animation;
@@ -184,7 +192,7 @@ class CategoryView extends StatelessWidget {
                    Navigator.pop(context, () {
                     });
                     Navigator.pushReplacement(context, MaterialPageRoute(builder : (context){
-                          return MesGroups();
+                          return MesGroups(user);
                   }));
                  }
 

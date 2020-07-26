@@ -7,6 +7,10 @@ import 'package:best_flutter_ui_templates/design_course/mesgroups_view.dart';
 import 'package:http/http.dart' as http;
 
 class MesGroups extends StatefulWidget {
+  List user;
+
+  MesGroups(this.user);
+
   @override
   State<StatefulWidget> createState() {
     return _MesGroupsState();
@@ -15,10 +19,12 @@ class MesGroups extends StatefulWidget {
 
 class _MesGroupsState extends State<MesGroups> {
   var group = new List<Group>();
+  List _user;
 
   @override
   void initState() {
     super.initState();
+    _user = widget.user;
     getCours();
   }
 
@@ -92,7 +98,7 @@ class _MesGroupsState extends State<MesGroups> {
                   height: 25,
                 ),
 
-                Flexible(child: MesGroupsView(group))
+                Flexible(child: MesGroupsView(group, _user))
               ]),
         ),
       ),
