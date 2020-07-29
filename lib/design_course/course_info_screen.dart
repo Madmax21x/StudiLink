@@ -132,7 +132,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                Text(_date.substring(11,15),
+                                Text(_date.substring(0, _date.indexOf("T")),
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w200,
@@ -177,7 +177,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                 child: Row(
                                 children: <Widget>[
                                   getTimeBoxUI(_place, 'Lieu'),
-                                  getTimeBoxUI(_date.substring(0, _date.indexOf("T")), 'Heure'),
+                                  getTimeBoxUI(_date.substring(11,16), 'Heure'),
                                   //à modifier plus tard
                                   getTimeBoxUI('0', 'Membres'),
                                 ],

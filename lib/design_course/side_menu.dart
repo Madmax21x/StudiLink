@@ -3,7 +3,7 @@ import 'package:best_flutter_ui_templates/app_theme.dart';
 import 'package:best_flutter_ui_templates/design_course/mes_groups.dart';
 import 'package:best_flutter_ui_templates/design_course/profil.dart';
 import 'package:best_flutter_ui_templates/design_course/parametres.dart';
-
+import 'package:best_flutter_ui_templates/design_course/connexion.dart';
 
 class NavDrawer extends StatefulWidget {
   List user;
@@ -163,7 +163,11 @@ class _NavDrawerState extends State<NavDrawer>{
                 letterSpacing: 0.3,
                 color:AppTheme.dark_grey,
               )),
-            onTap: () => {},
+            onTap: () => {
+              Navigator.pushReplacement(context, MaterialPageRoute(builder : (context){
+                    return Connexion();
+                  }))
+            },
           ),
         ],
       ),

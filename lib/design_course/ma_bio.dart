@@ -1,13 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:best_flutter_ui_templates/design_course/etudiant.dart';
 import 'design_course_app_theme.dart';
+import 'models/http.dart';
+import 'profil.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-
 class MaBio extends StatefulWidget {
   List user;
-
+  
   MaBio(this.user);
 
   @override
@@ -17,16 +19,67 @@ class MaBio extends StatefulWidget {
 }
 
 class _MaBioState extends State<MaBio> {
+  String response = "";
   List _user;
+  var userupdated = new List<Etudiant>();
+  List userup;
+ 
   var _formKey = GlobalKey<FormState>();
+  var etudiant = new List<Etudiant>();
   TextEditingController bioController = TextEditingController();
   
  
   @override
   void initState() {
-    _user = widget.user;
     super.initState();
+    getEtudiant();
+    _user = widget.user;
     
+    
+  }
+
+   String _hostname() {
+    return 'http://studilink.online/studibase.etudiant';
+  }
+
+  Future getEtudiant() async {
+    http.Response response = await http.get(_hostname());
+    debugPrint(response.body);
+    setState(() {
+      Iterable list = json.decode(response.body);
+      etudiant = list.map((model) => Etudiant.fromJson(model)).toList();
+    });
+  }
+
+  List _afterUpdate(){
+    int id = _user[0].id;
+    _user.clear();
+    for (var i = 0; i < etudiant.length; i++) {
+      if (etudiant[i].id == id){
+        _user.add(etudiant[i]);
+        return _user;
+      }
+      else{
+        continue;
+      }
+    }
+  }
+
+
+  updateBio() async {
+    debugPrint("ici ok");
+    var result = await http_update('studibase.etudiant', _user[0].id.toString(), {'bio' : bioController.text});
+    debugPrint('ici pas ok');
+    if(result.ok)
+    {
+      setState(() {
+        debugPrint("on est ici 2 ===========");
+        debugPrint(response);
+        response = result.data['status'];
+      });
+      getEtudiant();
+      return true;
+    }
   }
 
   
@@ -112,10 +165,59 @@ class _MaBioState extends State<MaBio> {
 
                       )
                       )
-
-                
-
             ),
+
+            Padding(
+                            padding: EdgeInsets.only(top: 25.0, bottom: 15.0, left: 40, right:40),
+                            child: Expanded(
+                                child: InkWell(
+                              child: Container(
+                                height: 48,
+                                decoration: BoxDecoration(
+                                  color: DesignCourseAppTheme.nearlyBlue,
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(16.0),
+                                  ),
+                                  boxShadow: <BoxShadow>[
+                                    BoxShadow(
+                                        color: DesignCourseAppTheme.nearlyBlue
+                                            .withOpacity(0.5),
+                                        offset: const Offset(1.1, 1.1),
+                                        blurRadius: 10.0),
+                                  ],
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'Modifier',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18,
+                                      letterSpacing: 0.0,
+                                      color: DesignCourseAppTheme.nearlyWhite,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              onTap: () {
+                                    setState(() async {
+                                      
+                                   
+                                    if (_formKey.currentState.validate()) {
+                                      
+                                        var result =  await updateBio();
+                                         if (result) {
+                                          debugPrint("it is not true");
+                                         
+                                          _showDialog();
+                                          
+                                        }
+                                        
+                                    }
+                                     });
+                              },
+                            )),
+                          )
 
                               ])),
 
@@ -125,6 +227,53 @@ class _MaBioState extends State<MaBio> {
       ),
     );
   }
+
+  void _showDialog() {
+      // flutter defined function
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          // return object of type Dialog
+          return AlertDialog(
+            titleTextStyle: TextStyle(
+              fontSize: 14.0,
+              color: Colors.grey[800],
+              fontFamily: 'JosefinSans',
+              fontWeight: FontWeight.w400,
+            ),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25.0)),
+            elevation: 2.0,
+            title:
+                new Text("Ta bio a été modifiée."),
+            actions: <Widget>[
+              // usually buttons at the bottom of the dialog
+              
+
+              new FlatButton(
+                child: Text("OK",
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: DesignCourseAppTheme.grey,
+                      fontFamily: 'JosefinSans',
+                      fontWeight: FontWeight.w600,
+                    )),
+                onPressed: () {
+                  
+                  Navigator.pop(context, () {
+                    });
+                  _afterUpdate();
+                  print(_user[0].bio);
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder : (context){
+                    return Profil(_user);
+                  }));
+                },
+              )
+            ],
+          );
+        },
+      );
+    }
 
   void moveToLastScreen() {
     Navigator.pop(context);

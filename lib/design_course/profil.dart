@@ -125,7 +125,7 @@ class _ProfilState extends State<Profil> {
                     borderRadius: const BorderRadius.all(Radius.circular(18.0)),
                      )),),
                      onTap: (){
-                       Navigator.push(context, MaterialPageRoute(builder : (context){
+                       Navigator.pushReplacement(context, MaterialPageRoute(builder : (context){
                     return MaBio(_user);
                   }));
                      },),

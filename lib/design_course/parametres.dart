@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'design_course_app_theme.dart';
+import 'connexion.dart';
 
 class Parametre extends StatefulWidget {
  @override
@@ -254,7 +255,9 @@ class _ParametreState extends State<Parametre>{
                   color: DesignCourseAppTheme.nearlyBlue ,
                 )),
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.pushReplacement(context, MaterialPageRoute(builder : (context){
+                    return Connexion();
+                  }));
               },)
 
           ],
