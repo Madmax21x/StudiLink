@@ -6,11 +6,13 @@ import 'package:best_flutter_ui_templates/design_course/category.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:best_flutter_ui_templates/design_course/membre.dart';
 
 class PopularCourseListView extends StatefulWidget {
-  const PopularCourseListView({Key key, this.callBack}) : super(key: key);
+  List user;
 
-  final Function callBack;
+  PopularCourseListView(this.user);
+
   @override
   _PopularCourseListViewState createState() => _PopularCourseListViewState();
 }
@@ -18,9 +20,10 @@ class PopularCourseListView extends StatefulWidget {
 class _PopularCourseListViewState extends State<PopularCourseListView>
     with TickerProviderStateMixin {
   AnimationController animationController;
-
+  List _user;
   var group = new List<Group>();
   var category = new List<Category>();
+  var membre = new List<Membre>();
 
   @override
   void initState() {
@@ -29,6 +32,8 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
     super.initState();
     getCategory();
     getCours();
+    getMembre();
+    _user = widget.user;
   }
 
   Future<bool> getData() async {
@@ -64,6 +69,19 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
     });
   }
 
+  String _hostnameMembre() {
+    return 'http://studilink.online/studibase.membre';
+  }
+
+  Future getMembre() async {
+    http.Response response = await http.get(_hostnameMembre());
+    debugPrint(response.body);
+    setState(() {
+      Iterable list = json.decode(response.body);
+      membre = list.map((model) => Membre.fromJson(model)).toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -92,12 +110,11 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
                   );
                   animationController.forward();
                   return CategoryView(
-                    callback: () {
-                      widget.callBack();
-                    },
                     index: index,
                     group: group,
+                    user: _user,
                     category:category,
+                    membre: membre,
                     animation: animation,
                     animationController: animationController,
                   );
@@ -122,7 +139,9 @@ class CategoryView extends StatelessWidget {
       {Key key,
       this.index,
       this.group,
+      this.user,
       this.category,
+      this.membre,
       this.animationController,
       this.animation,
       this.callback})
@@ -132,26 +151,13 @@ class CategoryView extends StatelessWidget {
   final int index;
   final List group;
   final List category;
+  final List membre;
+  final List user;
   final AnimationController animationController;
   final Animation<dynamic> animation;
 
   @override
   Widget build(BuildContext context) {
-    String titre = '';
-    String jour ;
-    String description = '';
-    String lieu = '';
-    String imagePath = '';
-
-    void moveTo(
-        titre, jour, description, lieu,imagePath) {
-      Navigator.push<dynamic>(
-        context,
-        MaterialPageRoute<dynamic>(
-          builder: (BuildContext context) => CourseInfoScreen(titre, description, lieu, jour, imagePath),
-        ),
-      );
-    }
 
     return AnimatedBuilder(
       animation: animationController,
@@ -216,7 +222,7 @@ class CategoryView extends StatelessWidget {
                                                     CrossAxisAlignment.center,
                                                 children: <Widget>[
                                                   Text(
-                                                    '0 membre(s)',
+                                                    _nbrMembre(group[index].id, membre).toString() + ' membre(s)',
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                       fontWeight:
@@ -307,19 +313,29 @@ class CategoryView extends StatelessWidget {
                   ),
                 ),
                 onTap: () {
-                  titre = group[index].title;
-                  jour = group[index].date;
-                  description = group[index].description;
-                  lieu = group[index].place;
-                  imagePath = categoryImage(group[index].category_id, category);
-
-                  moveTo(titre, jour,description, lieu, imagePath);
+                  Navigator.push(context, MaterialPageRoute(builder : (context){
+                    return CourseInfoScreen(user, group[index]);
+                  }));
                 },
               )),
         );
       },
     );
   }
+
+  int _nbrMembre(int valeur, List membre){
+    List nbrMem = [];
+    for (var i = 0; i < membre.length; i++) {
+      if (membre[i].group_id == valeur){
+        nbrMem.add(membre[i]);
+      }
+      else{
+        continue;
+      }
+    }
+    return nbrMem.length;
+  }
+
 String categoryImage(int valeur, List category){
   for (var i = 0; i < category.length; i++) {
     if (category[i].id == valeur){
@@ -329,6 +345,7 @@ String categoryImage(int valeur, List category){
       continue;
     }
     }
+  return "assets/design_course/interFace2.png";
 }
   
 }

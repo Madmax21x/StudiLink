@@ -122,14 +122,11 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
     setState(() {
       Iterable list = json.decode(response.body);
       categoryData = list.map((model) => Category.fromJson(model)).toList();
-      print(categoryData);
+      
     });
   }
 
   Widget getCategoryUI() {
-
-     
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -175,12 +172,8 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
                     splashColor: Colors.white24,
                     borderRadius: const BorderRadius.all(Radius.circular(24.0)),
                     onTap: () {
-                      
                       _onSelected(index);
-                      print(categoryData[index].id);
-                      print(group);
                       newData = newCategoryData(categoryData[index].id, group);
-                      print(newData);
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(
@@ -209,8 +202,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
           ),
         ),
       
-        CategoryListView(newData)
-        
+        CategoryListView(newData, _user)
         
       ],
     );
@@ -236,7 +228,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
             ),
           ),
           Flexible(
-            child: PopularCourseListView(),
+            child: PopularCourseListView(_user),
           )
         ],
       ),

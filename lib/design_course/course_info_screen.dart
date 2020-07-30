@@ -1,14 +1,16 @@
+import 'package:best_flutter_ui_templates/design_course/home_design_course.dart';
 import 'package:flutter/material.dart';
 import 'design_course_app_theme.dart';
+import 'package:best_flutter_ui_templates/design_course/category.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:best_flutter_ui_templates/design_course/models/http.dart';
+import 'package:best_flutter_ui_templates/design_course/membre.dart';
 
 class CourseInfoScreen extends StatefulWidget {
-  
-  String titre; 
-  String date;
-  String description;
-  String place;
-  String imagePath;
-  CourseInfoScreen(this.titre, this.description, this.place, this.date, this.imagePath);
+  List user;
+  dynamic group;
+  CourseInfoScreen(this.user, this.group);
   @override
   _CourseInfoScreenState createState() => _CourseInfoScreenState();
 }
@@ -16,11 +18,82 @@ class CourseInfoScreen extends StatefulWidget {
 
 class _CourseInfoScreenState extends State<CourseInfoScreen>
     with TickerProviderStateMixin {
-      String _titre;
-      String _date;
-      String _description;
-      String _place;
-      String _imagePath;
+      dynamic _group;
+      List _user;
+      String response = "";
+      var category = new List<Category>();
+      var membre = new List<Membre>();
+      String _buttonText = "";
+
+  String _hostnameCategory() {
+    return 'http://studilink.online/studibase.category';
+  }
+
+  Future getCategory() async {
+    http.Response response = await http.get(_hostnameCategory());
+    debugPrint(response.body);
+    setState(() {
+      Iterable list = json.decode(response.body);
+      category = list.map((model) => Category.fromJson(model)).toList();
+      
+    });
+  }
+
+  String categoryImage(int valeur, List category){
+  for (var i = 0; i < category.length; i++) {
+    if (category[i].id == valeur){
+      return category[i].image;
+    }
+    else{
+      continue;
+    }
+    }
+  return "assets/design_course/interFace2.png";
+}
+
+  createMember() async {
+    debugPrint("ici ok");
+    var result = await http_post('studibase.membre',{
+        'group_id': _group.id,
+        'etudiant_id': _user[0].id,
+    });
+    debugPrint('ici pas ok');
+    if(result.ok)
+    {
+      setState(() {
+        debugPrint("on est ici 2 ===========");
+        debugPrint(response);
+        response = result.data['status'];
+      });
+      return true;
+    }
+  }
+
+  String _hostnameMembre() {
+    return 'http://studilink.online/studibase.membre';
+  }
+
+  Future getMembre() async {
+    http.Response response = await http.get(_hostnameMembre());
+    debugPrint(response.body);
+    setState(() {
+      Iterable list = json.decode(response.body);
+      membre = list.map((model) => Membre.fromJson(model)).toList();
+    });
+  }
+
+  int _nbrMembre(int valeur, List membre){
+    List nbrMem = [];
+    for (var i = 0; i < membre.length; i++) {
+      if (membre[i].group_id == valeur){
+        nbrMem.add(membre[i]);
+      }
+      else{
+        continue;
+      }
+    }
+    return nbrMem.length;
+  }
 
   final double infoHeight = 364.0;
   AnimationController animationController;
@@ -30,11 +103,11 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
   double opacity3 = 0.0;
   @override
   void initState() {
-    _titre = widget.titre;
-    _date = widget.date;
-    _description = widget.description;
-    _place = widget.place;
-    _imagePath = widget.imagePath;
+    super.initState();
+    getCategory();
+    getMembre();
+    _group = widget.group;
+    _user = widget.user;
 
     animationController = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
@@ -42,7 +115,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
         parent: animationController,
         curve: Interval(0, 1.0, curve: Curves.fastOutSlowIn)));
     setData();
-    super.initState();
+    
   }
 
   Future<void> setData() async {
@@ -76,7 +149,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
               children: <Widget>[
                 AspectRatio(
                   aspectRatio: 1.2,
-                  child: Image.asset(_imagePath),
+                  child: Image.asset(categoryImage(_group.category_id, category)),
                 ),
               ],
             ),
@@ -115,7 +188,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                             padding: const EdgeInsets.only(
                                 top: 32.0, left: 18, right: 16),
                             child: Text(
-                              _titre,
+                              _group.title,
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
@@ -132,7 +205,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                Text(_date.substring(0, _date.indexOf("T")),
+                                Text(_group.date.substring(0, _group.date.indexOf("T")),
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w200,
@@ -176,10 +249,10 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
                                 children: <Widget>[
-                                  getTimeBoxUI(_place, 'Lieu'),
-                                  getTimeBoxUI(_date.substring(11,16), 'Heure'),
+                                  getTimeBoxUI(_group.place, 'Lieu'),
+                                  getTimeBoxUI(_group.date.substring(11,16), 'Heure'),
                                   //à modifier plus tard
-                                  getTimeBoxUI('0', 'Membres'),
+                                  getTimeBoxUI(_nbrMembre(_group.id, membre).toString(), 'Membres'),
                                 ],
                               ))),
                             ),
@@ -192,7 +265,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                 padding: const EdgeInsets.only(
                                     left: 16, right: 16, top: 8, bottom: 8),
                                 child: Text(
-                                  _description,
+                                  _group.description,
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w200,
@@ -213,7 +286,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                               padding: const EdgeInsets.only(
                                   left: 16, bottom: 16, right: 16),
                               
-                                  child:Expanded(
+                                  child:InkWell(child:Expanded(
                                     child: Container(
                                       height: 48,
                                       decoration: BoxDecoration(
@@ -232,7 +305,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                       ),
                                       child: Center(
                                         child: Text(
-                                          'Rejoindre le Groupe',
+                                          _estMembre(),
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             fontWeight: FontWeight.w600,
@@ -244,7 +317,23 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                         ),
                                       ),
                                     ),
-                                  )
+                                  ),
+                                  onTap: () async{
+                                    if (_estMembre()== "Rejoindre le group"){
+                                      var result =  await createMember();
+                                         if (result) {
+                                          _showDialog();
+                                        }
+                                    }
+                                    else{
+                                      var result =  await deleteMembre(_idMembre().toString());
+                                        if (result) {
+                                          _showDialogDel();
+                                        }
+                                    }
+                                    
+                                    
+                                  },)
                               
                             ),
                           ),
@@ -310,6 +399,129 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
       ),
     );
   }
+
+  String _estMembre(){
+    print("membre:");
+    print(membre);
+    print(_user[0].id);
+    for (var i = 0; i < membre.length; i++) {
+      if (membre[i].group_id == _group.id){
+        if(membre[i].etudiant_id == _user[0].id){
+          _buttonText = "Quitter le group";
+          return _buttonText;
+        }
+      }
+      else{
+        continue;
+      }
+    }
+    _buttonText = "Rejoindre le group";
+    return _buttonText;
+
+  }
+
+  int _idMembre(){
+
+    for (var i = 0; i < membre.length; i++) {
+      if (membre[i].group_id == _group.id){
+        if(membre[i].etudiant_id == _user[0].id){
+          return membre[i].id;
+        }
+      }
+      else{
+        continue;
+      }
+    }
+
+  }
+
+  void _showDialog() {
+      // flutter defined function
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          // return object of type Dialog
+          return AlertDialog(
+            titleTextStyle: TextStyle(
+              fontSize: 14.0,
+              color: Colors.grey[800],
+              fontFamily: 'JosefinSans',
+              fontWeight: FontWeight.w400,
+            ),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25.0)),
+            elevation: 2.0,
+            title:
+                new Text("Vous avez joint le groupe."),
+            actions: <Widget>[
+              // usually buttons at the bottom of the dialog
+              
+              new FlatButton(
+                child: Text("OK",
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: DesignCourseAppTheme.grey,
+                      fontFamily: 'JosefinSans',
+                      fontWeight: FontWeight.w600,
+                    )),
+                onPressed: () {
+                  Navigator.pop(context, () {
+                    });
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder : (context){
+                    return DesignCourseHomeScreen(_user);
+                  }));
+                },
+              )
+            ],
+          );
+        },
+      );
+    }
+
+
+    void _showDialogDel() {
+      // flutter defined function
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          // return object of type Dialog
+          return AlertDialog(
+            titleTextStyle: TextStyle(
+              fontSize: 14.0,
+              color: Colors.grey[800],
+              fontFamily: 'JosefinSans',
+              fontWeight: FontWeight.w400,
+            ),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25.0)),
+            elevation: 2.0,
+            title:
+                new Text("Vous avez quitté le groupe."),
+            actions: <Widget>[
+              // usually buttons at the bottom of the dialog
+              
+
+              new FlatButton(
+                child: Text("OK",
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: DesignCourseAppTheme.grey,
+                      fontFamily: 'JosefinSans',
+                      fontWeight: FontWeight.w600,
+                    )),
+                onPressed: () {
+                  Navigator.pop(context, () {
+                    });
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder : (context){
+                    return DesignCourseHomeScreen(_user);
+                  }));
+                },
+              )
+            ],
+          );
+        },
+      );
+    }
 
   Widget getTimeBoxUI(dynamic text1, String txt2) {
     return Padding(

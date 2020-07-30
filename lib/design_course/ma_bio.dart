@@ -207,8 +207,6 @@ class _MaBioState extends State<MaBio> {
                                       
                                         var result =  await updateBio();
                                          if (result) {
-                                          debugPrint("it is not true");
-                                         
                                           _showDialog();
                                           
                                         }
