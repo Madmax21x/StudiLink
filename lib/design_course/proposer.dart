@@ -4,6 +4,7 @@ import 'design_course_app_theme.dart';
 import 'package:best_flutter_ui_templates/design_course/models/http.dart';
 import 'package:best_flutter_ui_templates/design_course/home_design_course.dart';
 import 'package:best_flutter_ui_templates/design_course/category.dart';
+import 'package:best_flutter_ui_templates/design_course/cours.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -31,6 +32,8 @@ class _ProposerState extends State<Proposer> {
   String dropdownValue = "1";
   String response = "";
   var category_data = new List<Category>();
+  var val = new List<Group>();
+  var group = new List<Group>();
 
   String _hostname() {
     return 'http://studilink.online/studibase.category';
@@ -42,12 +45,10 @@ class _ProposerState extends State<Proposer> {
     setState(() {
       Iterable list = json.decode(response.body);
       category_data = list.map((model) => Category.fromJson(model)).toList();
-      print(category_data);
     });
   }
 
   createCourse() async {
-    debugPrint("ici ok");
     var result = await http_post('studibase.group',{
         'category_id': dropdownValue,
         'title': titleController.text.inCaps,
@@ -55,14 +56,64 @@ class _ProposerState extends State<Proposer> {
         'place': lieuController.text.inCaps,
         'date': date.toString(),
     });
+    if(result.ok)
+    {
+      setState(() {
+        debugPrint(response);
+        response = result.data['status'];
+      });
+      getCours();
+      return true;
+    }
+  }
+
+  String _hostnameGroup() {
+    return 'http://studilink.online/studibase.group';
+  }
+
+  Future getCours() async {
+    http.Response response = await http.get(_hostnameGroup());
+    debugPrint(response.body);
+    setState(() {
+      Iterable list = json.decode(response.body);
+      group = list.map((model) => Group.fromJson(model)).toList();
+    });
+    return true;
+  }
+
+  int _getId(){
+    getCours();
+    for (var i = group.length-1; i > 0; i--) {
+      if (group[i].category_id.toString() == dropdownValue && 
+      group[i].title == titleController.text.inCaps && 
+      group[i].description == descriptionController.text.inCaps &&
+      group[i].place == lieuController.text.inCaps){
+      print("okkkkkkkk");
+      return group[i].id;
+      }
+      else{
+        continue;
+      }
+    }
+  return 0;
+  }
+  
+
+
+  createMember() async {
+    debugPrint("ici ok");
+    var result = await http_post('studibase.membre',{
+        'group_id': _getId(),
+        'etudiant_id': _user[0].id,
+    });
     debugPrint('ici pas ok');
     if(result.ok)
     {
       setState(() {
-        debugPrint("on est ici 2 ===========");
         debugPrint(response);
         response = result.data['status'];
       });
+      return true;
     }
   }
 
@@ -75,7 +126,6 @@ class _ProposerState extends State<Proposer> {
     date = DateTime.now();
     _user = widget.user;
     super.initState();
-    
   }
 
   
@@ -381,15 +431,6 @@ class _ProposerState extends State<Proposer> {
                                     initialDateTime: DateTime.now(),
                                     onDateTimeChanged: (DateTime newDateTime) {
                                       setState(() => date = newDateTime);
-                                      // debugPrint("Date choisie : $date ");
-                                      // _day = date.day.toString() +
-                                      //     '/' +
-                                      //     date.month.toString();
-                                      // debugPrint("Date choisie : $_day ");
-                                      // _time = date.hour.toString() +
-                                      //     ':' +
-                                      //     date.minute.toString();
-                                      // debugPrint("Date choisie : $_time ");
                                     },
                                     use24hFormat: true,
                                     minuteInterval: 1,
@@ -434,9 +475,15 @@ class _ProposerState extends State<Proposer> {
                               onTap: (){
                                 
                                     if (_formKey.currentState.validate()) {
-                                      setState(() {
-                                      createCourse();
-                                      _showDialog();
+                                      setState(() async{
+                                        var result =  await createCourse();
+                                         if (result) {
+                                           var res = await getCours();
+                                           if (res){
+                                            createMember();
+                                            _showDialog();
+                                           }
+                                        }
                                       });
                                     }
                               },

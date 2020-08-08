@@ -452,7 +452,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                 borderRadius: BorderRadius.circular(25.0)),
             elevation: 2.0,
             title:
-                new Text("Vous avez joint le groupe."),
+                new Text("Vous avez rejoint le groupe."),
             actions: <Widget>[
               // usually buttons at the bottom of the dialog
               

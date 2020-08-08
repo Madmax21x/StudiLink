@@ -122,7 +122,6 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
     setState(() {
       Iterable list = json.decode(response.body);
       categoryData = list.map((model) => Category.fromJson(model)).toList();
-      
     });
   }
 
