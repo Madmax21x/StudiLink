@@ -41,7 +41,7 @@ class _RechercheState extends State<Recherche> {
     setState(() {
       Iterable list = json.decode(response.body);
       group = list.map((model) => Group.fromJson(model)).toList();
-      newData = newGroupData("1", group);
+      newData = newGroupData("1234", group);
     });
   }
 
@@ -168,7 +168,6 @@ class _RechercheState extends State<Recherche> {
                                         newData = newGroupData(titleController.text, group);
                                       print(newData);
                                       });
-                                      
                                     },),
                                 )
                               ],

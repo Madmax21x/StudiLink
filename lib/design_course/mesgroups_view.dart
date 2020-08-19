@@ -11,8 +11,6 @@ import 'package:best_flutter_ui_templates/design_course/membre.dart';
 
 class MesGroupsView extends StatefulWidget {
   List user;
-
- 
   List newdata;
   MesGroupsView(this.newdata, this.user);
 
@@ -51,11 +49,9 @@ class _MesGroupsViewState extends State<MesGroupsView>
 
   Future getCategory() async {
     http.Response response = await http.get(_hostnameCategory());
-    debugPrint(response.body);
     setState(() {
       Iterable list = json.decode(response.body);
       category = list.map((model) => Category.fromJson(model)).toList();
-      
     });
   }
 
@@ -65,7 +61,6 @@ class _MesGroupsViewState extends State<MesGroupsView>
 
   Future getMembre() async {
     http.Response response = await http.get(_hostnameMembre());
-    debugPrint(response.body);
     setState(() {
       Iterable list = json.decode(response.body);
       membre = list.map((model) => Membre.fromJson(model)).toList();
@@ -198,8 +193,6 @@ class CategoryView extends StatelessWidget {
                           return MesGroups(user);
                   }));
                  }
-
-                  //Navigator.of(context).pop();
                 },
               )
             ],

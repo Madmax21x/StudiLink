@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'design_course_app_theme.dart';
 import 'dart:convert';
 import 'package:best_flutter_ui_templates/design_course/cours.dart';
+import 'package:best_flutter_ui_templates/design_course/membre.dart';
 import 'package:best_flutter_ui_templates/design_course/mesgroups_view.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,13 +20,16 @@ class MesGroups extends StatefulWidget {
 
 class _MesGroupsState extends State<MesGroups> {
   var group = new List<Group>();
+  var membre = new List<Membre>();
   List _user;
+  var mesGroup = new List<Group>();
 
   @override
   void initState() {
-    super.initState();
-    _user = widget.user;
+     _user = widget.user;
     getCours();
+    getMembre();
+    super.initState();
   }
 
   String _hostname() {
@@ -41,6 +45,35 @@ class _MesGroupsState extends State<MesGroups> {
     });
   }
 
+   String _hostnameMembre() {
+    return 'http://studilink.online/studibase.membre';
+  }
+
+  Future getMembre() async {
+    http.Response response = await http.get(_hostnameMembre());
+    debugPrint(response.body);
+    setState(() {
+      Iterable list = json.decode(response.body);
+      membre = list.map((model) => Membre.fromJson(model)).toList();
+    });
+  }
+
+  List _mesGroup(List membre){
+    for (var i = 0; i < membre.length; i++) {
+      if (membre[i].etudiant_id == _user[0].id){
+        for(var j = 0; j < group.length; j++) {
+          if(group[j].id == membre[i].group_id){
+            mesGroup.add(group[j]);
+          }
+        }
+      }else{
+        continue;
+      }
+    }
+    return mesGroup;
+  }
+
+
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
@@ -53,7 +86,6 @@ class _MesGroupsState extends State<MesGroups> {
               //crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 // RECHERCHE - TITRE
-
                 Padding(
                     padding: EdgeInsets.only(top: 50.0, left: 20.0),
                     child: Row(children: <Widget>[
@@ -97,12 +129,31 @@ class _MesGroupsState extends State<MesGroups> {
                 const SizedBox(
                   height: 25,
                 ),
-
-                Flexible(child: MesGroupsView(group, _user))
+                affichage(),
               ]),
         ),
       ),
     );
+  }
+
+  Widget affichage(){
+    mesGroup.clear();
+    mesGroup = _mesGroup(membre);
+    if(mesGroup == []){
+      return Container(
+        margin: EdgeInsets.only(top:50, left:30, right:30),
+        child:Text("Tu n'es pas encore membre d'un Studi-Group.",
+         textAlign: TextAlign.left,
+          style: TextStyle(
+            fontWeight: FontWeight.w400,
+            fontSize: 15,
+            letterSpacing: 0.2,
+            color: DesignCourseAppTheme.grey,
+          )));
+    }else{
+      return Flexible(child:MesGroupsView(mesGroup, _user)) ;
+    }
+
   }
 
   void moveToLastScreen() {

@@ -6,6 +6,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:best_flutter_ui_templates/design_course/models/http.dart';
 import 'package:best_flutter_ui_templates/design_course/membre.dart';
+import 'package:best_flutter_ui_templates/design_course/membres.dart';
+import 'package:best_flutter_ui_templates/design_course/etudiant.dart';
 
 class CourseInfoScreen extends StatefulWidget {
   List user;
@@ -21,6 +23,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
       dynamic _group;
       List _user;
       String response = "";
+      var etudiant = new List<Etudiant>();
       var category = new List<Category>();
       var membre = new List<Membre>();
       String _buttonText = "";
@@ -35,7 +38,6 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
     setState(() {
       Iterable list = json.decode(response.body);
       category = list.map((model) => Category.fromJson(model)).toList();
-      
     });
   }
 
@@ -82,17 +84,36 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
     });
   }
 
-  int _nbrMembre(int valeur, List membre){
+   String _hostname() {
+    return 'http://studilink.online/studibase.etudiant';
+  }
+
+  Future getEtudiant() async {
+    http.Response response = await http.get(_hostname());
+    debugPrint(response.body);
+    setState(() {
+      Iterable list = json.decode(response.body);
+      etudiant = list.map((model) => Etudiant.fromJson(model)).toList();
+    });
+  }
+
+
+  List _nbrMembre(int valeur, List membre, List etudiant){
     List nbrMem = [];
+    print("LIst étudiant");
+    print(etudiant);
     for (var i = 0; i < membre.length; i++) {
       if (membre[i].group_id == valeur){
-        nbrMem.add(membre[i]);
+        for(var j = 0; j< etudiant.length; j++){
+          if (membre[i].etudiant_id == etudiant[j].id){
+            nbrMem.add(etudiant[j]);
+        }
       }
-      else{
+      }else{
         continue;
       }
     }
-    return nbrMem.length;
+    return nbrMem;
   }
 
   final double infoHeight = 364.0;
@@ -106,6 +127,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
     super.initState();
     getCategory();
     getMembre();
+    getEtudiant();
     _group = widget.group;
     _user = widget.user;
 
@@ -252,7 +274,15 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                   getTimeBoxUI(_group.place, 'Lieu'),
                                   getTimeBoxUI(_group.date.substring(11,16), 'Heure'),
                                   //à modifier plus tard
-                                  getTimeBoxUI(_nbrMembre(_group.id, membre).toString(), 'Membres'),
+                                  InkWell(
+                                    child:getTimeBoxUI(_nbrMembre(_group.id, membre, etudiant).length.toString(), 'Membres'),
+                                    onTap: (){
+                                      Navigator.push(context, MaterialPageRoute(builder : (context){
+                                      return Membres(_user, _nbrMembre(_group.id, membre, etudiant));
+                                    }));
+                                    },
+                                  )
+                                  ,
                                 ],
                               ))),
                             ),

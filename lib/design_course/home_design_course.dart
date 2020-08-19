@@ -57,7 +57,6 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
     });
   }
 
-  
   List newCategoryData(int index, List group){
     newData.clear();
     for (var i = 0; i < group.length; i++) {

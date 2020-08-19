@@ -97,8 +97,6 @@ class _ProposerState extends State<Proposer> {
     }
   return 0;
   }
-  
-
 
   createMember() async {
     debugPrint("ici ok");

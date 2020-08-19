@@ -377,13 +377,10 @@ class _ConnexionState extends State<Connexion>{
     }
 
   bool _isOK(String email, String motdepasse){
-    print(etudiant);
     
   for (var i = 0; i < etudiant.length; i++) {
     if (etudiant[i].email == email){
-      debugPrint("-----1-----");
       if (etudiant[i].motdepasse == motdepasse){
-        debugPrint("-----2-----");
         user.add(etudiant[i]);
         return true;
       }
