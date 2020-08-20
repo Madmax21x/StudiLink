@@ -357,13 +357,16 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                     }
                                     else{
                                       var result =  await deleteMembre(_idMembre().toString());
+                                        
                                         if (result) {
+                                          if(_nbrMembre(_group.id, membre, etudiant).length == 1){
+                                            deleteCours(_group.id.toString());
+                                          }
                                           _showDialogDel();
-                                        }
+                                        
+
                                     }
-                                    
-                                    
-                                  },)
+                                  }},)
                               
                             ),
                           ),

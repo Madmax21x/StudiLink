@@ -24,6 +24,7 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
   var group = new List<Group>();
   var category = new List<Category>();
   var membre = new List<Membre>();
+  var newData = new List<Group>();
 
   @override
   void initState() {
@@ -34,6 +35,7 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
     getCours();
     getMembre();
     _user = widget.user;
+    newData = popularCourseData();
   }
 
   Future<bool> getData() async {
@@ -52,6 +54,7 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
     setState(() {
       Iterable list = json.decode(response.body);
       group = list.map((model) => Group.fromJson(model)).toList();
+      newData = popularCourseData();
     });
   }
 
@@ -79,7 +82,38 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
     setState(() {
       Iterable list = json.decode(response.body);
       membre = list.map((model) => Membre.fromJson(model)).toList();
+      newData = popularCourseData();
     });
+  }
+
+  List _nbrMembre(int valeur){
+    List nbrMem = [];
+    for (var i = 0; i < membre.length; i++) {
+      if (membre[i].group_id == valeur){
+        nbrMem.add(membre[i]);
+      }else{
+        continue;
+      }
+    print("list des membres");
+    print(nbrMem);
+    
+  }
+  return nbrMem;
+  }
+
+  List popularCourseData(){
+    newData.clear();
+    for(var i=0; i < group.length; i++){
+      print('length:');
+      print(_nbrMembre(group[i].id).length);
+      if(_nbrMembre(group[i].id).length >=2)
+      {
+        newData.add(group[i]);
+      }    
+    }
+      print("newdataaaaaaa");
+      print(newData);
+      return newData;
   }
 
   @override
@@ -97,9 +131,9 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.vertical,
               children: List<Widget>.generate(
-                group.length,
+                newData.length,
                 (int index) {
-                  final int count = group.length;
+                  final int count = newData.length;
                   final Animation<double> animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
                     CurvedAnimation(
@@ -112,6 +146,7 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
                   return CategoryView(
                     index: index,
                     group: group,
+                    newData: newData,
                     user: _user,
                     category:category,
                     membre: membre,
@@ -139,6 +174,7 @@ class CategoryView extends StatelessWidget {
       {Key key,
       this.index,
       this.group,
+      this.newData,
       this.user,
       this.category,
       this.membre,
@@ -153,6 +189,7 @@ class CategoryView extends StatelessWidget {
   final List category;
   final List membre;
   final List user;
+  final List newData;
   final AnimationController animationController;
   final Animation<dynamic> animation;
 
@@ -197,7 +234,7 @@ class CategoryView extends StatelessWidget {
                                               padding: const EdgeInsets.only(
                                                   top: 16, left: 16, right: 16),
                                               child: Text(
-                                                group[index].title,
+                                                newData[index].title,
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w600,
@@ -314,7 +351,7 @@ class CategoryView extends StatelessWidget {
                 ),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder : (context){
-                    return CourseInfoScreen(user, group[index]);
+                    return CourseInfoScreen(user, newData[index]);
                   }));
                 },
               )),
