@@ -69,3 +69,20 @@ Future<bool> deleteMembre(String id) async {
     throw Exception('Failed to delete membre.');
   }
 }
+
+Future<bool> deleteAvis(String id) async {
+  final http.Response response = await http.delete(
+    'http://studilink.online/studibase.avis/$id',
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+  );
+  if (response.statusCode == 200) {
+    debugPrint(id);
+    debugPrint((response.body));
+    return true;
+  } else {
+    print(response.statusCode);
+    throw Exception('Failed to delete avis.');
+  }
+}

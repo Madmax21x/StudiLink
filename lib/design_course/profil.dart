@@ -4,6 +4,9 @@ import 'design_course_app_theme.dart';
 import 'dart:convert';
 import 'package:best_flutter_ui_templates/design_course/cours.dart';
 import 'package:best_flutter_ui_templates/design_course/ma_bio.dart';
+import 'package:best_flutter_ui_templates/design_course/etudiant.dart';
+import 'package:best_flutter_ui_templates/design_course/avis.dart';
+import 'package:best_flutter_ui_templates/design_course/home_design_course.dart';
 import 'package:best_flutter_ui_templates/app_theme.dart';
 import 'package:http/http.dart' as http;
 
@@ -20,26 +23,64 @@ class Profil extends StatefulWidget {
 
 class _ProfilState extends State<Profil> {
   var group = new List<Group>();
+  var avis = List<Avis>();
+  var etudiant = List<Etudiant>();
+  var avisProfil = List<Avis>();
+ 
   List _user;
 
   @override
   void initState() {
     super.initState();
     _user = widget.user;
-    getCours();
+     getAvis();
+    avisProfil = getAvisAvecId();
+    getEtudiant();
   }
 
-  String _hostname() {
-    return 'http://studilink.online/studibase.group';
+   String _hostnameAvis() {
+    return 'http://studilink.online/studibase.avis';
   }
 
-  Future getCours() async {
+  Future getAvis() async {
+    http.Response response = await http.get(_hostnameAvis());
+    debugPrint(response.body);
+    setState(() {
+      Iterable list = json.decode(response.body);
+      avis = list.map((model) => Avis.fromJson(model)).toList();
+      avisProfil = getAvisAvecId();
+    });
+  }
+
+  List getAvisAvecId(){
+    avisProfil.clear();
+    for(var i= 0; i< avis.length; i++){
+      if(avis[i].etudiant_id == _user[0].id){
+        avisProfil.add(avis[i]);
+      }    
+    }
+    return avisProfil;
+  }
+
+   String _hostname() {
+    return 'http://studilink.online/studibase.etudiant';
+  }
+
+  Future getEtudiant() async {
     http.Response response = await http.get(_hostname());
     debugPrint(response.body);
     setState(() {
       Iterable list = json.decode(response.body);
-      group = list.map((model) => Group.fromJson(model)).toList();
+      etudiant = list.map((model) => Etudiant.fromJson(model)).toList();
     });
+  }
+
+  Etudiant _etudiantData(int id){
+    for(var i= 0; i< etudiant.length; i++){
+      if(etudiant[i].id == id){
+       return etudiant[i];
+      }    
+    }
   }
 
   Widget build(BuildContext context) {
@@ -156,59 +197,128 @@ class _ProfilState extends State<Profil> {
                     color: Color(0xFFFAF2FD),
                     borderRadius: const BorderRadius.all(Radius.circular(18.0)),
                      ),
-                child : Padding(
-                  padding: EdgeInsets.only(top: 20.0),
-                  child: Column(
-                    // Premier avis 
-
-                    children: <Widget>[
-                      Row(children: <Widget>[
-                        // image : 1st element of the row
-
-                        Positioned(
-                          top:MediaQuery.of(context).size.height / 10,
-                          child: Container(
-                            width: 50.0,
-                            margin: EdgeInsets.only(left:20.0, top:10, right:20.0, bottom:20),
-                            child:ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: Image.asset(
-                              'assets/design_course/userImage.png',
-                              fit: BoxFit.cover,
-                            ),
-                          )
-                          )),
-
-                        // Commentaire : 2 nd element of the row 
-
-                          Column(children: <Widget>[
-                            //Rating(),
-                            Container(
-                              width: 200.0,
-                              margin: EdgeInsets.only(top:5.0),
-                              child: Text("Commentaire bla bla bla Commentaire bla bla bla",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 14,
-                                  letterSpacing: 0.27,
-                                  color: Colors.grey[600],
-                                ), 
-                                textAlign: TextAlign.left,
-                                overflow: TextOverflow.ellipsis, 
-                                maxLines: 6,) )
-                            ,
-                          ],)
-                      ], )
-                      
-
-                    ],)
+                child : Expanded(child:Padding(
+                  padding: EdgeInsets.only(top: 20.0, bottom: 20, left: 10),
+                  child: pasAvis()
+                  
                     )
-              ))
+                    
+                  
+              )))
 
               ]),
         ),
       ),
     );
+  }
+  
+  Widget pasAvis(){
+     if (avisProfil.length == 0){
+       return Text("Tu n'as pas d'avis pour l'instant. Pense à joindre un Study-Group.",
+        style: TextStyle(
+        fontWeight: FontWeight.w400,
+        fontSize: 13,
+        letterSpacing: 0.27,
+        color: Colors.grey[600],
+      ), 
+      textAlign: TextAlign.left);
+    }else{
+      return ListView.builder(
+        shrinkWrap: true,    
+        itemCount: avisProfil.length == null ? 0 : avisProfil.length,
+        itemBuilder: (BuildContext context, int index) {
+          return
+
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            // image : 1st element of the row
+            
+            Positioned(
+              top:MediaQuery.of(context).size.height / 10,
+              child: Container(
+                width: 50.0,
+                margin: EdgeInsets.only(left:20.0, top:10, right:20.0, bottom:20),
+                child:ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: Image.asset(
+                  'assets/design_course/userImage.png',
+                  fit: BoxFit.cover,
+                ),
+              )
+              )),
+
+            // Commentaire : 2 nd element of the row 
+
+              Column(children: <Widget>[
+                
+                Container(
+                  child: Text(
+                    _etudiantData(avisProfil[index].id_from).prenom + ' ' + _etudiantData(avisProfil[index].id_from).nom,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                      letterSpacing: 0.27,
+                      color: Colors.grey[600],
+                    ),
+                  )
+                ),
+                //Rating(),
+                Container(
+                  width: 200.0,
+                  margin: EdgeInsets.only(top:5.0),
+                  child: Text(avisProfil[index].description,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 13,
+                      letterSpacing: 0.27,
+                      color: Colors.grey[600],
+                    ), 
+                    textAlign: TextAlign.left,
+                    overflow: TextOverflow.ellipsis, 
+                    maxLines: 6,) ),
+                
+            ],),
+            
+          ]),
+            Container(
+              margin: EdgeInsets.only(right:10, left:30),
+              alignment: Alignment.bottomRight,
+              child: Center(
+                child:Row(children: <Widget>[
+
+                  Text(avisProfil[index].nbr_etoile.toString(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.grey[600],
+                    fontSize: 15,
+                  )),
+
+                  Icon(Icons.star,
+                  color: Colors.yellow[300]),
+                  
+                ],)
+                  )),
+
+            Container(
+            padding: EdgeInsets.only(left:25, right:25, top:10, bottom:10),
+            child:Divider(
+            color: Colors.white,
+            height: 10,
+            thickness: 2,
+          )
+          ),
+
+      ],)
+                  
+     ;});
+    }
   }
 
   String _biotext(){
@@ -224,3 +334,4 @@ class _ProfilState extends State<Profil> {
     Navigator.pop(context);
   }
 }
+

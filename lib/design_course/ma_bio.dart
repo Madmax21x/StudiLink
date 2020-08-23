@@ -155,11 +155,11 @@ class _MaBioState extends State<MaBio> {
                             ),
                             hintText: _hinttext(),
                             hintStyle: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 14,
-                                  letterSpacing: 0.27,
-                                  color: Colors.grey[600],
-                                ),
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14,
+                              letterSpacing: 0.27,
+                              color: Colors.grey[600],
+                            ),
 
                           )
 

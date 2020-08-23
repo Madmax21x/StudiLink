@@ -70,7 +70,7 @@ class _MembresState extends State<Membres>{
               ( padding: const EdgeInsets.only(
                     top: 20, bottom: 5, right: 20, left: 20),
                 shrinkWrap: true,
-                itemCount: _membres.length ==null ? 0 : _membres.length,
+                itemCount: _membres.length == null ? 0 : _membres.length,
                 itemBuilder: (BuildContext ctxt, int index) {
                 return 
                 InkWell(
@@ -114,13 +114,7 @@ class _MembresState extends State<Membres>{
                     return ProfilAutre(_user, _membres[index]);
                   }));
                 },
-                
-                
-                
                 );})
-                
-                
-              
           ]),
         ),
       ),
