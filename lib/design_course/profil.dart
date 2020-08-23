@@ -201,7 +201,7 @@ class _ProfilState extends State<Profil> {
                   padding: EdgeInsets.only(top: 20.0, bottom: 20, left: 10),
                   child: pasAvis()
                   
-                    )
+                )
                     
                   
               )))

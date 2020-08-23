@@ -26,14 +26,12 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
   List _user;
   int _selectedIndex = 0;
 
-    _onSelected(int index) {
-      setState(() => _selectedIndex = index);
-    }
+  _onSelected(int index) {
+    setState(() => _selectedIndex = index);
+  }
 
   var group = new List<Group>();
   var newData = new List<Group>();
-  
-
   void initState() {
     
     super.initState();
@@ -200,12 +198,30 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
           ),
         ),
       
-        CategoryListView(newData, _user)
+        newdataVide()
         
       ],
     );
   }
 
+  Widget newdataVide(){
+    if(newData.length == 0){
+      return Container(
+        padding: EdgeInsets.only(left:30, right: 30, top:5),
+        height: 50,
+        child:Text("Pas encore de cours dans cette catégorie.",
+        style: TextStyle(
+        fontWeight: FontWeight.w400,
+        fontSize: 14,
+        letterSpacing: 0.27,
+        color: Colors.grey[600],
+      ), 
+      textAlign: TextAlign.left));
+    }
+    else{
+      return CategoryListView(newData, _user);
+    }
+  }
   Widget getPopularCourseUI() {
     
 
