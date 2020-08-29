@@ -34,8 +34,6 @@ class _MaBioState extends State<MaBio> {
     super.initState();
     getEtudiant();
     _user = widget.user;
-    
-    
   }
 
    String _hostname() {
@@ -68,7 +66,8 @@ class _MaBioState extends State<MaBio> {
 
   updateBio() async {
     debugPrint("ici ok");
-    var result = await http_update('studibase.etudiant', _user[0].id.toString(), {'bio' : bioController.text});
+    var result = await http_update('studibase.etudiant', _user[0].id.toString(), {'bio' : bioController.text,
+    'userimage_id' : _user[0].userimage_id});
     debugPrint('ici pas ok');
     if(result.ok)
     {
@@ -138,7 +137,7 @@ class _MaBioState extends State<MaBio> {
                         
                         decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(25.0),
-                              color: Color(0xFFF2FDF6)),
+                              color: Color(0xFFF5FAF8)),
                         child: TextFormField(
                           controller: bioController,
                       

@@ -5,6 +5,7 @@ import 'package:best_flutter_ui_templates/design_course/side_menu.dart';
 import 'package:best_flutter_ui_templates/design_course/recherche.dart';
 import 'package:best_flutter_ui_templates/design_course/category.dart';
 import 'package:best_flutter_ui_templates/design_course/cours.dart';
+import 'package:best_flutter_ui_templates/design_course/loader.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'design_course_app_theme.dart';
@@ -32,14 +33,42 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
 
   var group = new List<Group>();
   var newData = new List<Group>();
+
   void initState() {
-    
     super.initState();
     getCours();
     getCategoryData();
     newData = newCategoryData(1, group);
     _user = widget.user;
   }
+
+  Future < Widget > fetchStr() async {
+    await new Future.delayed(const Duration(seconds: 3), () {});
+    return Column(
+          children: <Widget>[
+            SizedBox(
+              height: MediaQuery.of(context).padding.top,
+            ),
+            getAppBarUI(),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Container(
+                  height: MediaQuery.of(context).size.height,
+                  child: Column(
+                    children: <Widget>[
+                      getSearchBarUI(),
+                      getCategoryUI(),
+                      Flexible(
+                        child: getPopularCourseUI(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+    }
 
   String _hostname() {
     return 'http://studilink.online/studibase.group';
@@ -78,32 +107,19 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
         appBar: AppBar(title: Text(""), backgroundColor: Colors.white, elevation:0.0, iconTheme: new IconThemeData(color: DesignCourseAppTheme.darkerText)),
         drawer: Container(width: 270, child:NavDrawer(_user)),
         backgroundColor: Colors.transparent,
-        body: Column(
-          children: <Widget>[
-            SizedBox(
-              height: MediaQuery.of(context).padding.top,
-            ),
-            getAppBarUI(),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Container(
-                  height: MediaQuery.of(context).size.height,
-                  child: Column(
-                    children: <Widget>[
-                      getSearchBarUI(),
-                      getCategoryUI(),
-                      Flexible(
-                        child: getPopularCourseUI(),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+        body: Center(child:FutureBuilder < Widget> (
+      future: fetchStr(),
+      builder: (context, snapshot) {
+       if (snapshot.hasData) {
+        return snapshot.data;
+       } else if (snapshot.hasError) {
+        return Text("${snapshot.error}");
+       }
+       // By default, show a loading spinner
+       return 
+       ColorLoader3();
+      }),
+    )));
   }
 
    

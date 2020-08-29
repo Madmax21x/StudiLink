@@ -34,7 +34,7 @@ class _InscriptionState extends State<Inscription>{
         'nom': nomController.text.inCaps,
         'prenom': prenomController.text.inCaps,
         'bio': null,
-        'userimage_id': null,
+        'userimage_id': '1',
         'avis_id': null,
     });
     debugPrint('ici pas ok');

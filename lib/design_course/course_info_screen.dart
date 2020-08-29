@@ -50,7 +50,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
       continue;
     }
     }
-  return "assets/design_course/interFace2.png";
+  return "assets/design_course/white.png";
 }
 
   createMember() async {

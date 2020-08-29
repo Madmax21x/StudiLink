@@ -5,8 +5,6 @@ import 'package:best_flutter_ui_templates/design_course/category.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:best_flutter_ui_templates/design_course/models/http.dart';
-import 'package:best_flutter_ui_templates/design_course/mes_groups.dart';
 import 'package:best_flutter_ui_templates/design_course/membre.dart';
 
 class MesGroupsView extends StatefulWidget {
@@ -107,8 +105,8 @@ class _MesGroupsViewState extends State<MesGroupsView>
               ),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 1,
-                mainAxisSpacing: 32.0,
-                childAspectRatio: 2.4,
+                mainAxisSpacing: 22.0,
+                childAspectRatio: 2.7,
               ),
             );
           }
@@ -142,65 +140,6 @@ class CategoryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
-    void _showDialog(int valeur) {
-      // flutter defined function
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          // return object of type Dialog
-          return AlertDialog(
-            titleTextStyle: TextStyle(
-              fontSize: 14.0,
-              color: Colors.grey[800],
-              fontFamily: 'JosefinSans',
-              fontWeight: FontWeight.w400,
-            ),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25.0)),
-            elevation: 2.0,
-            title:
-                new Text("Etes-vous sûr(e) de vouloir supprimer le groupe ? "),
-            actions: <Widget>[
-              // usually buttons at the bottom of the dialog
-              new FlatButton(
-                child: Text("Non",
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      color: Colors.teal[300],
-                      fontFamily: 'JosefinSans',
-                      fontWeight: FontWeight.w600,
-                    )),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-
-              new FlatButton(
-                child: Text("Oui",
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      color: Colors.teal[300],
-                      fontFamily: 'JosefinSans',
-                      fontWeight: FontWeight.w600,
-                    )),
-                onPressed: () async {
-                 var result =  await deleteCours(valeur.toString());
-                 if (result) {
-                   Navigator.pop(context, () {
-                    });
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder : (context){
-                          return MesGroups(user);
-                  }));
-                 }
-                },
-              )
-            ],
-          );
-        },
-      );
-    }
-
     return AnimatedBuilder(
       animation: animationController,
       builder: (BuildContext context, Widget child) {
@@ -220,7 +159,7 @@ class CategoryView extends StatelessWidget {
                         child: Row(
                           children: <Widget>[
                             const SizedBox(
-                              width: 48,
+                              width: 42,
                             ),
                             Expanded(
                               child: Container(
@@ -241,7 +180,7 @@ class CategoryView extends StatelessWidget {
                                           children: <Widget>[
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  top: 16),
+                                                  top: 16, bottom:20),
                                               child: Text(
                                               newdata[index].title,
                                                 textAlign: TextAlign.left,
@@ -253,9 +192,6 @@ class CategoryView extends StatelessWidget {
                                                       .darkerText,
                                                 ),
                                               ),
-                                            ),
-                                            const Expanded(
-                                              child: SizedBox(),
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.only(
@@ -321,33 +257,19 @@ class CategoryView extends StatelessWidget {
                                                     CrossAxisAlignment.center,
                                                 children: <Widget>[
                                                   Text(
-                                                    '${newdata[index].date.substring(5, newdata[index].date.indexOf("T"))}',
+                                                    '${newdata[index].date.substring(0, newdata[index].date.indexOf("T"))}',
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.w600,
-                                                      fontSize: 18,
+                                                      fontSize: 16,
                                                       letterSpacing: 0.27,
                                                       color:
                                                           DesignCourseAppTheme
                                                               .nearlyBlue,
                                                     ),
                                                   ),
-                                                  Container(
-                                                    child: IconButton(
-                                                      onPressed: () {
-                                                        _showDialog(
-                                                            newdata[index].id);
-                                                      },
-                                                      icon: Icon(
-                                                        Icons.delete,
-                                                        color:
-                                                            DesignCourseAppTheme
-                                                                .grey,
-                                                        size: 20.0,
-                                                      ),
-                                                    ),
-                                                  )
+                                                  
                                                 ],
                                               ),
                                             ),

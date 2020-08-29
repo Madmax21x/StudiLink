@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'design_course_app_theme.dart';
 import 'package:best_flutter_ui_templates/design_course/profil_autre.dart';
+import 'package:best_flutter_ui_templates/design_course/userimage.dart';
+import 'package:best_flutter_ui_templates/design_course/etudiant.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Membres extends StatefulWidget {
   List user;
@@ -14,13 +18,40 @@ class _MembresState extends State<Membres>{
   
   List _user;
   List _membres;
+  var images = new List<UserImage>();
 
   @override
   void initState() {
     super.initState();
     _user = widget.user;
     _membres = widget.membres;
+    getAvatar();
   }
+
+   String _hostnameAvatar() {
+    return 'http://studilink.online/studibase.userimage';
+  }
+
+  Future getAvatar() async {
+    http.Response response = await http.get(_hostnameAvatar());
+    debugPrint(response.body);
+    setState(() {
+      Iterable list = json.decode(response.body);
+      images = list.map((model) => UserImage.fromJson(model)).toList();
+    });
+  }
+
+   String userImage(Etudiant etud){
+  for (var i = 0; i < images.length; i++) {
+    if (images[i].id == etud.userimage_id){
+      return images[i].chemin;
+    }
+    else{
+      continue;
+    }
+    }
+  return "assets/design_course/userImage.png";
+}
 
   Widget build(BuildContext context) {
   return WillPopScope(
@@ -88,7 +119,7 @@ class _MembresState extends State<Membres>{
                         height: 40, 
                        child: ClipRRect(
                         borderRadius: const BorderRadius.all(Radius.circular(100.0)),
-                        child: Image.asset('assets/design_course/userImage.png'),
+                        child: Image.asset(userImage(_membres[index])),
                       )),
                       
                       SizedBox(width: 10,),

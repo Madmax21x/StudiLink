@@ -26,9 +26,9 @@ Future<RequestResult> http_post(String route, [dynamic data]) async {
   return RequestResult (true, jsonDecode(result.body));
 }
 
-Future<RequestResult> http_update(String route, String id, [dynamic bio]) async {
+Future<RequestResult> http_update(String route, String id, [dynamic data]) async {
   var url = "http://studilink.online/$route/$id";
-  var dataStr = jsonEncode(bio);
+  var dataStr = jsonEncode(data);
   var result = await http.post(url, body: dataStr,
       headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -36,6 +36,7 @@ Future<RequestResult> http_update(String route, String id, [dynamic bio]) async 
 
   return RequestResult (true, jsonDecode(result.body));
 }
+
 
 /// a modifier
 Future<bool> deleteCours(String id) async {

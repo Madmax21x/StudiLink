@@ -4,6 +4,9 @@ import 'package:best_flutter_ui_templates/design_course/mes_groups.dart';
 import 'package:best_flutter_ui_templates/design_course/profil.dart';
 import 'package:best_flutter_ui_templates/design_course/parametres.dart';
 import 'package:best_flutter_ui_templates/design_course/connexion.dart';
+import 'package:best_flutter_ui_templates/design_course/userimage.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class NavDrawer extends StatefulWidget {
   List user;
@@ -18,12 +21,39 @@ class NavDrawer extends StatefulWidget {
 class _NavDrawerState extends State<NavDrawer>{
 
   List _user;
+  var images = new List<UserImage>();
 
   void initState() {
     
     super.initState();
     _user = widget.user;
+    getAvatar();
   }
+
+   String _hostnameAvatar() {
+    return 'http://studilink.online/studibase.userimage';
+  }
+
+  Future getAvatar() async {
+    http.Response response = await http.get(_hostnameAvatar());
+    debugPrint(response.body);
+    setState(() {
+      Iterable list = json.decode(response.body);
+      images = list.map((model) => UserImage.fromJson(model)).toList();
+    });
+  }
+
+  String userImage(){
+  for (var i = 0; i < images.length; i++) {
+    if (images[i].id == _user[0].userimage_id){
+      return images[i].chemin;
+    }
+    else{
+      continue;
+    }
+    }
+  return "assets/design_course/userImage.png";
+}
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +75,7 @@ class _NavDrawerState extends State<NavDrawer>{
             
             child: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(80.0)),
-              child: Image.asset('assets/design_course/userImage.png'),
+              child: Image.asset(userImage()),
             ),
           )),
           Padding(

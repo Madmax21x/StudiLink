@@ -7,12 +7,14 @@ import 'package:best_flutter_ui_templates/design_course/avis.dart';
 import 'package:best_flutter_ui_templates/design_course/laisser_avis.dart';
 import 'package:best_flutter_ui_templates/app_theme.dart';
 import 'package:best_flutter_ui_templates/design_course/models/http.dart';
+import 'package:best_flutter_ui_templates/design_course/userimage.dart';
 
 import 'package:http/http.dart' as http;
 
 class ProfilAutre extends StatefulWidget {
   List user;
   Etudiant profil;
+  
 
   ProfilAutre(this.user, this.profil);
 
@@ -28,6 +30,7 @@ class _ProfilAutreState extends State<ProfilAutre> {
   Etudiant _profil;
   var avisProfil = List<Avis>();
   var etudiant = List<Etudiant>();
+  var images = new List<UserImage>();
 
   @override
   void initState() {
@@ -37,8 +40,33 @@ class _ProfilAutreState extends State<ProfilAutre> {
     getAvis();
     avisProfil = getAvisAvecId();
     getEtudiant();
-
+    getAvatar();
   }
+
+  String _hostnameAvatar() {
+    return 'http://studilink.online/studibase.userimage';
+  }
+
+  Future getAvatar() async {
+    http.Response response = await http.get(_hostnameAvatar());
+    debugPrint(response.body);
+    setState(() {
+      Iterable list = json.decode(response.body);
+      images = list.map((model) => UserImage.fromJson(model)).toList();
+    });
+  }
+
+  String userImage(Etudiant etud){
+  for (var i = 0; i < images.length; i++) {
+    if (images[i].id == etud.userimage_id){
+      return images[i].chemin;
+    }
+    else{
+      continue;
+    }
+    }
+  return "assets/design_course/userImage.png";
+}
 
   String _hostnameAvis() {
     return 'http://studilink.online/studibase.avis';
@@ -202,14 +230,14 @@ class _ProfilAutreState extends State<ProfilAutre> {
                       width: 100,
                       child: ClipRRect(
                         borderRadius: const BorderRadius.all(Radius.circular(80.0)),
-                        child: Image.asset('assets/design_course/userImage.png'),
+                        child: Image.asset(userImage(_profil)),
                       ),
                     ))),
                 Padding(
                   padding: const EdgeInsets.only(top: 8, left: 15),
                   child: Center(
                     child:Text(
-                      _profil.prenom + ' '+  _profil.nom,
+                      _profil.prenom + ' ' +  _profil.nom,
                       style: TextStyle(
                         fontWeight:
                             FontWeight.w600,
@@ -240,7 +268,7 @@ class _ProfilAutreState extends State<ProfilAutre> {
                       color: Colors.grey[600] ,
                     ),) ,
                   decoration: BoxDecoration(
-                    color: Color(0xFFF2FDF6),
+                    color: Color(0xFFF5FAF8),
                     borderRadius: const BorderRadius.all(Radius.circular(18.0)),
                      )),),
                     
@@ -267,7 +295,7 @@ class _ProfilAutreState extends State<ProfilAutre> {
                 padding: EdgeInsets.only(left: 30, right:30, bottom:30),
                 child: Container(
                 decoration:BoxDecoration(
-                    color: Color(0xFFFAF2FD),
+                    color: Color(0xFFF5FAF8),
                     borderRadius: const BorderRadius.all(Radius.circular(18.0)),
                      ),
                 child : Expanded(child:Padding(
@@ -352,7 +380,7 @@ class _ProfilAutreState extends State<ProfilAutre> {
                   child:ClipRRect(
                   borderRadius: BorderRadius.circular(100),
                   child: Image.asset(
-                    'assets/design_course/userImage.png',
+                    userImage(_etudiantData(avisProfil[index].id_from)),
                     fit: BoxFit.cover,
                   ),
                 )
