@@ -190,7 +190,7 @@ class _ProfilState extends State<Profil> {
                 padding: EdgeInsets.only(left: 30, right:30, bottom:30),
                 child: Container(
                   padding: EdgeInsets.all(20),
-                  height: 120,
+                  
                   child: Text(
                     _biotext(), style:
                     TextStyle(

@@ -217,31 +217,18 @@ class CategoryView extends StatelessWidget {
                                                     ),
                                                   ),
                                                   Container(
-                                                    child: Row(
-                                                      children: <Widget>[
-                                                        Text(
-                                                          '0',
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w200,
-                                                            fontSize: 15,
-                                                            letterSpacing: 0.27,
-                                                            color:
-                                                                DesignCourseAppTheme
-                                                                    .grey,
-                                                          ),
-                                                        ),
-                                                        Icon(
-                                                          Icons.favorite,
-                                                          color:
-                                                              DesignCourseAppTheme
-                                                                  .nearlyBlue,
-                                                          size: 20,
-                                                        ),
-                                                      ],
+                                                    child: Text(newdata[index].date.substring(11,16),
+                                                      textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 15,
+                                                      letterSpacing: 0.27,
+                                                      color:
+                                                          DesignCourseAppTheme
+                                                              .grey,
                                                     ),
+                                                    )
                                                   )
                                                 ],
                                               ),

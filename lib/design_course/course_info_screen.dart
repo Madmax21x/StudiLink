@@ -202,9 +202,11 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                           maxHeight: tempHeight > infoHeight
                               ? tempHeight
                               : infoHeight),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      child: ListView(
+                        //mainAxisAlignment: MainAxisAlignment.center,
+                        //crossAxisAlignment: CrossAxisAlignment.start,
+                        physics: const BouncingScrollPhysics(),
+                        scrollDirection: Axis.vertical,
                         children: <Widget>[
                           Padding(
                             padding: const EdgeInsets.only(
@@ -236,27 +238,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                     color: DesignCourseAppTheme.nearlyBlue,
                                   ),
                                 ),
-                                Container(
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        '0',
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w200,
-                                          fontSize: 22,
-                                          letterSpacing: 0.27,
-                                          color: DesignCourseAppTheme.grey,
-                                        ),
-                                      ),
-                                      Icon(
-                                        Icons.favorite,
-                                        color: DesignCourseAppTheme.nearlyBlue,
-                                        size: 24,
-                                      ),
-                                    ],
-                                  ),
-                                )
+                                
                               ],
                             ),
                           ),
@@ -303,7 +285,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                     letterSpacing: 0.27,
                                     color: DesignCourseAppTheme.grey,
                                   ),
-                                  maxLines: 3,
+                                  maxLines: 10,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -363,8 +345,6 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                             deleteCours(_group.id.toString());
                                           }
                                           _showDialogDel();
-                                        
-
                                     }
                                   }},)
                               
@@ -380,32 +360,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                 ),
               ),
             ),
-            Positioned(
-              top: (MediaQuery.of(context).size.width / 1.2) - 24.0 - 35,
-              right: 35,
-              child: ScaleTransition(
-                alignment: Alignment.center,
-                scale: CurvedAnimation(
-                    parent: animationController, curve: Curves.fastOutSlowIn),
-                child: Card(
-                  color: DesignCourseAppTheme.nearlyBlue,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50.0)),
-                  elevation: 10.0,
-                  child: Container(
-                    width: 60,
-                    height: 60,
-                    child: Center(
-                      child: Icon(
-                        Icons.favorite,
-                        color: DesignCourseAppTheme.nearlyWhite,
-                        size: 30,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            
             Padding(
               padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
               child: SizedBox(

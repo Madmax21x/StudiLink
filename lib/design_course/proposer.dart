@@ -244,7 +244,7 @@ class _ProposerState extends State<Proposer> {
                                         debugPrint("some title has been added");
                                       },
                                       maxLines: 1,
-                                      maxLength: 30,
+                                      maxLength: 20,
                                       decoration: InputDecoration(
                                         helperText: " ",
                                         labelText: 'Titre du cours',
@@ -308,7 +308,7 @@ class _ProposerState extends State<Proposer> {
                                             "some thematique has been added");
                                       },
                                       maxLines: 1,
-                                      maxLength: 30,
+                                      maxLength: 25,
                                       decoration: InputDecoration(
                                         helperText: " ",
                                         labelText: 'Lieu',
@@ -371,7 +371,7 @@ class _ProposerState extends State<Proposer> {
                                             "some thematique has been added");
                                       },
                                       maxLines: 6,
-                                      maxLength: 300,
+                                      maxLength: 400,
                                       decoration: InputDecoration(
                                         helperText: " ",
                                         labelText: 'Description',

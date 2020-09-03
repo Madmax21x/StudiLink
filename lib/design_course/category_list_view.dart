@@ -176,7 +176,7 @@ class CategoryView extends StatelessWidget {
                                 child: Row(
                                   children: <Widget>[
                                     const SizedBox(
-                                      width: 48 + 24.0,
+                                      width: 48 + 24.0
                                     ),
                                     // 1st course
                                     Expanded(
@@ -185,7 +185,7 @@ class CategoryView extends StatelessWidget {
                                           children: <Widget>[
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  top: 16),
+                                                  top: 16, bottom:20),
                                               child: Text(
                                                 newdata[index].title,
                                                 textAlign: TextAlign.left,
@@ -198,9 +198,9 @@ class CategoryView extends StatelessWidget {
                                                 ),
                                               ),
                                             ),
-                                            const Expanded(
-                                              child: SizedBox(),
-                                            ),
+                                            // const Expanded(
+                                            //   child: SizedBox(),
+                                            // ),
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                   right: 16, bottom: 8),
@@ -224,33 +224,7 @@ class CategoryView extends StatelessWidget {
                                                               .grey,
                                                     ),
                                                   ),
-                                                  Container(
-                                                    child: Row(
-                                                      children: <Widget>[
-                                                        Text(
-                                                          '0',
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w200,
-                                                            fontSize: 15,
-                                                            letterSpacing: 0.27,
-                                                            color:
-                                                                DesignCourseAppTheme
-                                                                    .grey,
-                                                          ),
-                                                        ),
-                                                        Icon(
-                                                          Icons.favorite,
-                                                          color:
-                                                              DesignCourseAppTheme
-                                                                  .nearlyBlue,
-                                                          size: 20,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  )
+                                                  
                                                 ],
                                               ),
                                             ),
@@ -320,14 +294,26 @@ class CategoryView extends StatelessWidget {
                               top: 24, bottom: 24, left: 16),
                           child: Row(
                             children: <Widget>[
-                              ClipRRect(
+                              Container(
+                              decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(16.0)),
+                              // boxShadow: <BoxShadow>[
+                              //   BoxShadow(
+                              //       color: DesignCourseAppTheme.nearlyBlue
+                              //           .withOpacity(0.1),
+                              //       offset: const Offset(0.0, 0.0),
+                              //       blurRadius: 10.0),
+                              // ],
+                            ),
+                              child:ClipRRect(
                                 borderRadius: const BorderRadius.all(
-                                    Radius.circular(16.0)),
+                                    Radius.circular(25)),
                                 child: AspectRatio(
-                                    aspectRatio: 1.0,
+                                    aspectRatio: 1,
                                     child: Image.asset(categoryImage(newdata[index].category_id, category)),
                               )
-                              )],
+                              ))],
                           ),
                         ),
                       ),

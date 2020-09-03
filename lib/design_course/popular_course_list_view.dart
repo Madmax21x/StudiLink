@@ -247,11 +247,12 @@ class CategoryView extends StatelessWidget {
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  top: 8,
+                                                  top: 14,
                                                   left: 16,
-                                                  right: 16,
-                                                  bottom: 24),
-                                              child: Row(
+                                                  right: 16),
+                                              child: 
+                                              Column(children: <Widget>[
+                                                Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceBetween,
@@ -271,35 +272,36 @@ class CategoryView extends StatelessWidget {
                                                               .grey,
                                                     ),
                                                   ),
-                                                  Container(
-                                                    child: Row(
-                                                      children: <Widget>[
-                                                        Text(
-                                                          '0',
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w200,
-                                                            fontSize: 15,
-                                                            letterSpacing: 0.27,
-                                                            color:
-                                                                DesignCourseAppTheme
-                                                                    .grey,
-                                                          ),
-                                                        ),
-                                                        Icon(
-                                                          Icons.favorite,
-                                                          color:
-                                                              DesignCourseAppTheme
-                                                                  .nearlyBlue,
-                                                          size: 20,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  )
+                                                  
                                                 ],
                                               ),
+
+                                              Padding(
+                                              padding: const EdgeInsets.only(top: 8),
+                                              child:
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text(
+                                                    '${group[index].date.substring(0, group[index].date.indexOf("T"))}',
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 15,
+                                                      letterSpacing: 0.27,
+                                                      color:
+                                                          DesignCourseAppTheme
+                                                              .nearlyBlue,
+                                                    ),
+                                                  )
+                                                ]))
+                                              ],)
+                                              
                                             ),
                                           ],
                                         ),
@@ -326,13 +328,13 @@ class CategoryView extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(16.0)),
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                    color: DesignCourseAppTheme.grey
-                                        .withOpacity(0.2),
-                                    offset: const Offset(0.0, 0.0),
-                                    blurRadius: 6.0),
-                              ],
+                              // boxShadow: <BoxShadow>[
+                              //   BoxShadow(
+                              //       color: DesignCourseAppTheme.nearlyWhite
+                              //           .withOpacity(0.2),
+                              //       offset: const Offset(0.0, 0.0),
+                              //       blurRadius: 6.0),
+                              // ],
                             ),
                             child: ClipRRect(
                               borderRadius:

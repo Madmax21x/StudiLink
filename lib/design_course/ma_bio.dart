@@ -144,7 +144,7 @@ class _MaBioState extends State<MaBio> {
                           onChanged: (value){
                           },
                           maxLines: 6,
-                          maxLength: 200,
+                          maxLength: 300,
 
                           decoration: InputDecoration(
                             

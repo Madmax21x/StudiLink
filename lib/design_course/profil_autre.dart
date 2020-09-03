@@ -258,7 +258,6 @@ class _ProfilAutreState extends State<ProfilAutre> {
                 padding: EdgeInsets.only(left: 30, right:30, bottom:30),
                 child: Container(
                   padding: EdgeInsets.all(20),
-                  height: 120,
                   child: Text(
                     _biotext(), style:
                     TextStyle(
@@ -379,10 +378,16 @@ class _ProfilAutreState extends State<ProfilAutre> {
                   margin: EdgeInsets.only(left:20.0, top:10, right:20.0, bottom:20),
                   child:ClipRRect(
                   borderRadius: BorderRadius.circular(100),
-                  child: Image.asset(
+                  child: InkWell(
+                    child:Image.asset(
                     userImage(_etudiantData(avisProfil[index].id_from)),
                     fit: BoxFit.cover,
                   ),
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder : (context){
+                    return ProfilAutre(_user, _etudiantData(avisProfil[index].id_from));
+                  }));
+                  }),
                 )
                 )),
 
