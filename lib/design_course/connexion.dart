@@ -300,8 +300,37 @@ class _ConnexionState extends State<Connexion>{
                                     
                               },
                             )),
-                          )
+                          ),
           
+          Center(
+                            child:
+                          Text("OU", 
+                          style:TextStyle(
+                            fontSize: 15.0,
+                            color: Colors.grey[600],
+                            fontFamily: 'WorkSans',
+                            fontWeight: FontWeight.w400,
+                          )
+                          )),
+                          
+                          SizedBox(height:10),
+                          GestureDetector(
+                            child: 
+                          Center(
+                            child:
+                          Text("S'inscrire", 
+                          style:TextStyle(
+                            fontSize: 15.0,
+                            color: Colors.grey[600],
+                            fontFamily: 'WorkSans',
+                            fontWeight: FontWeight.w400,
+                          )
+                          )),
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder : (context){
+                                      return Inscription();
+                                    }));
+                          },),
           ],
           )
           ),
