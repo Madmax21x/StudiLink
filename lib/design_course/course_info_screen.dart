@@ -285,7 +285,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                     letterSpacing: 0.27,
                                     color: DesignCourseAppTheme.grey,
                                   ),
-                                  maxLines: 10,
+                                  maxLines: 15,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),

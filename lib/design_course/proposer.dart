@@ -51,9 +51,9 @@ class _ProposerState extends State<Proposer> {
   createCourse() async {
     var result = await http_post('studibase.group',{
         'category_id': dropdownValue,
-        'title': titleController.text.inCaps,
-        'description': descriptionController.text.inCaps,
-        'place': lieuController.text.inCaps,
+        'title': titleController.text,
+        'description': descriptionController.text,
+        'place': lieuController.text,
         'date': date.toString(),
     });
     if(result.ok)
@@ -232,6 +232,9 @@ class _ProposerState extends State<Proposer> {
                               child: SizedBox(
                                   height: 70.0,
                                   child: TextFormField(
+                                      autofocus: true,
+                                      textCapitalization: TextCapitalization.words,
+                                      keyboardType: TextInputType.text,
                                       controller: titleController,
                                       validator: (String value) {
                                         if (value.isEmpty) {
@@ -295,6 +298,8 @@ class _ProposerState extends State<Proposer> {
                               child: SizedBox(
                                   height: 70.0,
                                   child: TextFormField(
+                                      autofocus: true,
+                                      textCapitalization: TextCapitalization.words,
                                       controller: lieuController,
                                       validator: (String value) {
                                         if (value.isEmpty) {
@@ -358,7 +363,10 @@ class _ProposerState extends State<Proposer> {
                               child: SizedBox(
                                   height: 120.0,
                                   child: TextFormField(
+                                      autofocus: true,
+                                      textCapitalization: TextCapitalization.words,
                                       controller: descriptionController,
+                                      textInputAction: TextInputAction.send,
                                       validator: (String value) {
                                         if (value.isEmpty) {
                                           return "Ce champ est obligatoire.";
