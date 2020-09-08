@@ -130,6 +130,9 @@ class _RechercheState extends State<Recherche> {
                                   child: Container(
                                     padding: const EdgeInsets.only(left: 16, right: 16),
                                     child: TextFormField(
+                                      autofocus: true,
+                                      textInputAction: TextInputAction.send,
+                                      keyboardType: TextInputType.text,
                                       controller : titleController,
                                       style: TextStyle(
                                         fontFamily: 'WorkSans',
@@ -137,7 +140,6 @@ class _RechercheState extends State<Recherche> {
                                         fontSize: 14,
                                         color: DesignCourseAppTheme.dark_grey,
                                       ),
-                                      keyboardType: TextInputType.text,
                                       decoration: InputDecoration(
                                         labelText: 'Recherche un Studi-Group',
                                         border: InputBorder.none,

@@ -129,7 +129,7 @@ class _ModifImageState extends State<ModifImage>{
                     ])),
 
                   SizedBox(
-                    height:500,
+                    height:MediaQuery.of(context).size.height - 180,
                     child:
                       GridView.builder(
                     padding: const EdgeInsets.all(20),

@@ -289,7 +289,7 @@ class _ConnexionState extends State<Connexion>{
                                   if (_formKey.currentState.validate()){
                                     debugPrint("Se connecter button clicked");
                                     if (_isOK(emailController.text, motdepasseController.text)==true){
-                                    Navigator.push(context, MaterialPageRoute(builder : (context){
+                                    Navigator.pushReplacement(context, MaterialPageRoute(builder : (context){
                                       return DesignCourseHomeScreen(user);
                                     }));
                                   }else{

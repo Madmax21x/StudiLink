@@ -160,7 +160,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
           height: 10,
         ),
         Container(
-          height: MediaQuery.of(context).size.height * 0.14,
+          height: MediaQuery.of(context).size.height * 0.15,
           padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 26.0),
           child: ListView.builder(
             shrinkWrap: true,
@@ -189,7 +189,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(
-                          top: 12, bottom: 12, left: 18, right: 18),
+                          top: 5, bottom: 5, left: 18, right: 18),
                       child: Center(
                         child: Text(
                           categoryData[index].nom,
@@ -239,8 +239,6 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
     }
   }
   Widget getPopularCourseUI() {
-    
-
     return Padding(
       padding: const EdgeInsets.only(top: 8.0, left: 18, right: 16),
       child: Column(

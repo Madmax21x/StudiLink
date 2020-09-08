@@ -106,7 +106,7 @@ class _MesGroupsViewState extends State<MesGroupsView>
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 1,
                 mainAxisSpacing: 22.0,
-                childAspectRatio: 2.7,
+                childAspectRatio: 2.4,
               ),
             );
           }
