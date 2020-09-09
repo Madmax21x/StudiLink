@@ -96,7 +96,6 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
       }
     print("list des membres");
     print(nbrMem);
-    
   }
   return nbrMem;
   }
@@ -104,15 +103,12 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
   List popularCourseData(){
     newData.clear();
     for(var i=0; i < group.length; i++){
-      print('length:');
       print(_nbrMembre(group[i].id).length);
       if(_nbrMembre(group[i].id).length >=2)
       {
         newData.add(group[i]);
       }    
     }
-      print("newdataaaaaaa");
-      print(newData);
       return newData;
   }
 

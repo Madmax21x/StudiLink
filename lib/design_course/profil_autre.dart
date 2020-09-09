@@ -15,7 +15,6 @@ class ProfilAutre extends StatefulWidget {
   List user;
   Etudiant profil;
   
-
   ProfilAutre(this.user, this.profil);
 
   @override
@@ -38,7 +37,6 @@ class _ProfilAutreState extends State<ProfilAutre> {
     _user = widget.user;
     _profil = widget.profil;
     getAvis();
-    avisProfil = getAvisAvecId();
     getEtudiant();
     getAvatar();
   }
@@ -49,7 +47,6 @@ class _ProfilAutreState extends State<ProfilAutre> {
 
   Future getAvatar() async {
     http.Response response = await http.get(_hostnameAvatar());
-    debugPrint(response.body);
     setState(() {
       Iterable list = json.decode(response.body);
       images = list.map((model) => UserImage.fromJson(model)).toList();
@@ -74,11 +71,9 @@ class _ProfilAutreState extends State<ProfilAutre> {
 
   Future getAvis() async {
     http.Response response = await http.get(_hostnameAvis());
-    debugPrint(response.body);
     setState(() {
       Iterable list = json.decode(response.body);
       avis = list.map((model) => Avis.fromJson(model)).toList();
-      avisProfil = getAvisAvecId();
     });
   }
 
@@ -98,16 +93,16 @@ class _ProfilAutreState extends State<ProfilAutre> {
 
   Future getEtudiant() async {
     http.Response response = await http.get(_hostname());
-    debugPrint(response.body);
     setState(() {
       Iterable list = json.decode(response.body);
       etudiant = list.map((model) => Etudiant.fromJson(model)).toList();
     });
   }
 
-  Etudiant _etudiantData(int id){
+  Etudiant _etudiantData(int val){
     for(var i= 0; i< etudiant.length; i++){
-      if(etudiant[i].id == id){
+      if(etudiant[i].id == val){
+        print(etudiant[i].nom);
        return etudiant[i];
       }    
     }
@@ -127,6 +122,9 @@ class _ProfilAutreState extends State<ProfilAutre> {
         onTap: (){
           _showDialog(id);
         },);
+    }
+    else{
+      return Text('');
     }
   }
 
@@ -337,7 +335,11 @@ class _ProfilAutreState extends State<ProfilAutre> {
   }
 
   Widget pasAvis(){
-    if(_profil.id == _user[0].id && avisProfil.length==0){
+    var listAvisProfil =  getAvisAvecId();
+    print("longueur");
+    print(listAvisProfil);
+    print(listAvisProfil.length);
+    if(_profil.id == _user[0].id && listAvisProfil.length==0){
       return Text("Pas d'avis pour l'instant.",
         style: TextStyle(
         fontWeight: FontWeight.w400,
@@ -347,7 +349,7 @@ class _ProfilAutreState extends State<ProfilAutre> {
       ), 
       textAlign: TextAlign.left);
     }
-    if(avisProfil.length==0){
+    if(listAvisProfil.length==0){
       return Text("Pas d'avis pour l'instant. Sois le premier à laisser un avis !",
         style: TextStyle(
         fontWeight: FontWeight.w400,
@@ -357,10 +359,11 @@ class _ProfilAutreState extends State<ProfilAutre> {
       ), 
       textAlign: TextAlign.left);
     }
-    else return 
+    if(listAvisProfil.length>0) {
+      return
     ListView.builder(
       shrinkWrap: true,    
-      itemCount: avisProfil.length == null ? 0 : avisProfil.length,
+      itemCount: listAvisProfil.length == null ? 0 : listAvisProfil.length,
       itemBuilder: (BuildContext context, int index) {
       return
 
@@ -372,20 +375,23 @@ class _ProfilAutreState extends State<ProfilAutre> {
             children: <Widget>[
               // image : 1st element of the row
               Positioned(
-                top:MediaQuery.of(context).size.height / 10,
+                top: MediaQuery.of(context).size.height / 10,
                 child: Container(
                   width: 50.0,
                   margin: EdgeInsets.only(left:20.0, top:10, right:20.0, bottom:20),
                   child:ClipRRect(
                   borderRadius: BorderRadius.circular(100),
                   child: InkWell(
-                    child:Image.asset(
-                    userImage(_etudiantData(avisProfil[index].id_from)),
+                    child:
+                    _etudiantData(listAvisProfil[index].id_from) == null ? Image.asset("assets/design_course/userImage.png") :
+
+                    Image.asset(
+                    userImage(_etudiantData(listAvisProfil[index].id_from)),
                     fit: BoxFit.cover,
                   ),
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder : (context){
-                    return ProfilAutre(_user, _etudiantData(avisProfil[index].id_from));
+                    return ProfilAutre(_user, _etudiantData(listAvisProfil[index].id_from));
                   }));
                   }),
                 )
@@ -396,8 +402,10 @@ class _ProfilAutreState extends State<ProfilAutre> {
                 Column(children: <Widget>[
                   
                   Container(
-                    child: Text(
-                      _etudiantData(avisProfil[index].id_from).prenom + ' ' + _etudiantData(avisProfil[index].id_from).nom,
+                    child: 
+                    _etudiantData(listAvisProfil[index].id_from)==null ? Text(" ") :
+                    Text(
+                      _etudiantData(listAvisProfil[index].id_from).prenom + ' ' + _etudiantData(listAvisProfil[index].id_from).nom,
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
@@ -411,7 +419,7 @@ class _ProfilAutreState extends State<ProfilAutre> {
                   Container(
                     width: 200.0,
                     margin: EdgeInsets.only(top:5.0),
-                    child: Text(avisProfil[index].description,
+                    child: Text(listAvisProfil[index].description,
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 13,
@@ -430,7 +438,7 @@ class _ProfilAutreState extends State<ProfilAutre> {
                 alignment: Alignment.bottomRight,
                 child: Center(
                   child:Row(children: <Widget>[
-                    Text(avisProfil[index].nbr_etoile.toString(),
+                    Text(listAvisProfil[index].nbr_etoile.toString(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.grey[600],
@@ -442,7 +450,7 @@ class _ProfilAutreState extends State<ProfilAutre> {
                     
                     SizedBox(width:150),
 
-                    _supprimer(avisProfil[index].id_from, avisProfil[index].id),
+                   _supprimer(listAvisProfil[index].id_from, listAvisProfil[index].id),
                   ],)
                     )),
 
@@ -457,7 +465,7 @@ class _ProfilAutreState extends State<ProfilAutre> {
 
         ],);
       });
-  }
+}}
 
   String _biotext(){
     if(_profil.bio == null){

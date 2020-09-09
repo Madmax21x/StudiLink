@@ -43,7 +43,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
   }
 
   Future < Widget > fetchStr() async {
-    await new Future.delayed(const Duration(seconds: 3), () {});
+    await new Future.delayed(const Duration(seconds: 2), () {});
     return Column(
           children: <Widget>[
             SizedBox(

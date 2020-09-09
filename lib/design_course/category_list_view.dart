@@ -185,7 +185,7 @@ class CategoryView extends StatelessWidget {
                                           children: <Widget>[
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  top: 16, bottom:20),
+                                                  top: 16, bottom:16),
                                               child: Text(
                                                 newdata[index].title,
                                                 textAlign: TextAlign.left,
@@ -265,7 +265,7 @@ class CategoryView extends StatelessWidget {
                                                     child: Padding(
                                                       padding:
                                                           const EdgeInsets.all(
-                                                              4.0),
+                                                              1.0),
                                                       child: Icon(
                                                         Icons.add,
                                                         color:
