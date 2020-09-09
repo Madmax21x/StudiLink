@@ -139,6 +139,8 @@ class _MaBioState extends State<MaBio> {
                               borderRadius: BorderRadius.circular(25.0),
                               color: Color(0xFFF5FAF8)),
                         child: TextFormField(
+                          autofocus: true,
+                          textInputAction: TextInputAction.send,
                           controller: bioController,
                       
                           onChanged: (value){
@@ -200,23 +202,18 @@ class _MaBioState extends State<MaBio> {
                               ),
                               onTap: () {
                                     setState(() async {
-                                      
-                                   
-                                    if (_formKey.currentState.validate()) {
-                                      
-                                        var result =  await updateBio();
+                                      if (_formKey.currentState.validate()) {
+                                      var result =  await updateBio();
                                          if (result) {
                                           _showDialog();
-                                          
                                         }
-                                        
-                                    }
+                                      }
                                      });
-                              },
-                            )),
-                          )
+                                    },
+                                  )),
+                              )
 
-                              ])),
+                            ])),
 
                 
               ]),

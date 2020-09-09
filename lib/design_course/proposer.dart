@@ -51,7 +51,7 @@ class _ProposerState extends State<Proposer> {
   createCourse() async {
     var result = await http_post('studibase.group',{
         'category_id': dropdownValue,
-        'title': titleController.text.inCaps,
+        'title': titleController.text,
         'description': descriptionController.text,
         'place': lieuController.text,
         'date': date.toString(),
@@ -85,10 +85,9 @@ class _ProposerState extends State<Proposer> {
     getCours();
     for (var i = group.length-1; i > 0; i--) {
       if (group[i].category_id.toString() == dropdownValue && 
-      group[i].title == titleController.text.inCaps && 
-      group[i].description == descriptionController.text.inCaps &&
-      group[i].place == lieuController.text.inCaps){
-      print("okkkkkkkk");
+      group[i].title == titleController.text && 
+      group[i].description == descriptionController.text &&
+      group[i].place == lieuController.text){
       return group[i].id;
       }
       else{
@@ -364,7 +363,6 @@ class _ProposerState extends State<Proposer> {
                                   height: 120.0,
                                   child: TextFormField(
                                       autofocus: true,
-                                      textCapitalization: TextCapitalization.words,
                                       controller: descriptionController,
                                       textInputAction: TextInputAction.send,
                                       validator: (String value) {

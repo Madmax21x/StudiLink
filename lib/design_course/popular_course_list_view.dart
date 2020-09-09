@@ -68,7 +68,6 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
     setState(() {
       Iterable list = json.decode(response.body);
       category = list.map((model) => Category.fromJson(model)).toList();
-      
     });
   }
 
@@ -256,7 +255,7 @@ class CategoryView extends StatelessWidget {
                                                     CrossAxisAlignment.center,
                                                 children: <Widget>[
                                                   Text(
-                                                    _nbrMembre(group[index].id, membre).toString() + ' membre(s)',
+                                                    _nbrMembre(newData[index].id, membre).toString() + ' membre(s)',
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                       fontWeight:
@@ -283,7 +282,7 @@ class CategoryView extends StatelessWidget {
                                                     CrossAxisAlignment.start,
                                                 children: <Widget>[
                                                   Text(
-                                                    '${group[index].date.substring(0, group[index].date.indexOf("T"))}',
+                                                    '${newData[index].date.substring(0, newData[index].date.indexOf("T"))}',
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                       fontWeight:
@@ -338,7 +337,7 @@ class CategoryView extends StatelessWidget {
                               child: AspectRatio(
                                   aspectRatio: 1.28,
                                   child:
-                                      Image.asset(categoryImage(group[index].category_id, category)),
+                                      Image.asset(categoryImage(newData[index].category_id, category)),
                               
                             ),
                           ),
