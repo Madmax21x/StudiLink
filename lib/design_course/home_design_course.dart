@@ -42,9 +42,23 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
     _user = widget.user;
   }
 
+  Future<Widget> refreshList() async{
+    await Future.delayed(Duration(seconds: 1));
+    getCours();
+    getCategoryData();
+    newData = newCategoryData(1, group);
+    _selectedIndex = 0;
+                 
+  }
+
   Future < Widget > fetchStr() async {
     await new Future.delayed(const Duration(seconds: 2), () {});
-    return Column(
+    return RefreshIndicator(
+      onRefresh: refreshList,
+      color: Colors.grey[200],
+      displacement: 0,
+      child:
+      Column(
           children: <Widget>[
             SizedBox(
               height: MediaQuery.of(context).padding.top,
@@ -67,7 +81,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
               ),
             ),
           ],
-        );
+        ));
     }
 
   String _hostname() {
@@ -131,7 +145,6 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
 
   Future getCategoryData() async {
     http.Response response = await http.get(_hostnameCategory());
-    debugPrint(response.body);
     setState(() {
       Iterable list = json.decode(response.body);
       categoryData = list.map((model) => Category.fromJson(model)).toList();
