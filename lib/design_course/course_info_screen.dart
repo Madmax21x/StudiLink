@@ -395,7 +395,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
     for (var i = 0; i < membre.length; i++) {
       if (membre[i].group_id == _group.id){
         if(membre[i].etudiant_id == _user[0].id){
-          _buttonText = "Quitter le groupe";
+          _buttonText = "Quitter le group";
           return _buttonText;
         }
       }
@@ -403,7 +403,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
         continue;
       }
     }
-    _buttonText = "Rejoindre le groupe";
+    _buttonText = "Rejoindre le group";
     return _buttonText;
 
   }

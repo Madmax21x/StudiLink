@@ -152,8 +152,8 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
               ),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                mainAxisSpacing: 32.0,
-                crossAxisSpacing: 32.0,
+                mainAxisSpacing: 0,
+                crossAxisSpacing: 25.0,
                 childAspectRatio: 0.8,
               ),
             );
@@ -203,7 +203,7 @@ class CategoryView extends StatelessWidget {
               child: InkWell(
                 splashColor: Colors.transparent,
                 child: SizedBox(
-                  height: 400,
+                  height: 100,
                   child: Stack(
                     alignment: AlignmentDirectional.bottomCenter,
                     children: <Widget>[
@@ -227,9 +227,10 @@ class CategoryView extends StatelessWidget {
                                           children: <Widget>[
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  top: 16, left: 16, right: 16),
+                                                  top: 25, left: 16, right: 16),
                                               child: Text(
                                                 newData[index].title,
+                                                
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w600,
@@ -238,11 +239,12 @@ class CategoryView extends StatelessWidget {
                                                   color: DesignCourseAppTheme
                                                       .darkerText,
                                                 ),
-                                              ),
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,),
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  top: 14,
+                                                  top: 16,
                                                   left: 16,
                                                   right: 16),
                                               child: 
@@ -267,12 +269,11 @@ class CategoryView extends StatelessWidget {
                                                               .grey,
                                                     ),
                                                   ),
-                                                  
                                                 ],
                                               ),
 
                                               Padding(
-                                              padding: const EdgeInsets.only(top: 8),
+                                              padding: const EdgeInsets.only(top: 10, bottom:10),
                                               child:
                                               Row(
                                                 mainAxisAlignment:
@@ -293,17 +294,40 @@ class CategoryView extends StatelessWidget {
                                                           DesignCourseAppTheme
                                                               .nearlyBlue,
                                                     ),
+                                                  ),
+
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                      color:
+                                                          DesignCourseAppTheme
+                                                              .nearlyBlue,
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                                  .all(
+                                                              Radius.circular(
+                                                                  8.0)),
+                                                    ),
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              1.0),
+                                                      child: Icon(
+                                                        Icons.add,
+                                                        color:
+                                                            DesignCourseAppTheme
+                                                                .nearlyWhite,
+                                                      ),
+                                                    ),
                                                   )
                                                 ]))
                                               ],)
-                                              
                                             ),
                                           ],
                                         ),
                                       ),
                                     ),
                                     const SizedBox(
-                                      width: 25,
+                                      width: 30,
                                     ),
                                   ],
                                 ),
@@ -315,35 +339,7 @@ class CategoryView extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Container(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 24, right: 16, left: 16),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(16.0)),
-                              // boxShadow: <BoxShadow>[
-                              //   BoxShadow(
-                              //       color: DesignCourseAppTheme.nearlyWhite
-                              //           .withOpacity(0.2),
-                              //       offset: const Offset(0.0, 0.0),
-                              //       blurRadius: 6.0),
-                              // ],
-                            ),
-                            child: ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(16.0)),
-                              child: AspectRatio(
-                                  aspectRatio: 1.28,
-                                  child:
-                                      Image.asset(categoryImage(newData[index].category_id, category)),
-                              
-                            ),
-                          ),
-                        ),
-                      ),
-                      )],
+                      ],
                   ),
                 ),
                 onTap: () {

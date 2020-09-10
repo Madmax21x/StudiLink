@@ -10,8 +10,9 @@ import 'dart:convert';
 class CategoryListView extends StatefulWidget {
   List user;
   List newdata;
+  List membre;
 
-  CategoryListView(this.newdata, this.user);
+  CategoryListView(this.newdata, this.user, this.membre);
 
   
 
@@ -24,8 +25,8 @@ class _CategoryListViewState extends State<CategoryListView>
   AnimationController animationController;
   List _newdata;
   List _user;
+  List _membre;
   var category = new List<Category>();
-  var membre = new List<Membre>();
 
   @override
   void initState() {
@@ -33,9 +34,9 @@ class _CategoryListViewState extends State<CategoryListView>
         duration: const Duration(milliseconds: 2000), vsync: this);
     super.initState();
     getCategory();
-    getMembre();
     _newdata = widget.newdata;
     _user = widget.user;
+    _membre = widget.membre;
   }
 
   Future<bool> getData() async {
@@ -59,18 +60,7 @@ class _CategoryListViewState extends State<CategoryListView>
     });
   }
 
-  String _hostnameMembre() {
-    return 'http://studilink.online/studibase.membre';
-  }
-
-  Future getMembre() async {
-    http.Response response = await http.get(_hostnameMembre());
-    debugPrint(response.body);
-    setState(() {
-      Iterable list = json.decode(response.body);
-      membre = list.map((model) => Membre.fromJson(model)).toList();
-    });
-  }
+ 
 
   
 
@@ -106,7 +96,7 @@ class _CategoryListViewState extends State<CategoryListView>
                     index: index,
                     newdata: _newdata,
                     user: _user,
-                    membre: membre,
+                    membre: _membre,
                     category:category,
                     animation: animation,
                     animationController: animationController,

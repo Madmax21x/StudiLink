@@ -6,6 +6,7 @@ import 'package:best_flutter_ui_templates/design_course/recherche.dart';
 import 'package:best_flutter_ui_templates/design_course/category.dart';
 import 'package:best_flutter_ui_templates/design_course/cours.dart';
 import 'package:best_flutter_ui_templates/design_course/loader.dart';
+import 'package:best_flutter_ui_templates/design_course/membre.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'design_course_app_theme.dart';
@@ -33,19 +34,35 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
 
   var group = new List<Group>();
   var newData = new List<Group>();
+  var membre = new List<Membre>();
 
   void initState() {
     super.initState();
     getCours();
+    getMembre();
     getCategoryData();
     newData = newCategoryData(1, group);
     _user = widget.user;
+  }
+
+   String _hostnameMembre() {
+    return 'http://studilink.online/studibase.membre';
+  }
+
+  Future getMembre() async {
+    http.Response response = await http.get(_hostnameMembre());
+    debugPrint(response.body);
+    setState(() {
+      Iterable list = json.decode(response.body);
+      membre = list.map((model) => Membre.fromJson(model)).toList();
+    });
   }
 
   Future<Widget> refreshList() async{
     await Future.delayed(Duration(seconds: 1));
     getCours();
     getCategoryData();
+    getMembre();
     newData = newCategoryData(1, group);
     _selectedIndex = 0;
                  
@@ -111,7 +128,6 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
       }
     return newData;
 }
-
 
   @override
   Widget build(BuildContext context) {
@@ -248,7 +264,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
       textAlign: TextAlign.left));
     }
     else{
-      return CategoryListView(newData, _user);
+      return CategoryListView(newData, _user, membre);
     }
   }
   Widget getPopularCourseUI() {
