@@ -154,7 +154,7 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
                 crossAxisCount: 2,
                 mainAxisSpacing: 0,
                 crossAxisSpacing: 25.0,
-                childAspectRatio: 0.8,
+                childAspectRatio: 0.9,
               ),
             );
           }
@@ -334,7 +334,7 @@ class CategoryView extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(
-                              height: 48,
+                              height: 25,
                             ),
                           ],
                         ),
