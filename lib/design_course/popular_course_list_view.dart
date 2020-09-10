@@ -234,7 +234,7 @@ class CategoryView extends StatelessWidget {
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w600,
-                                                  fontSize: 14,
+                                                  fontSize: MediaQuery.of(context).size.height > 700 ? 15: 14,
                                                   letterSpacing: 0.27,
                                                   color: DesignCourseAppTheme
                                                       .darkerText,
@@ -243,8 +243,8 @@ class CategoryView extends StatelessWidget {
                                               overflow: TextOverflow.ellipsis,),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 16,
+                                              padding: EdgeInsets.only(
+                                                  top: MediaQuery.of(context).size.height > 700 ? 17 : 12,
                                                   left: 16,
                                                   right: 16),
                                               child: 
@@ -262,7 +262,7 @@ class CategoryView extends StatelessWidget {
                                                     style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.w200,
-                                                      fontSize: 12,
+                                                      fontSize: MediaQuery.of(context).size.height > 700 ? 14 : 12,
                                                       letterSpacing: 0.27,
                                                       color:
                                                           DesignCourseAppTheme
@@ -289,7 +289,7 @@ class CategoryView extends StatelessWidget {
                                                     style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.w600,
-                                                      fontSize: 13,
+                                                      fontSize: MediaQuery.of(context).size.height > 700 ? 16 : 12,
                                                       letterSpacing: 0.27,
                                                       color:
                                                           DesignCourseAppTheme
@@ -343,8 +343,8 @@ class CategoryView extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            const SizedBox(
-                              height: 25,
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height > 700 ? 45 : 25,
                             ),
                           ],
                         ),

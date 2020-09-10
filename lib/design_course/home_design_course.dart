@@ -189,7 +189,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
           height: 10,
         ),
         Container(
-          height: 100,
+          height: MediaQuery.of(context).size.height > 700 ? 100 : 90,
           padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 26.0),
           child: ListView.builder(
             shrinkWrap: true,
