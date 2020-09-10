@@ -189,9 +189,6 @@ class CategoryView extends StatelessWidget {
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,),
                                             ),
-                                            // const Expanded(
-                                            //   child: SizedBox(),
-                                            // ),
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                   right: 16, bottom: 8),

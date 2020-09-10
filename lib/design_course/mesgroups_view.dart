@@ -152,14 +152,14 @@ class CategoryView extends StatelessWidget {
               child: InkWell(
                 splashColor: Colors.transparent,
                 child: SizedBox(
-                  width: 280,
+                  width: 200,
                   child: Stack(
                     children: <Widget>[
                       Container(
                         child: Row(
                           children: <Widget>[
                             const SizedBox(
-                              width: 42,
+                              width: 50,
                             ),
                             Expanded(
                               child: Container(
@@ -171,7 +171,7 @@ class CategoryView extends StatelessWidget {
                                 child: Row(
                                   children: <Widget>[
                                     const SizedBox(
-                                      width: 48 + 24.0,
+                                      width: 48 + 40.0,
                                     ),
                                     // 1st course
                                     Expanded(
@@ -235,7 +235,7 @@ class CategoryView extends StatelessWidget {
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  bottom: 16, right: 16),
+                                                  bottom: 20, right: 16),
                                               child: Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
@@ -249,7 +249,7 @@ class CategoryView extends StatelessWidget {
                                                     style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.w600,
-                                                      fontSize: 16,
+                                                      fontSize: MediaQuery.of(context).size.height > 400 ? 16 : 12,
                                                       letterSpacing: 0.27,
                                                       color:
                                                           DesignCourseAppTheme

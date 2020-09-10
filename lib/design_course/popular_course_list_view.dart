@@ -154,7 +154,7 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
                 crossAxisCount: 2,
                 mainAxisSpacing: 0,
                 crossAxisSpacing: 10.0,
-                childAspectRatio: 0.8,
+                childAspectRatio: 0.85,
               ),
             );
           }
@@ -227,7 +227,7 @@ class CategoryView extends StatelessWidget {
                                           children: <Widget>[
                                             Padding(
                                               padding: const EdgeInsets.only(
-                                                  top: 25, left: 16, right: 16),
+                                                  top: 20, left: 16, right: 16),
                                               child: Text(
                                                 newData[index].title,
                                                 

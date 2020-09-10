@@ -131,7 +131,6 @@ class _RechercheState extends State<Recherche> {
                                     padding: const EdgeInsets.only(left: 16, right: 16),
                                     child: TextFormField(
                                       autofocus: true,
-                                      textInputAction: TextInputAction.send,
                                       keyboardType: TextInputType.text,
                                       controller : titleController,
                                       style: TextStyle(
