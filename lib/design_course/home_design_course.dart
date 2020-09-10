@@ -285,7 +285,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
             ),
           ),
           Flexible(
-            child: PopularCourseListView(_user),
+            child: PopularCourseListView(_user, membre),
           )
         ],
       ),

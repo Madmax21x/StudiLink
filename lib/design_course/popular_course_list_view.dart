@@ -2,7 +2,6 @@ import 'package:best_flutter_ui_templates/design_course/design_course_app_theme.
 import 'package:best_flutter_ui_templates/main.dart';
 import 'package:best_flutter_ui_templates/design_course/course_info_screen.dart';
 import 'package:best_flutter_ui_templates/design_course/cours.dart';
-import 'package:best_flutter_ui_templates/design_course/category.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -10,8 +9,9 @@ import 'package:best_flutter_ui_templates/design_course/membre.dart';
 
 class PopularCourseListView extends StatefulWidget {
   List user;
+  List membre;
 
-  PopularCourseListView(this.user);
+  PopularCourseListView(this.user, this.membre);
 
   @override
   _PopularCourseListViewState createState() => _PopularCourseListViewState();
@@ -21,9 +21,8 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
     with TickerProviderStateMixin {
   AnimationController animationController;
   List _user;
+  List _membre;
   var group = new List<Group>();
-  var category = new List<Category>();
-  var membre = new List<Membre>();
   var newData = new List<Group>();
 
   @override
@@ -31,10 +30,9 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
     animationController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
     super.initState();
-    getCategory();
     getCours();
-    getMembre();
     _user = widget.user;
+    _membre = widget.membre;
     newData = popularCourseData();
   }
 
@@ -58,38 +56,15 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
     });
   }
 
-   String _hostnameCategory() {
-    return 'http://studilink.online/studibase.category';
-  }
+ 
 
-  Future getCategory() async {
-    http.Response response = await http.get(_hostnameCategory());
-    debugPrint(response.body);
-    setState(() {
-      Iterable list = json.decode(response.body);
-      category = list.map((model) => Category.fromJson(model)).toList();
-    });
-  }
-
-  String _hostnameMembre() {
-    return 'http://studilink.online/studibase.membre';
-  }
-
-  Future getMembre() async {
-    http.Response response = await http.get(_hostnameMembre());
-    debugPrint(response.body);
-    setState(() {
-      Iterable list = json.decode(response.body);
-      membre = list.map((model) => Membre.fromJson(model)).toList();
-      newData = popularCourseData();
-    });
-  }
+  
 
   List _nbrMembre(int valeur){
     List nbrMem = [];
-    for (var i = 0; i < membre.length; i++) {
-      if (membre[i].group_id == valeur){
-        nbrMem.add(membre[i]);
+    for (var i = 0; i < _membre.length; i++) {
+      if (_membre[i].group_id == valeur){
+        nbrMem.add(_membre[i]);
       }else{
         continue;
       }
@@ -143,8 +118,7 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
                     group: group,
                     newData: newData,
                     user: _user,
-                    category:category,
-                    membre: membre,
+                    membre: _membre,
                     animation: animation,
                     animationController: animationController,
                   );
@@ -171,7 +145,6 @@ class CategoryView extends StatelessWidget {
       this.group,
       this.newData,
       this.user,
-      this.category,
       this.membre,
       this.animationController,
       this.animation,
@@ -181,7 +154,6 @@ class CategoryView extends StatelessWidget {
   final VoidCallback callback;
   final int index;
   final List group;
-  final List category;
   final List membre;
   final List user;
   final List newData;
@@ -234,7 +206,7 @@ class CategoryView extends StatelessWidget {
                                                 textAlign: TextAlign.left,
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w600,
-                                                  fontSize: MediaQuery.of(context).size.height > 700 ? 15: 14,
+                                                  fontSize: 14,
                                                   letterSpacing: 0.27,
                                                   color: DesignCourseAppTheme
                                                       .darkerText,
@@ -244,7 +216,7 @@ class CategoryView extends StatelessWidget {
                                             ),
                                             Padding(
                                               padding: EdgeInsets.only(
-                                                  top: MediaQuery.of(context).size.height > 700 ? 17 : 12,
+                                                  top: MediaQuery.of(context).size.height > 600 ? 17 : 12,
                                                   left: 16,
                                                   right: 16),
                                               child: 
@@ -262,7 +234,7 @@ class CategoryView extends StatelessWidget {
                                                     style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.w200,
-                                                      fontSize: MediaQuery.of(context).size.height > 700 ? 14 : 12,
+                                                      fontSize: MediaQuery.of(context).size.height > 600 ? 13 : 12,
                                                       letterSpacing: 0.27,
                                                       color:
                                                           DesignCourseAppTheme
@@ -273,7 +245,7 @@ class CategoryView extends StatelessWidget {
                                               ),
 
                                               Padding(
-                                              padding: EdgeInsets.only(top: MediaQuery.of(context).size.height > 700 ? 10 : 5),
+                                              padding: EdgeInsets.only(top: MediaQuery.of(context).size.height > 600 ? 7 : 5),
                                               child:
                                               
                                               Row(
@@ -289,7 +261,7 @@ class CategoryView extends StatelessWidget {
                                                     style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.w600,
-                                                      fontSize: MediaQuery.of(context).size.height > 700 ? 16 : 12,
+                                                      fontSize: MediaQuery.of(context).size.height > 600 ? 15 : 12,
                                                       letterSpacing: 0.27,
                                                       color:
                                                           DesignCourseAppTheme
@@ -344,7 +316,7 @@ class CategoryView extends StatelessWidget {
                               ),
                             ),
                             SizedBox(
-                              height: MediaQuery.of(context).size.height > 700 ? 45 : 25,
+                              height: MediaQuery.of(context).size.height > 600 ? 45 : 25,
                             ),
                           ],
                         ),
