@@ -186,7 +186,8 @@ class CategoryView extends StatelessWidget {
                                                   color: DesignCourseAppTheme
                                                       .darkerText,
                                                 ),
-                                              ),
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,),
                                             ),
                                             // const Expanded(
                                             //   child: SizedBox(),

@@ -153,8 +153,8 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisSpacing: 0,
-                crossAxisSpacing: 25.0,
-                childAspectRatio: 0.9,
+                crossAxisSpacing: 10.0,
+                childAspectRatio: 0.8,
               ),
             );
           }
@@ -273,8 +273,9 @@ class CategoryView extends StatelessWidget {
                                               ),
 
                                               Padding(
-                                              padding: const EdgeInsets.only(top: 10, bottom:10),
+                                              padding: const EdgeInsets.only(top: 10),
                                               child:
+                                              
                                               Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
@@ -296,7 +297,15 @@ class CategoryView extends StatelessWidget {
                                                     ),
                                                   ),
 
-                                                  Container(
+                                                  
+                                                ])),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .end,
+                                                  children: <Widget>[
+                                                Container(
+                                                  
                                                     decoration: BoxDecoration(
                                                       color:
                                                           DesignCourseAppTheme
@@ -318,8 +327,9 @@ class CategoryView extends StatelessWidget {
                                                                 .nearlyWhite,
                                                       ),
                                                     ),
-                                                  )
-                                                ]))
+                                                  )],),
+
+                                                
                                               ],)
                                             ),
                                           ],
@@ -327,7 +337,7 @@ class CategoryView extends StatelessWidget {
                                       ),
                                     ),
                                     const SizedBox(
-                                      width: 30,
+                                      width: 40,
                                     ),
                                   ],
                                 ),

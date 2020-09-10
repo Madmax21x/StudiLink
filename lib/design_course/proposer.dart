@@ -246,7 +246,7 @@ class _ProposerState extends State<Proposer> {
                                         debugPrint("some title has been added");
                                       },
                                       maxLines: 1,
-                                      maxLength: 20,
+                                      maxLength: 40,
                                       decoration: InputDecoration(
                                         helperText: " ",
                                         labelText: 'Titre du cours',
